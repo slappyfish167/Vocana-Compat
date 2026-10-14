@@ -44,5 +44,6 @@ __pycache__/
 .standalone/
 
 ### vocana-compat ###
-# The CI checkout of Vocana (published to mavenLocal before this build)
-vocana/
+# The CI checkout of Vocana (published to mavenLocal before this build). Anchored to the root: a bare 'vocana/'
+# also matches src/main/java/dev/vocana/ and hides every Java source from git.
+/vocana/
