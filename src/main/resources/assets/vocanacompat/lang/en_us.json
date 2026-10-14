@@ -103,5 +103,15 @@
   "vocanacompat.configuration.iceandfire.dragonsteel.toughness": "Armour toughness per piece",
   "vocanacompat.configuration.iceandfire.dragonsteel.knockbackResistance": "Knockback resistance per piece",
   "vocanacompat.configuration.iceandfire.dragonsteel.movementSpeed": "Movement speed per piece (fraction)",
-  "vocanacompat.configuration.iceandfire.dragonsteel.iceFrostResistancePieces": "Ice pieces worn to shed freezing"
+  "vocanacompat.configuration.iceandfire.dragonsteel.iceFrostResistancePieces": "Ice pieces worn to shed freezing",
+  "vocanacompat.configuration.hexcasting.staves": "Hex staves as Catalysts",
+  "vocanacompat.configuration.hexcasting.staves.enabled": "Hex staves are Vocana Catalysts",
+  "vocanacompat.configuration.hexcasting.staves.capacityBonus": "Capacity bonus of a Hex staff",
+  "vocanacompat.configuration.hexcasting.draw": "The Deed DRAW (media to Thrum)",
+  "vocanacompat.configuration.hexcasting.draw.enabled": "DRAW works",
+  "vocanacompat.configuration.hexcasting.draw.mediaPerThrum": "Media per point of Thrum",
+  "vocanacompat.configuration.hexcasting.draw.maxThrumPerCast": "Most Thrum restored per DRAW",
+  "vocanacompat.configuration.hexcasting.draw.fromBatteries": "DRAW also empties phials",
+  "vocanacompat.configuration.hexcasting.awaken": "The Deed AWAKEN (cast a packaged Hex)",
+  "vocanacompat.configuration.hexcasting.awaken.enabled": "AWAKEN works"
 }

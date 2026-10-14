@@ -1,0 +1,12 @@
+{
+  "neoforge:conditions": [
+    { "type": "neoforge:mod_loaded", "modid": "hexcasting" },
+    { "type": "vocanacompat:module_enabled", "module": "hexcasting" }
+  ],
+  "replace": false,
+  "values": [
+    {"id": "hexcasting:conjured_light", "required": false},
+    {"id": "hexcasting:amethyst_sconce", "required": false},
+    {"id": "hexcasting:scroll_paper_lantern", "required": false}
+  ]
+}

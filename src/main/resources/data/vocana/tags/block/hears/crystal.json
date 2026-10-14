@@ -4,6 +4,10 @@
     {
       "id": "#vocanacompat:wyrmroost/crystal",
       "required": false
+    },
+    {
+      "id": "#vocanacompat:hexcasting/crystal",
+      "required": false
     }
   ]
 }

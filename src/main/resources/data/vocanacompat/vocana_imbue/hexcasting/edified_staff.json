@@ -1,0 +1,15 @@
+{
+  "neoforge:conditions": [
+    { "type": "neoforge:mod_loaded", "modid": "hexcasting" },
+    { "type": "vocanacompat:module_enabled", "module": "hexcasting" }
+  ],
+  "target": {"kind": "staff"},
+  "essence": "*",
+  "triggers": ["PASSIVE"],
+  "materials": [{"tag": "hexcasting:edified_planks", "count": 2}, {"item": "hexcasting:amethyst_dust", "count": 2}],
+  "xp_levels": 3,
+  "thrum": 20,
+  "strength": 1.0,
+  "complexity": 4,
+  "shade": {"xp_levels": 2, "thrum": 10, "complexity": 1}
+}

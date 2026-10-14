@@ -1,0 +1,14 @@
+{
+  "neoforge:conditions": [
+    { "type": "neoforge:mod_loaded", "modid": "hexcasting" },
+    { "type": "vocanacompat:module_enabled", "module": "hexcasting" }
+  ],
+  "target": {"kind": "any"},
+  "essence": "*",
+  "materials": [{"item": "hexcasting:amethyst_dust", "count": 4}],
+  "xp_levels": 4,
+  "thrum": 20,
+  "strength": 1.0,
+  "complexity": 5,
+  "shade": {"xp_levels": 2, "thrum": 10, "complexity": 1}
+}

@@ -4,6 +4,10 @@
     {
       "id": "#vocanacompat:wyrmroost/stone",
       "required": false
+    },
+    {
+      "id": "#vocanacompat:hexcasting/stone",
+      "required": false
     }
   ]
 }

@@ -1,0 +1,6 @@
+{
+  "replace": false,
+  "values": [
+    {"id": "#vocanacompat:hexcasting/store", "required": false}
+  ]
+}

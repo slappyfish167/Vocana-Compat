@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    { "type": "neoforge:mod_loaded", "modid": "hexcasting" },
+    { "type": "vocanacompat:module_enabled", "module": "hexcasting" }
+  ],
+  "replace": false,
+  "values": [
+    {"id": "hexcasting:edified_log", "required": false},
+    {"id": "hexcasting:edified_log_amethyst", "required": false},
+    {"id": "hexcasting:edified_log_aventurine", "required": false},
+    {"id": "hexcasting:edified_log_citrine", "required": false},
+    {"id": "hexcasting:edified_log_purple", "required": false},
+    {"id": "hexcasting:amethyst_edified_leaves", "required": false},
+    {"id": "hexcasting:aventurine_edified_leaves", "required": false},
+    {"id": "hexcasting:citrine_edified_leaves", "required": false}
+  ]
+}
