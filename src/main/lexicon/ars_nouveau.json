@@ -1,5 +1,54 @@
 {
-  "roots": [],
+  "roots": [
+    {
+      "gloss": "SOURCE",
+      "class": "Essence",
+      "frame": null,
+      "family": "Spirit",
+      "aspect": "Inward",
+      "discipline": "Thaumaturgy",
+      "tongue": "common",
+      "beginner_clue": "A source jar hums a half-tone sharper, and its purple deepens a shade, when the Chime is near.",
+      "advanced_uses": "Pour a Working's Thrum into the jars beside an apparatus, or lend an ally of the other art a breath of mana.",
+      "interactions": "LIFE grows what source feeds; a Working that reaches no jar and no caster gives nothing; the Seal keeps a share of every exchange.",
+      "inversion_axis": "Presence",
+      "form": "nauspi",
+      "respelling": "NOWS-pee",
+      "ipa": "/ˈnaus.pi/",
+      "arpabet": "N AW S P IY",
+      "head_syllable": "naus",
+      "clippable": true,
+      "crooked": false,
+      "features": {
+        "Heat": 0,
+        "Vitality": 0,
+        "Light": 1,
+        "Sound": 0,
+        "Vertical": 0,
+        "Radial": 0,
+        "Hold": 0,
+        "Tempo": 0,
+        "Presence": 1,
+        "Mass": 0,
+        "Reality": 1
+      },
+      "kin": "A source jar hums a half-tone sharper, and its purple deepens a shade, when the Chime is near.",
+      "roles": [
+        "Bearer",
+        "Aim"
+      ],
+      "blend_keys": [],
+      "kin_sources": [
+        "source jars",
+        "magebloom",
+        "sourceberry bushes",
+        "archwood logs",
+        "whirlisprigs and starbuncles"
+      ],
+      "meaning": "The raw magic of the other art, that its jars hold and its creatures carry: made, it pours into the jars beside the touched ground or into a caster's reserve; found, source jars and the magical creatures that bear it.",
+      "chapter": "ARCANA"
+    }
+  ],
   "elder": [],
   "blends": [],
   "callings": []
