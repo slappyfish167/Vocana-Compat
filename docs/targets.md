@@ -90,6 +90,20 @@ which is fine: 21.1 is binary-stable), Java 21, Mojang mappings. Mod ids were re
   works through entity-type tags (`vocana:hears/<gloss>` on dragons: Royal Red hears FIRE, Butterfly Leviathan
   LIGHTNING and WATER, …) and NeoForge entity events, and should keep direct class references to the dragon base
   class and registries.
+- **Verified by the module** (2026-10-14, same branch; the full table is in `docs/wyrmroost.md`):
+  `AbstractDragonEntity extends TamableAnimal` (so vanilla ownership and sitting apply) with `setSit(boolean)`,
+  `isSleeping()/setSleeping(boolean)`, `maySleep()`, `isFlying()`; `RoyalRedEntity.isBreathingFire()` and the
+  `fire_breath` entity (`entities/projectile/breath/FireBreathEntity`); `CoinDragonEntity extends Mob` and
+  `LDWyrmEntity extends PathfinderMob` are **not** dragons to the API. Registry ids: entities `lesser_desertwyrm`,
+  `overworld_drake`, `silver_glider`, `roost_stalker`, `butterfly_leviathan`, `dragon_fruit_drake`, `canari_wyvern`,
+  `royal_red`, `coin_dragon`, `alpine`, `dragon_egg`, `fire_breath`, `wind_gust`, `{blue,red,purple}_geode_tipped_arrow`
+  (tag `wyrmroost:dragons`); blocks `platinum_ore`, `platinum_block`, `chiseled_platinum_block`, `raw_platinum_block`,
+  `{blue,red,purple}_geode_ore`, `{blue,red,purple}_geode_block`; items `{blue,red,purple}_geode`, `raw_platinum`,
+  `platinum_ingot`, `soul_crystal`, `dragon_staff`, `dragon_egg`, geode/platinum tools and armour, `*_dragon_armor`
+  (no scale items exist); sound `wyrmroost:breathweapon.fire`. The module's `WyrmroostIds` holds these and its unit
+  tests check every tag and recipe against them. The data folder `src/main/resources/data/wyrmroost/tags` could not be
+  listed (404 on the tree page), so the members of `wyrmroost:dragons` are **unverified**; the module lists the ten
+  species itself and references that tag nowhere.
 
 ## Ice and Fire: Community Edition
 
