@@ -168,6 +168,17 @@ which is fine: 21.1 is binary-stable), Java 21, Mojang mappings. Mod ids were re
     module's plugin class is `dev.vocana.compat.emi.VocanaEmiPlugin` with `@EmiEntrypoint`; nothing registers it.
     EMI is client-side; the plugin shows Vocana's imbue recipes (`data/*/vocana_imbue`) as an `EmiRecipeCategory`
     and the Grimoire words as information pages.
+  - Mappings: the xplat sources are written against Yarn (`yarn_mappings=1.21+build.2`), and `neoforge/build.gradle`
+    remaps the published `emi-neoforge` jar with Architectury Loom, so the artifact carries Mojang names; a module
+    compiles against it with `ResourceLocation`, `Component`, `GuiGraphics`, `FormattedCharSequence`,
+    `ClientTooltipComponent`, `ItemLike`, `DataComponentPatch` where the sources say `Identifier`, `Text`,
+    `DrawContext`, `OrderedText`, `TooltipComponent`, `ItemConvertible`, `ComponentChanges`. The `:api` jar
+    (`apiJar` task) holds only `dev/emi/emi/api/**` (minus the stack implementations), `emi.accesswidener` and the
+    mixin configs, so nothing outside `dev.emi.emi.api` may be referenced. Read for the module on 2026-10-14:
+    `EmiRegistry`, `EmiPlugin`, `EmiEntrypoint`, `recipe/EmiRecipe`, `EmiRecipeCategory`, `EmiInfoRecipe`,
+    `stack/EmiStack`, `EmiIngredient`, `Comparison`, `widget/WidgetHolder`, `SlotWidget`, `TextWidget`,
+    `DrawableWidget`, `render/EmiTexture`, and `runtime/EmiReloadManager` (plugins run on the reload thread, after
+    recipes and tags are synced and only with a world present). See `docs/emi.md`.
 
 ## Curios API
 
