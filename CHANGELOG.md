@@ -39,8 +39,3 @@ Built against Vocana 2.1.0, NeoForge 21.1.255, Minecraft 1.21.1.
 - `config/vocanacompat-hexcasting.toml`: a toggle per feature and every number above.
 - `docs/hexcasting.md`: what was chosen, what was rejected and why, the source files each API was verified in, and
   whether the module would compile against the official HexMod `1.21` branch (it would).
-
-### Fixed
-- The skeleton's `.gitignore` rule `vocana/` (meant for the CI checkout of Vocana) also matched
-  `src/main/java/dev/vocana/`, so no Java source had been committed; the rule is now anchored (`/vocana/`) and the
-  skeleton sources are tracked.
