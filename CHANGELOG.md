@@ -21,3 +21,26 @@ Built against Vocana 2.1.0, NeoForge 21.1.255, Minecraft 1.21.1.
   game-tests this mod.
 - `docs/targets.md`: the verified versions, coordinates and integration surfaces of the seven targets;
   `docs/adding_a_module.md`: the conventions a module follows.
+
+#### Hex Casting (HexCast NEOFORGED)
+- Hex staves (the `hexcasting:staves` tag) are Vocana Catalysts: they open the Chime screen, carry a spoken chant,
+  tune a Chorus, take a Bound Catalyst, and add `staves.capacityBonus` Capacity (default 2).
+- The Deed **DRAW** (`hainsu`, State frame, Thaumaturgy): the caster breathes Thrum in from the media they carry,
+  through Hex's own media holders (amethyst dust first, then shards, then charged amethyst; phials only if
+  `draw.fromBatteries`), at `draw.mediaPerThrum` (default 2500 media, so a dust is four Thrum), capped by
+  `draw.maxThrumPerCast` (default 20; a measure such as TWO raises it up to twofold).
+- The Deed **AWAKEN** (`rauspe`, Force frame, Thaumaturgy): a cypher, trinket or artifact held in the caster's hand
+  casts its packaged Hex as if used, with Hex's own media, mishaps and cooldown.
+- Imbue Bench recipes paid in Hex media: any essence into any gear for four amethyst dust, a staff affinity for
+  edified planks and dust, and a chant of up to 20 CP for a charged amethyst, a book and a four-anchor ritual.
+- Hex's amethyst blocks, sconce, quenched allay and edified logs count as `vocana:ritual_anchors`; `vocana:hears`
+  tags teach LIGHT, CRYSTAL, STONE, LIFE, REMEMBER, STORE, SEEMING, SOUL, DRAW and AWAKEN from Hex's blocks and the
+  wall scroll.
+- `config/vocanacompat-hexcasting.toml`: a toggle per feature and every number above.
+- `docs/hexcasting.md`: what was chosen, what was rejected and why, the source files each API was verified in, and
+  whether the module would compile against the official HexMod `1.21` branch (it would).
+
+### Fixed
+- The skeleton's `.gitignore` rule `vocana/` (meant for the CI checkout of Vocana) also matched
+  `src/main/java/dev/vocana/`, so no Java source had been committed; the rule is now anchored (`/vocana/`) and the
+  skeleton sources are tracked.

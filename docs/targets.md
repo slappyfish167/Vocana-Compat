@@ -234,6 +234,13 @@ from that page is the safest value for `hexcast_version`).
   `hexcasting:action` registry with a `HexPattern`; a module adding a "speak a Vocana word" action registers an
   `ActionRegistryEntry` through a `DeferredRegister` on that registry and writes the pattern's Patchouli page as data.
   Media <-> Thrum bridges go through `VocanaApi.registerCapacity/registerRegen` and `ADMediaHolder`.
+- **Module research** (2026-10-14, from clones of the port, its fork and HexMod `1.21`): see `docs/hexcasting.md`.
+  Two corrections to the above: the port compiles **no** item capability (its `forge/cap/HexCapabilities.java` and
+  `ForgeCapabilityHandler.java` are excluded in `Forge/build.gradle`); media holders come from
+  `HexAPI.instance().findMediaHolder(stack)`. And adding an action from Java is possible in principle but the
+  `Action` interfaces are Kotlin with default bodies compiled without `-Xjvm-default`, so the module registers no
+  pattern. The fork `plimbo-scrimbly/hex_cast_NEOFORGED` differs from `a1exrom` in one non-API file. Modrinth's API
+  is refused by this container's proxy, so the version string stays **unverified**.
 
 ## Ars Nouveau
 
