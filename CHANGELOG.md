@@ -21,3 +21,14 @@ Built against Vocana 2.1.0, NeoForge 21.1.255, Minecraft 1.21.1.
   game-tests this mod.
 - `docs/targets.md`: the verified versions, coordinates and integration surfaces of the seven targets;
   `docs/adding_a_module.md`: the conventions a module follows.
+- Curios module (`docs/curios.md`): players get the `necklace`, `ring` (×2) and `charm` slots; the Torc fits the
+  necklace slot and counts as worn there (`VocanaApi.registerWorn`), a Whispering Relic fits the charm slot and
+  whispers its word after 30 s of wear; four focus items, the Ring of Focus (+2 Capacity each), Amulet of Resonance
+  (Thrum regeneration ×1.25), Charm of Calm (Strain ×0.85) and Signet of the Elements (drinks an Essence Residue;
+  Workings of that essence cost ×0.9), with recipes, sprites (`tools/generate_textures.py`) and settings in
+  `config/vocanacompat-curios.toml`; a self-check logs the resolved slots and tags; GameTests that nothing of it
+  exists without Curios and unit tests for its numbers.
+
+### Fixed
+- The `.gitignore` entry for the CI checkout of Vocana (`vocana/`) also hid `src/main/java/dev/vocana/`, so the
+  skeleton's Java sources were never committed; the pattern is anchored to the root (`/vocana/`).

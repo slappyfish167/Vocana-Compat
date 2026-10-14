@@ -56,6 +56,7 @@ read the job log.
 - `src/main/resources/data/vocanacompat/` — module data behind `neoforge:mod_loaded` + `vocanacompat:module_enabled`.
 - `docs/targets.md` — the seven targets: versions, coordinates, licences, APIs to read.
 - `docs/adding_a_module.md` — the conventions a module follows (paths, loading, the one rule, tags, conditions).
+- `docs/curios.md` — the Curios module: slots, the focus items, its config and the in-game checklist.
 - `vocana.ref` — the Vocana git ref CI builds against; bump it with Vocana.
 
 ## Licence
