@@ -1,0 +1,18 @@
+Vocana Compat
+Copyright (c) 2026 slappyfish167
+
+All Rights Reserved.
+
+This repository (code, data files, lexicon entries and documentation) is published for reading and for building
+companion-mod discussion only. No permission is granted to copy, modify, redistribute, sublicense or sell any part
+of it, or to publish builds of it, without the written consent of the copyright holder, except as follows:
+
+- Building the mod from source for private use is permitted.
+- Submitting changes to this repository (pull requests) is permitted; by submitting them you grant the copyright
+  holder the right to use them under these terms.
+
+Vocana Compat is a companion to Vocana (https://github.com/slappyfish167/Vocana), which is licensed under the same
+terms. It compiles against and interoperates with third-party mods (Create, Wyrmroost, Ice and Fire: Community
+Edition, EMI, Curios API, Hex Casting, Ars Nouveau) that remain under their own licences; none of their code or
+assets is included here. The Gradle wrapper and the NeoForge mod template files carry their own licences
+(Gradle: Apache 2.0; NeoForge MDK template: MIT).

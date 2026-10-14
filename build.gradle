@@ -1,0 +1,203 @@
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+
+plugins {
+    id 'java-library'
+    id 'net.neoforged.moddev' version '2.0.148'
+}
+version = '1.0.0'
+group = 'dev.vocana.compat'
+base { archivesName = 'vocana-compat' }
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+// ---- which modules this build compiles ----
+// Every module is compiled by default. -Pcompat.skip=create,emi leaves those targets off the compile classpath and
+// their packages out of the build (for a local build while a maven is down). -Pcompat.run=create,curios puts those
+// mods (and what they need) on the dev client/server classpath; the GameTest server never gets them.
+final List<String> MODULES = ['create', 'wyrmroost', 'iceandfire', 'emi', 'curios', 'hexcasting', 'ars_nouveau']
+def listProperty = { String name ->
+    def values = ((findProperty(name) ?: '') as String).split(',')*.trim().findAll { it }
+    values.each { if (!(it in MODULES)) throw new GradleException("$name: unknown module '$it' (one of $MODULES)") }
+    values
+}
+def skipped = listProperty('compat.skip')
+def runWith = listProperty('compat.run')
+def withTarget = { String module, Closure body -> if (!(module in skipped)) body() }
+def withRuntime = { String module, Closure body -> if (module in runWith && !(module in skipped)) body() }
+
+sourceSets.main.java {
+    include 'dev/vocana/compat/**'
+    skipped.each { exclude "dev/vocana/compat/${it}/**" }
+}
+
+repositories {
+    mavenLocal()   // Vocana: ./gradlew publishToMavenLocal in the Vocana checkout (dev.vocana:vocana)
+    mavenCentral()
+    maven { name = 'Create (Create, Flywheel, Ponder)'; url = 'https://maven.createmod.net' }
+    maven { name = 'ithundxr (Registrate)'; url = 'https://maven.ithundxr.dev/snapshots' }
+    maven { name = 'BlameJared (Ars Nouveau, Nuggets, PAUCAL, Patchouli, Hex Casting)'; url = 'https://maven.blamejared.com' }
+    maven { name = 'TerraformersMC (EMI)'; url = 'https://maven.terraformersmc.com/'; content { includeGroup 'dev.emi' } }
+    maven { name = 'Sleeping Town (EMI, as its README says)'; url = 'https://repo.sleeping.town/'; content { includeGroup 'dev.emi' } }
+    maven { name = 'Illusive Soulworks (Curios, Caelus)'; url = 'https://maven.theillusivec4.top/' }
+    maven { name = 'GeckoLib'; url = 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'; content { includeGroup 'software.bernie.geckolib' } }
+    maven { name = 'Kotlin for Forge'; url = 'https://thedarkcolour.github.io/KotlinForForge/'; content { includeGroup 'thedarkcolour' } }
+    maven { name = 'JitPack (IAFEnvoy Integration)'; url = 'https://jitpack.io'; content { includeGroupByRegex 'com\\.github\\..*' } }
+    maven { name = 'CurseMaven'; url = 'https://cursemaven.com'; content { includeGroup 'curse.maven' } }
+    maven { name = 'Modrinth'; url = 'https://api.modrinth.com/maven'; content { includeGroup 'maven.modrinth' } }
+}
+
+neoForge {
+    version = neoforge_version
+    runs {
+        client { client() }
+        server { server(); programArgument '--nogui' }
+        gameTestServer {
+            type = 'gameTestServer'
+            systemProperty 'neoforge.enabledGameTestNamespaces', 'vocanacompat'
+        }
+        configureEach { logLevel = org.slf4j.event.Level.INFO }
+    }
+    mods { vocanacompat { sourceSet sourceSets.main } }
+}
+
+dependencies {
+    // Vocana itself: compiled against, and present on the dev runtime. transitive=false keeps its runtime-scope
+    // Simple Voice Chat dependency (Modrinth) out; Sphinx4 travels inside the Vocana jar (JarJar).
+    compileOnly("dev.vocana:vocana:${vocana_version}") { transitive = false }
+    runtimeOnly("dev.vocana:vocana:${vocana_version}") { transitive = false }
+    testRuntimeOnly("dev.vocana:vocana:${vocana_version}") { transitive = false }
+
+    // Target mods are compileOnly, non-transitive, with the libraries their APIs expose listed explicitly, so a
+    // broken POM or an unreachable secondary maven never breaks the build. docs/targets.md says where each
+    // coordinate was verified.
+    withTarget('create', {
+        compileOnly("com.simibubi.create:create-${minecraft_version}:${create_version}") { transitive = false }
+        compileOnly("dev.engine-room.flywheel:flywheel-neoforge-api-${minecraft_version}:${flywheel_version}") { transitive = false }
+        compileOnly("net.createmod.ponder:ponder-neoforge:${ponder_version}+mc${minecraft_version}") { transitive = false }
+        compileOnly("com.tterrag.registrate:Registrate:${registrate_version}") { transitive = false }
+    })
+    withTarget('wyrmroost', {
+        compileOnly("curse.maven:wyrmroost-${wyrmroost_curse_project}:${wyrmroost_curse_file}") { transitive = false }
+    })
+    withTarget('iceandfire', {
+        compileOnly("curse.maven:iceandfire-ce-${iceandfire_curse_project}:${iceandfire_curse_file}") { transitive = false }
+        compileOnly("curse.maven:${iceandfire_uranus_curse}") { transitive = false }
+        compileOnly("curse.maven:${iceandfire_jupiter_curse}") { transitive = false }
+        compileOnly("com.github.IAFEnvoy.Integration:integration-neoforge:${iceandfire_integration_version}") { transitive = false }
+    })
+    withTarget('emi', {
+        compileOnly("dev.emi:emi-neoforge:${emi_version}:api") { transitive = false }
+    })
+    withTarget('curios', {
+        compileOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}:api") { transitive = false }
+    })
+    withTarget('hexcasting', {
+        compileOnly("maven.modrinth:hexcast-neoforged:${hexcast_version}") { transitive = false }
+        compileOnly("thedarkcolour:kotlinforforge-neoforge:${kotlinforforge_version}") { transitive = false }
+        compileOnly "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
+        compileOnly("at.petra-k:paucal:${paucal_version}+${minecraft_version}-neoforge") { transitive = false }
+        compileOnly("vazkii.patchouli:Patchouli:${patchouli_version}") { transitive = false }
+        compileOnly("com.illusivesoulworks.caelus:caelus-neoforge:${caelus_version}:api") { transitive = false }
+    })
+    withTarget('ars_nouveau', {
+        compileOnly("com.hollingsworth.ars_nouveau:ars_nouveau-${minecraft_version}:${ars_nouveau_version}") { transitive = false }
+        compileOnly("software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}") { transitive = false }
+        compileOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}:api") { transitive = false }
+        compileOnly("com.hollingsworth.nuggets:nuggets-neoforge-${minecraft_version}:${nuggets_version}") { transitive = false }
+    })
+
+    // Dev runtime, opt-in per module (-Pcompat.run=...). Create embeds Flywheel, Ponder and Registrate itself.
+    withRuntime('create', { runtimeOnly("com.simibubi.create:create-${minecraft_version}:${create_version}") { transitive = false } })
+    withRuntime('wyrmroost', { runtimeOnly("curse.maven:wyrmroost-${wyrmroost_curse_project}:${wyrmroost_curse_file}") { transitive = false } })
+    withRuntime('iceandfire', {
+        runtimeOnly("curse.maven:iceandfire-ce-${iceandfire_curse_project}:${iceandfire_curse_file}") { transitive = false }
+        runtimeOnly("curse.maven:${iceandfire_uranus_curse}") { transitive = false }
+        runtimeOnly("curse.maven:${iceandfire_jupiter_curse}") { transitive = false }
+    })
+    withRuntime('emi', { runtimeOnly("dev.emi:emi-neoforge:${emi_version}") { transitive = false } })
+    withRuntime('curios', { runtimeOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}") { transitive = false } })
+    withRuntime('hexcasting', {
+        runtimeOnly("maven.modrinth:hexcast-neoforged:${hexcast_version}") { transitive = false }
+        runtimeOnly "thedarkcolour:kotlinforforge-neoforge:${kotlinforforge_version}"
+        runtimeOnly("at.petra-k:paucal:${paucal_version}+${minecraft_version}-neoforge") { transitive = false }
+        runtimeOnly("vazkii.patchouli:Patchouli:${patchouli_version}") { transitive = false }
+        runtimeOnly("com.illusivesoulworks.caelus:caelus-neoforge:${caelus_version}") { transitive = false }
+    })
+    withRuntime('ars_nouveau', {
+        runtimeOnly("com.hollingsworth.ars_nouveau:ars_nouveau-${minecraft_version}:${ars_nouveau_version}") { transitive = false }
+        runtimeOnly("software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}") { transitive = false }
+        runtimeOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}") { transitive = false }
+    })
+
+    testImplementation platform('org.junit:junit-bom:5.12.2')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'com.google.code.gson:gson:2.10.1'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
+tasks.named('test') { useJUnitPlatform() }
+
+// ---- lexicon and Grimoire-group assembly ----
+// Each module keeps its words in src/main/lexicon/<module>.json and its Grimoire groups in
+// src/main/grimoire/<module>.json. Vocana reads exactly one META-INF/vocana/lexicon.json per jar, so the files are
+// merged here: every top-level array (roots, elder, blends, callings, groups, ...) is concatenated across the files
+// in file-name order; a scalar keeps the first value seen. The merge fails when two entries share a form or gloss
+// (lexicon) or an id (groups), so modules cannot silently shadow each other.
+abstract class MergeJson extends DefaultTask {
+    @InputFiles abstract ConfigurableFileCollection getSources()
+    @OutputFile abstract RegularFileProperty getTarget()
+    /** Entry fields whose values must be unique across every array of every source (for example form and gloss). */
+    @Input abstract ListProperty<String> getUniqueKeys()
+    @TaskAction void merge() {
+        def slurper = new JsonSlurper()
+        Map<String, Object> merged = new LinkedHashMap<>()
+        Map<String, String> seen = new HashMap<>()
+        sources.files.sort { it.name }.each { File f ->
+            def json = slurper.parse(f, 'UTF-8')
+            if (!(json instanceof Map)) throw new GradleException("${f.name}: the top level must be a JSON object")
+            json.each { k, v ->
+                if (v instanceof List) {
+                    List list = (List) merged.computeIfAbsent(k as String) { new ArrayList<>() }
+                    v.each { e ->
+                        if (e instanceof Map) uniqueKeys.get().each { uk ->
+                            def value = e[uk]
+                            if (value != null) {
+                                String key = "$uk=$value"
+                                String other = seen.putIfAbsent(key, f.name)
+                                if (other != null && other != f.name) throw new GradleException("${f.name}: '$key' is already defined in $other")
+                            }
+                        }
+                        list.add(e)
+                    }
+                } else if (!merged.containsKey(k as String)) merged.put(k as String, v)
+            }
+        }
+        File out = target.get().asFile
+        out.parentFile.mkdirs()
+        out.setText(JsonOutput.prettyPrint(JsonOutput.toJson(merged)) + '\n', 'UTF-8')
+    }
+}
+def mergeLexicon = tasks.register('mergeLexicon', MergeJson) {
+    description = 'Merges src/main/lexicon/*.json into META-INF/vocana/lexicon.json'
+    sources.from(fileTree('src/main/lexicon') { include '*.json' })
+    target = layout.buildDirectory.file('generated/lexicon/lexicon.json')
+    uniqueKeys = ['form', 'gloss']
+}
+def mergeGrimoire = tasks.register('mergeGrimoire', MergeJson) {
+    description = 'Merges src/main/grimoire/*.json into META-INF/vocana/grimoire_groups.json'
+    sources.from(fileTree('src/main/grimoire') { include '*.json' })
+    target = layout.buildDirectory.file('generated/grimoire/grimoire_groups.json')
+    uniqueKeys = ['id']
+}
+
+// The mod's metadata takes its versions from this build, so the two never disagree. The values are captured here,
+// at configuration time, because the task action may not read project properties under the configuration cache.
+def modsTomlValues = [version: version as String, vocana_version: vocana_version, neoforge_version: neoforge_version, minecraft_version: minecraft_version]
+tasks.named('processResources', ProcessResources) {
+    inputs.properties modsTomlValues
+    filteringCharset = 'UTF-8'
+    filesMatching('META-INF/neoforge.mods.toml') { expand modsTomlValues }
+    from(mergeLexicon) { into 'META-INF/vocana' }
+    from(mergeGrimoire) { into 'META-INF/vocana' }
+}
+tasks.named('jar') { exclude 'dev/vocana/compat/gametest/**', 'data/vocanacompat/structure/test_empty.nbt' }
