@@ -45,5 +45,25 @@
   "vocanacompat.configuration.hexcasting": "Hex Casting module",
   "vocanacompat.configuration.hexcasting.verboseLogging": "Verbose logging",
   "vocanacompat.configuration.ars_nouveau": "Ars Nouveau module",
-  "vocanacompat.configuration.ars_nouveau.verboseLogging": "Verbose logging"
+  "vocanacompat.configuration.ars_nouveau.verboseLogging": "Verbose logging",
+
+  "vocanacompat.configuration.curios.equipFromUse": "Equip a curio by using it",
+  "vocanacompat.configuration.curios.items": "Focus items",
+  "vocanacompat.configuration.curios.ringCapacity": "Ring of Focus: Capacity per ring",
+  "vocanacompat.configuration.curios.amuletRegen": "Amulet of Resonance: Thrum regeneration multiplier",
+  "vocanacompat.configuration.curios.charmStrain": "Charm of Calm: Strain multiplier",
+  "vocanacompat.configuration.curios.signetCostFactor": "Ring-slot essence: Thrum multiplier",
+  "vocanacompat.configuration.curios.relics": "Vocana items in slots",
+  "vocanacompat.configuration.curios.relicWhispers": "A worn relic whispers",
+  "vocanacompat.configuration.curios.relicWhisperSeconds": "Seconds worn before a relic whispers",
+  "item.vocanacompat.ring_of_focus": "Ring of Focus",
+  "item.vocanacompat.ring_of_focus.tooltip": "Worn on a finger: +%s Capacity",
+  "item.vocanacompat.amulet_of_resonance": "Amulet of Resonance",
+  "item.vocanacompat.amulet_of_resonance.tooltip": "Worn at the neck: Thrum returns %s faster",
+  "item.vocanacompat.charm_of_calm": "Charm of Calm",
+  "item.vocanacompat.charm_of_calm.tooltip": "Worn as a charm: Strain at the Seal %s",
+  "item.vocanacompat.signet_of_the_elements": "Signet of the Elements",
+  "item.vocanacompat.signet_of_the_elements.tooltip": "Worn on a finger: Workings of its essence cost ×%s Thrum",
+  "item.vocanacompat.signet_of_the_elements.empty": "Use it with an Essence Residue in your other hand: the signet drinks the essence.",
+  "item.vocanacompat.signet_of_the_elements.carries": "Carries %s"
 }
