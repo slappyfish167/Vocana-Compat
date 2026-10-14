@@ -2,7 +2,9 @@ name: Build
 
 on:
   push:
-    branches: [main]
+    # Development branches build too: this workflow is the compile check for a repository that cannot be built
+    # from the development container, so every push to a claude/ branch runs it.
+    branches: [main, 'claude/**']
   pull_request:
     branches: [main]
   workflow_dispatch:
