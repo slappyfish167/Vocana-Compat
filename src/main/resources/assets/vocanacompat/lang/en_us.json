@@ -28,5 +28,21 @@
   "vocanacompat.configuration.hexcasting": "Hex Casting module",
   "vocanacompat.configuration.hexcasting.verboseLogging": "Verbose logging",
   "vocanacompat.configuration.ars_nouveau": "Ars Nouveau module",
-  "vocanacompat.configuration.ars_nouveau.verboseLogging": "Verbose logging"
+  "vocanacompat.configuration.ars_nouveau.verboseLogging": "Verbose logging",
+
+  "vocanacompat.configuration.wyrmroost.words": "Words",
+  "vocanacompat.configuration.wyrmroost.wyrmWord": "WYRM has behaviour",
+  "vocanacompat.configuration.wyrmroost.roostWord": "ROOST has behaviour",
+  "vocanacompat.configuration.wyrmroost.roost": "ROOST",
+  "vocanacompat.configuration.wyrmroost.hesitateSeconds": "Seconds a wild dragon hesitates",
+  "vocanacompat.configuration.wyrmroost.sleepAtIntensity": "Clause intensity that also puts a dragon to sleep",
+  "vocanacompat.configuration.wyrmroost.roostVanillaPets": "ROOST also sits and rouses vanilla pets",
+  "vocanacompat.configuration.wyrmroost.respectTeams": "A team-mate's dragon counts as your own",
+  "vocanacompat.configuration.wyrmroost.wyrm": "WYRM",
+  "vocanacompat.configuration.wyrmroost.wyrmTouchDamage": "Damage of a made WYRM",
+  "vocanacompat.configuration.wyrmroost.wyrmTouchKnockback": "Knockback of a made WYRM",
+  "vocanacompat.configuration.wyrmroost.wyrmMendsOwnDragons": "A made WYRM mends your own dragon",
+  "vocanacompat.configuration.wyrmroost.wyrmMendAmount": "Health a made WYRM gives your dragon",
+  "vocanacompat.configuration.wyrmroost.interplay": "Interplay",
+  "vocanacompat.configuration.wyrmroost.protectTamedFromCasterMagic": "Your tamed dragons refuse your own magic damage"
 }
