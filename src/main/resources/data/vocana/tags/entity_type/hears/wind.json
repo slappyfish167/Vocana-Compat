@@ -4,6 +4,10 @@
     {
       "id": "#vocanacompat:wyrmroost/wind",
       "required": false
+    },
+    {
+      "id": "#vocanacompat:iceandfire/wind",
+      "required": false
     }
   ]
 }

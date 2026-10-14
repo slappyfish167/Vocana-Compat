@@ -4,6 +4,10 @@
     {
       "id": "#vocanacompat:wyrmroost/decay",
       "required": false
+    },
+    {
+      "id": "#vocanacompat:iceandfire/decay",
+      "required": false
     }
   ]
 }

@@ -4,6 +4,10 @@
     {
       "id": "#vocanacompat:wyrmroost/lightning",
       "required": false
+    },
+    {
+      "id": "#vocanacompat:iceandfire/lightning",
+      "required": false
     }
   ]
 }

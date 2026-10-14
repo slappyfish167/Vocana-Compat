@@ -8,6 +8,10 @@
     {
       "id": "#vocanacompat:wyrmroost/fire",
       "required": false
+    },
+    {
+      "id": "#vocanacompat:iceandfire/fire",
+      "required": false
     }
   ]
 }

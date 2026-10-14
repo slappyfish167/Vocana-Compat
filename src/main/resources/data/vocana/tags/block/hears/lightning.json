@@ -4,6 +4,10 @@
     {
       "id": "#vocanacompat:create/lightning",
       "required": false
+    },
+    {
+      "id": "#vocanacompat:iceandfire/lightning",
+      "required": false
     }
   ]
 }

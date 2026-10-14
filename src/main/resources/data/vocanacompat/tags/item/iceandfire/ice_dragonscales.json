@@ -1,0 +1,31 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "iceandfire"
+    },
+    {
+      "type": "vocanacompat:module_enabled",
+      "module": "iceandfire"
+    }
+  ],
+  "replace": false,
+  "values": [
+    {
+      "id": "iceandfire:dragonscales_blue",
+      "required": false
+    },
+    {
+      "id": "iceandfire:dragonscales_white",
+      "required": false
+    },
+    {
+      "id": "iceandfire:dragonscales_sapphire",
+      "required": false
+    },
+    {
+      "id": "iceandfire:dragonscales_silver",
+      "required": false
+    }
+  ]
+}

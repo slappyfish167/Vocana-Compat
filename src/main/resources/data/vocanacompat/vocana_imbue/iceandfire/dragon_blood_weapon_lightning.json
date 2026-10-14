@@ -1,0 +1,40 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "iceandfire"
+    },
+    {
+      "type": "vocanacompat:module_enabled",
+      "module": "iceandfire"
+    }
+  ],
+  "target": {
+    "kind": "weapon"
+  },
+  "essence": "LIGHTNING",
+  "triggers": [
+    "ON_HIT",
+    "PASSIVE"
+  ],
+  "materials": [
+    {
+      "item": "iceandfire:lightning_dragon_blood",
+      "count": 1
+    },
+    {
+      "item": "iceandfire:dragonbone",
+      "count": 1
+    }
+  ],
+  "xp_levels": 3,
+  "thrum": 20,
+  "strength": 1.3,
+  "complexity": 5,
+  "shade": {
+    "xp_levels": 2,
+    "thrum": 10,
+    "complexity": 2
+  },
+  "priority": 1
+}

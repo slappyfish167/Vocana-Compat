@@ -1,0 +1,64 @@
+package dev.vocana.compat.gametest;
+
+import dev.vocana.compat.Module;
+import dev.vocana.compat.VocanaCompat;
+import dev.vocana.engine.Chapter;
+import dev.vocana.engine.Vocabulary;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.gametest.framework.GameTest;
+import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.fml.ModList;
+import net.neoforged.neoforge.gametest.GameTestHolder;
+import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
+
+/**
+ * The Ice and Fire module on the GameTest server, where Ice and Fire is absent: its words reached Vocana through the
+ * merged lexicon and sit in the right chapters, its data files are in the jar, and nothing it registers (items, its
+ * config condition) exists because the module did not load. Nothing here names a class of the module's package, so
+ * the test never depends on how that package would class-load.
+ */
+@GameTestHolder(VocanaCompat.ID) @PrefixGameTestTemplate(false)
+public final class IceAndFireGameTests {
+    private IceAndFireGameTests() {}
+
+    @GameTest(template = "test_empty")
+    public static void theDragonShadesAreWordsInTheirChapters(GameTestHelper h) {
+        var frost = Vocabulary.INSTANCE.byGloss("DRAGONFROST");
+        h.assertTrue(frost != null, "DRAGONFROST is in the lexicon");
+        h.assertTrue(frost.elder() && "FROST".equals(frost.base()), "DRAGONFROST is an Elder shade of FROST");
+        h.assertTrue(Chapter.of(frost) == Chapter.FROST, "DRAGONFROST sits in the Frost chapter");
+        h.assertTrue(Vocabulary.INSTANCE.byForm("drakopagos") == frost, "its form is drakopagos");
+        var bolt = Vocabulary.INSTANCE.byGloss("DRAGONBOLT");
+        h.assertTrue(bolt != null, "DRAGONBOLT is in the lexicon");
+        h.assertTrue(bolt.elder() && "LIGHTNING".equals(bolt.base()), "DRAGONBOLT is an Elder shade of LIGHTNING");
+        h.assertTrue(Chapter.of(bolt) == Chapter.LIGHTNING, "DRAGONBOLT sits in the Lightning chapter");
+        h.assertTrue(Vocabulary.INSTANCE.shades("FROST").contains(frost), "FROST lists its new shade");
+        h.succeed();
+    }
+
+    @GameTest(template = "test_empty")
+    public static void nothingOfTheModuleIsRegisteredWithoutIceAndFire(GameTestHelper h) {
+        h.assertFalse(ModList.get().isLoaded(Module.ICE_AND_FIRE.modId), "iceandfire is not on the GameTest classpath");
+        h.assertFalse(VocanaCompat.loaded(Module.ICE_AND_FIRE), "the module did not load");
+        for (String id : new String[]{"netherite_dragonsteel_ingot", "wyrmsteel_staff", "wyrmsteel_sword", "wyrmsteel_pickaxe", "incomplete_wyrmsteel_staff"})
+            h.assertFalse(BuiltInRegistries.ITEM.containsKey(ResourceLocation.fromNamespaceAndPath(VocanaCompat.ID, id)), "vocanacompat:" + id + " is not registered");
+        h.assertFalse(NeoForgeRegistries.CONDITION_SERIALIZERS.containsKey(ResourceLocation.fromNamespaceAndPath(VocanaCompat.ID, "iceandfire/config")), "the module's config condition is not registered");
+        h.succeed();
+    }
+
+    @GameTest(template = "test_empty")
+    public static void theModuleDataShipsInTheJar(GameTestHelper h) {
+        for (String path : new String[]{
+            "/data/vocanacompat/neoforge/biome_modifier/iceandfire/remove_siren_spawns.json",
+            "/data/vocanacompat/recipe/iceandfire/netherite_dragonsteel_ingot.json",
+            "/data/vocanacompat/recipe/iceandfire/wyrmsteel_staff.json",
+            "/data/vocanacompat/vocana_imbue/iceandfire/wyrmsteel_staff.json",
+            "/data/vocanacompat/tags/entity_type/iceandfire/dragonfrost.json",
+            "/data/vocana/tags/entity_type/hears/dragonbolt.json",
+            "/assets/vocanacompat/textures/item/iceandfire/wyrmsteel_staff.png"})
+            h.assertTrue(VocanaCompat.class.getResource(path) != null, path + " is in the resources");
+        h.succeed();
+    }
+}

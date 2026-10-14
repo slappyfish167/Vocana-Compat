@@ -1,0 +1,22 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "iceandfire"
+    },
+    {
+      "type": "vocanacompat:module_enabled",
+      "module": "iceandfire"
+    },
+    {
+      "type": "vocanacompat:iceandfire/config",
+      "key": "removeSirens"
+    },
+    {
+      "type": "vocanacompat:iceandfire/config",
+      "key": "removeSirenIslands"
+    }
+  ],
+  "replace": true,
+  "values": []
+}

@@ -1,0 +1,41 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "iceandfire"
+    },
+    {
+      "type": "vocanacompat:module_enabled",
+      "module": "iceandfire"
+    }
+  ],
+  "target": {
+    "kind": "armor"
+  },
+  "essence": "FROST",
+  "triggers": [
+    "ON_HURT",
+    "PASSIVE",
+    "ON_EQUIP"
+  ],
+  "materials": [
+    {
+      "tag": "vocanacompat:iceandfire/ice_dragonscales",
+      "count": 2
+    },
+    {
+      "item": "minecraft:amethyst_shard",
+      "count": 1
+    }
+  ],
+  "xp_levels": 3,
+  "thrum": 20,
+  "strength": 1.2,
+  "complexity": 5,
+  "shade": {
+    "xp_levels": 2,
+    "thrum": 10,
+    "complexity": 2
+  },
+  "priority": 1
+}

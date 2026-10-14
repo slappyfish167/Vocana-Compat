@@ -4,6 +4,10 @@
     {
       "id": "#vocanacompat:wyrmroost/sky",
       "required": false
+    },
+    {
+      "id": "#vocanacompat:iceandfire/sky",
+      "required": false
     }
   ]
 }

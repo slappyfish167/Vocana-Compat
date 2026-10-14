@@ -4,6 +4,10 @@
     {
       "id": "#vocanacompat:wyrmroost/frost",
       "required": false
+    },
+    {
+      "id": "#vocanacompat:iceandfire/frost",
+      "required": false
     }
   ]
 }

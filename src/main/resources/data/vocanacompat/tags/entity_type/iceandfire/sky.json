@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "iceandfire"
+    },
+    {
+      "type": "vocanacompat:module_enabled",
+      "module": "iceandfire"
+    }
+  ],
+  "replace": false,
+  "values": [
+    {
+      "id": "iceandfire:fire_dragon",
+      "required": false
+    },
+    {
+      "id": "iceandfire:ice_dragon",
+      "required": false
+    },
+    {
+      "id": "iceandfire:lightning_dragon",
+      "required": false
+    }
+  ]
+}

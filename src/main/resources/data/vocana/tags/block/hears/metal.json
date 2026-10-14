@@ -8,6 +8,10 @@
     {
       "id": "#vocanacompat:wyrmroost/metal",
       "required": false
+    },
+    {
+      "id": "#vocanacompat:iceandfire/metal",
+      "required": false
     }
   ]
 }
