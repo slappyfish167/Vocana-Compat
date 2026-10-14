@@ -28,5 +28,15 @@
   "vocanacompat.configuration.hexcasting": "Hex Casting module",
   "vocanacompat.configuration.hexcasting.verboseLogging": "Verbose logging",
   "vocanacompat.configuration.ars_nouveau": "Ars Nouveau module",
-  "vocanacompat.configuration.ars_nouveau.verboseLogging": "Verbose logging"
+  "vocanacompat.configuration.ars_nouveau.verboseLogging": "Verbose logging",
+  "vocanacompat.configuration.hexcasting.staves": "Hex staves as Catalysts",
+  "vocanacompat.configuration.hexcasting.staves.enabled": "Hex staves are Vocana Catalysts",
+  "vocanacompat.configuration.hexcasting.staves.capacityBonus": "Capacity bonus of a Hex staff",
+  "vocanacompat.configuration.hexcasting.draw": "The Deed DRAW (media to Thrum)",
+  "vocanacompat.configuration.hexcasting.draw.enabled": "DRAW works",
+  "vocanacompat.configuration.hexcasting.draw.mediaPerThrum": "Media per point of Thrum",
+  "vocanacompat.configuration.hexcasting.draw.maxThrumPerCast": "Most Thrum restored per DRAW",
+  "vocanacompat.configuration.hexcasting.draw.fromBatteries": "DRAW also empties phials",
+  "vocanacompat.configuration.hexcasting.awaken": "The Deed AWAKEN (cast a packaged Hex)",
+  "vocanacompat.configuration.hexcasting.awaken.enabled": "AWAKEN works"
 }
