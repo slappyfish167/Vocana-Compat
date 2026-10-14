@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "neoforge:conditions": [
+    { "type": "neoforge:mod_loaded", "modid": "curios" },
+    { "type": "vocanacompat:module_enabled", "module": "curios" }
+  ],
+  "category": "equipment",
+  "ingredients": [{"item": "minecraft:gold_ingot"}, {"item": "minecraft:copper_ingot"}, {"item": "minecraft:amethyst_shard"}, {"item": "minecraft:amethyst_shard"}, {"item": "minecraft:echo_shard"}],
+  "result": { "id": "vocanacompat:amulet_of_resonance", "count": 1 }
+}

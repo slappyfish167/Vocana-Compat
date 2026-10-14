@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "neoforge:conditions": [
+    { "type": "neoforge:mod_loaded", "modid": "curios" },
+    { "type": "vocanacompat:module_enabled", "module": "curios" }
+  ],
+  "category": "equipment",
+  "ingredients": [{"item": "minecraft:copper_ingot"}, {"item": "minecraft:copper_ingot"}, {"item": "minecraft:amethyst_shard"}, {"item": "minecraft:amethyst_shard"}, {"item": "minecraft:string"}],
+  "result": { "id": "vocanacompat:charm_of_calm", "count": 1 }
+}

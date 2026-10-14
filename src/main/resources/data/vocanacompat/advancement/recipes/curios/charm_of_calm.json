@@ -1,0 +1,13 @@
+{
+  "neoforge:conditions": [
+    { "type": "neoforge:mod_loaded", "modid": "curios" },
+    { "type": "vocanacompat:module_enabled", "module": "curios" }
+  ],
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_prerequisite": { "trigger": "minecraft:inventory_changed", "conditions": { "items": [{ "items": "minecraft:amethyst_shard" }] } },
+    "has_the_recipe": { "trigger": "minecraft:recipe_unlocked", "conditions": { "recipe": "vocanacompat:curios/charm_of_calm" } }
+  },
+  "requirements": [["has_prerequisite", "has_the_recipe"]],
+  "rewards": { "recipes": ["vocanacompat:curios/charm_of_calm"] }
+}
