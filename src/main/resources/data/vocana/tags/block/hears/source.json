@@ -1,0 +1,6 @@
+{
+  "replace": false,
+  "values": [
+    { "id": "#vocanacompat:ars_nouveau/source", "required": false }
+  ]
+}

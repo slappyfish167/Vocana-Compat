@@ -1,0 +1,22 @@
+{
+  "neoforge:conditions": [
+    { "type": "neoforge:mod_loaded", "modid": "ars_nouveau" },
+    { "type": "vocanacompat:module_enabled", "module": "ars_nouveau" }
+  ],
+  "replace": false,
+  "values": [
+    { "id": "ars_nouveau:whirlisprig", "required": false },
+    { "id": "ars_nouveau:starbuncle", "required": false },
+    { "id": "ars_nouveau:drygmy", "required": false },
+    { "id": "ars_nouveau:bookwyrm", "required": false },
+    { "id": "ars_nouveau:wixie", "required": false },
+    { "id": "ars_nouveau:amethyst_golem", "required": false },
+    { "id": "ars_nouveau:alakarkinos", "required": false },
+    { "id": "ars_nouveau:familiar_whirlisprig", "required": false },
+    { "id": "ars_nouveau:familiar_starbuncle", "required": false },
+    { "id": "ars_nouveau:familiar_drygmy", "required": false },
+    { "id": "ars_nouveau:familiar_bookwyrm", "required": false },
+    { "id": "ars_nouveau:familiar_wixie", "required": false },
+    { "id": "ars_nouveau:familiar_amethyst_golem", "required": false }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "replace": false,
+  "values": [
+    { "id": "#vocanacompat:ars_nouveau/shadow", "required": false }
+  ]
+}

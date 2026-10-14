@@ -1,0 +1,13 @@
+{
+  "neoforge:conditions": [
+    { "type": "neoforge:mod_loaded", "modid": "ars_nouveau" },
+    { "type": "vocanacompat:module_enabled", "module": "ars_nouveau" }
+  ],
+  "replace": false,
+  "values": [
+    { "id": "ars_nouveau:wilden_hunter", "required": false },
+    { "id": "ars_nouveau:wilden_stalker", "required": false },
+    { "id": "ars_nouveau:wilden_guardian", "required": false },
+    { "id": "ars_nouveau:wilden_boss", "required": false }
+  ]
+}
