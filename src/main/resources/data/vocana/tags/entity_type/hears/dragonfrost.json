@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "#vocanacompat:iceandfire/dragonfrost",
+      "required": false
+    }
+  ]
+}

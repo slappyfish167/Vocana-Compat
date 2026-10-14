@@ -1,6 +1,37 @@
 {
   "roots": [],
-  "elder": [],
+  "elder": [
+    {
+      "form": "drakopagos",
+      "gloss": "DRAGONFROST",
+      "class": "Elder",
+      "variant_of": "FROST",
+      "respelling": "drah-koh-PAH-goss",
+      "ipa": "/dra.koˈpa.gos/",
+      "tongue": "common",
+      "chapter": "FROST",
+      "profile": {"power": 1.25, "reach": 1.3, "speed": 0.9, "duration": 1.4, "weight": 1, "particle": "minecraft:snowflake", "sound": "minecraft:entity.player.hurt_freeze", "trait": "deepcold"},
+      "meaning": "The breath of an ice dragon: a wide, heavy cold that freezes a creature solid and stills it, as the dragon's does. Costs one more CP.",
+      "beginner_clue": "Dragon ice does not melt, and it rings like a bell when the Chime is near.",
+      "kin_blocks": ["iceandfire:dragon_ice", "iceandfire:dragon_ice_spikes", "iceandfire:dragonsteel_ice_block"],
+      "kin_entities": ["iceandfire:ice_dragon"]
+    },
+    {
+      "form": "drakastrape",
+      "gloss": "DRAGONBOLT",
+      "class": "Elder",
+      "variant_of": "LIGHTNING",
+      "respelling": "drah-kah-STRAH-pay",
+      "ipa": "/dra.kaˈstra.pe/",
+      "tongue": "common",
+      "chapter": "LIGHTNING",
+      "profile": {"power": 1.2, "speed": 1.3, "weight": 1, "particle": "minecraft:electric_spark", "sound": "minecraft:entity.lightning_bolt.impact", "trait": "chain"},
+      "meaning": "The stroke of a lightning dragon: a fast, hard bolt that forks from one creature to the next, up to four times. Costs one more CP.",
+      "beginner_clue": "Crackled stone where a lightning dragon struck hums under the Chime.",
+      "kin_blocks": ["iceandfire:dragonsteel_lightning_block", "iceandfire:crackled_stone"],
+      "kin_entities": ["iceandfire:lightning_dragon"]
+    }
+  ],
   "blends": [],
   "callings": []
 }

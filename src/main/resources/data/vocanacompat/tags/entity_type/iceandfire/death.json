@@ -1,0 +1,43 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "iceandfire"
+    },
+    {
+      "type": "vocanacompat:module_enabled",
+      "module": "iceandfire"
+    }
+  ],
+  "replace": false,
+  "values": [
+    {
+      "id": "iceandfire:dread_thrall",
+      "required": false
+    },
+    {
+      "id": "iceandfire:dread_ghoul",
+      "required": false
+    },
+    {
+      "id": "iceandfire:dread_beast",
+      "required": false
+    },
+    {
+      "id": "iceandfire:dread_scuttler",
+      "required": false
+    },
+    {
+      "id": "iceandfire:dread_lich",
+      "required": false
+    },
+    {
+      "id": "iceandfire:dread_knight",
+      "required": false
+    },
+    {
+      "id": "iceandfire:dread_horse",
+      "required": false
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "iceandfire"
+    },
+    {
+      "type": "vocanacompat:module_enabled",
+      "module": "iceandfire"
+    }
+  ],
+  "replace": false,
+  "values": [
+    {
+      "id": "iceandfire:dragonscale_red",
+      "required": false
+    },
+    {
+      "id": "iceandfire:dragonscale_green",
+      "required": false
+    },
+    {
+      "id": "iceandfire:dragonscale_bronze",
+      "required": false
+    },
+    {
+      "id": "iceandfire:dragonscale_gray",
+      "required": false
+    },
+    {
+      "id": "iceandfire:dragonsteel_fire_block",
+      "required": false
+    },
+    {
+      "id": "iceandfire:chared_dirt",
+      "required": false
+    },
+    {
+      "id": "iceandfire:chared_grass",
+      "required": false
+    },
+    {
+      "id": "iceandfire:chared_stone",
+      "required": false
+    },
+    {
+      "id": "iceandfire:chared_cobblestone",
+      "required": false
+    },
+    {
+      "id": "iceandfire:chared_gravel",
+      "required": false
+    }
+  ]
+}
