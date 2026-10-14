@@ -1,0 +1,152 @@
+{
+  "_comment": "Blocks Vocana's Workings never change (vocana:immune): Create's structure and contraption parts that have no block entity, so a BLAST crater or a temporary wall cannot open a kinetic network or a moving contraption. Blocks with block entities need no entry: Permits.editable already refuses them.",
+  "replace": false,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    },
+    {
+      "type": "vocanacompat:module_enabled",
+      "module": "create"
+    }
+  ],
+  "values": [
+    {
+      "id": "create:piston_extension_pole",
+      "required": false
+    },
+    {
+      "id": "create:mechanical_piston_head",
+      "required": false
+    },
+    {
+      "id": "create:linear_chassis",
+      "required": false
+    },
+    {
+      "id": "create:secondary_linear_chassis",
+      "required": false
+    },
+    {
+      "id": "create:radial_chassis",
+      "required": false
+    },
+    {
+      "id": "create:sticker",
+      "required": false
+    },
+    {
+      "id": "create:cart_assembler",
+      "required": false
+    },
+    {
+      "id": "create:minecart_anchor",
+      "required": false
+    },
+    {
+      "id": "create:controller_rail",
+      "required": false
+    },
+    {
+      "id": "create:track",
+      "required": false
+    },
+    {
+      "id": "create:fake_track",
+      "required": false
+    },
+    {
+      "id": "create:rope",
+      "required": false
+    },
+    {
+      "id": "create:pulley_magnet",
+      "required": false
+    },
+    {
+      "id": "create:sail_frame",
+      "required": false
+    },
+    {
+      "id": "create:white_sail",
+      "required": false
+    },
+    {
+      "id": "create:water_wheel_structure",
+      "required": false
+    },
+    {
+      "id": "create:powered_shaft",
+      "required": false
+    },
+    {
+      "id": "create:metal_girder",
+      "required": false
+    },
+    {
+      "id": "create:metal_girder_encased_shaft",
+      "required": false
+    },
+    {
+      "id": "create:andesite_casing",
+      "required": false
+    },
+    {
+      "id": "create:brass_casing",
+      "required": false
+    },
+    {
+      "id": "create:copper_casing",
+      "required": false
+    },
+    {
+      "id": "create:railway_casing",
+      "required": false
+    },
+    {
+      "id": "create:andesite_ladder",
+      "required": false
+    },
+    {
+      "id": "create:brass_ladder",
+      "required": false
+    },
+    {
+      "id": "create:copper_ladder",
+      "required": false
+    },
+    {
+      "id": "create:brass_scaffolding",
+      "required": false
+    },
+    {
+      "id": "create:copper_scaffolding",
+      "required": false
+    },
+    {
+      "id": "create:redstone_contact",
+      "required": false
+    },
+    {
+      "id": "create:elevator_contact",
+      "required": false
+    },
+    {
+      "id": "create:contraption_controls",
+      "required": false
+    },
+    {
+      "id": "create:nozzle",
+      "required": false
+    },
+    {
+      "id": "create:wooden_bracket",
+      "required": false
+    },
+    {
+      "id": "create:metal_bracket",
+      "required": false
+    }
+  ]
+}
