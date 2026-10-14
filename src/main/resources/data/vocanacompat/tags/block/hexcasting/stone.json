@@ -1,0 +1,15 @@
+{
+  "neoforge:conditions": [
+    { "type": "neoforge:mod_loaded", "modid": "hexcasting" },
+    { "type": "vocanacompat:module_enabled", "module": "hexcasting" }
+  ],
+  "replace": false,
+  "values": [
+    {"id": "hexcasting:slate", "required": false},
+    {"id": "hexcasting:slate_block", "required": false},
+    {"id": "hexcasting:slate_tiles", "required": false},
+    {"id": "hexcasting:slate_bricks", "required": false},
+    {"id": "hexcasting:slate_bricks_small", "required": false},
+    {"id": "hexcasting:slate_pillar", "required": false}
+  ]
+}

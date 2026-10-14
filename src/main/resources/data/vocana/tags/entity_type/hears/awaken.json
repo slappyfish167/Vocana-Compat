@@ -1,0 +1,6 @@
+{
+  "replace": false,
+  "values": [
+    {"id": "#vocanacompat:hexcasting/awaken", "required": false}
+  ]
+}

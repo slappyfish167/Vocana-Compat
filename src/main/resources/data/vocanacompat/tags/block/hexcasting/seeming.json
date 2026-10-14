@@ -1,0 +1,11 @@
+{
+  "neoforge:conditions": [
+    { "type": "neoforge:mod_loaded", "modid": "hexcasting" },
+    { "type": "vocanacompat:module_enabled", "module": "hexcasting" }
+  ],
+  "replace": false,
+  "values": [
+    {"id": "hexcasting:conjured_block", "required": false},
+    {"id": "hexcasting:conjured_light", "required": false}
+  ]
+}

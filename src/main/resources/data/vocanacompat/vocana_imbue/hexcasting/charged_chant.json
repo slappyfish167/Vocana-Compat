@@ -1,0 +1,13 @@
+{
+  "neoforge:conditions": [
+    { "type": "neoforge:mod_loaded", "modid": "hexcasting" },
+    { "type": "vocanacompat:module_enabled", "module": "hexcasting" }
+  ],
+  "target": {"kind": "any"},
+  "chant": {"max_cp": 20},
+  "materials": [{"item": "hexcasting:charged_amethyst", "count": 1}, {"item": "minecraft:book", "count": 1}],
+  "xp_levels": 10,
+  "thrum": 35,
+  "complexity": 4,
+  "ritual": {"catalysts": [{"tag": "vocana:ritual_anchors", "count": 4, "radius": 5}], "channel": true}
+}

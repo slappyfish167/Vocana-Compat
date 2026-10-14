@@ -1,0 +1,10 @@
+{
+  "neoforge:conditions": [
+    { "type": "neoforge:mod_loaded", "modid": "hexcasting" },
+    { "type": "vocanacompat:module_enabled", "module": "hexcasting" }
+  ],
+  "replace": false,
+  "values": [
+    {"id": "hexcasting:wall_scroll", "required": false}
+  ]
+}

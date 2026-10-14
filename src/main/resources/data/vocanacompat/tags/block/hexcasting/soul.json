@@ -1,0 +1,13 @@
+{
+  "neoforge:conditions": [
+    { "type": "neoforge:mod_loaded", "modid": "hexcasting" },
+    { "type": "vocanacompat:module_enabled", "module": "hexcasting" }
+  ],
+  "replace": false,
+  "values": [
+    {"id": "hexcasting:quenched_allay", "required": false},
+    {"id": "hexcasting:quenched_allay_tiles", "required": false},
+    {"id": "hexcasting:quenched_allay_bricks", "required": false},
+    {"id": "hexcasting:quenched_allay_bricks_small", "required": false}
+  ]
+}

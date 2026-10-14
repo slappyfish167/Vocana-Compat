@@ -1,0 +1,6 @@
+{
+  "replace": false,
+  "values": [
+    {"id": "#vocanacompat:hexcasting/remember", "required": false}
+  ]
+}

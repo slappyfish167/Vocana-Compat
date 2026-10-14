@@ -1,0 +1,18 @@
+{
+  "neoforge:conditions": [
+    { "type": "neoforge:mod_loaded", "modid": "hexcasting" },
+    { "type": "vocanacompat:module_enabled", "module": "hexcasting" }
+  ],
+  "replace": false,
+  "values": [
+    {"id": "hexcasting:amethyst_dust_block", "required": false},
+    {"id": "hexcasting:amethyst_tiles", "required": false},
+    {"id": "hexcasting:amethyst_bricks", "required": false},
+    {"id": "hexcasting:amethyst_bricks_small", "required": false},
+    {"id": "hexcasting:amethyst_pillar", "required": false},
+    {"id": "hexcasting:slate_amethyst_tiles", "required": false},
+    {"id": "hexcasting:slate_amethyst_bricks", "required": false},
+    {"id": "hexcasting:slate_amethyst_bricks_small", "required": false},
+    {"id": "hexcasting:slate_amethyst_pillar", "required": false}
+  ]
+}
