@@ -21,3 +21,13 @@ Built against Vocana 2.1.0, NeoForge 21.1.255, Minecraft 1.21.1.
   game-tests this mod.
 - `docs/targets.md`: the verified versions, coordinates and integration surfaces of the seven targets;
   `docs/adding_a_module.md`: the conventions a module follows.
+- Ars Nouveau module (`docs/ars_nouveau.md`): Ars spells cast by players cost `arsCostFactor` (1.15) of Ars's own
+  price through `SpellCostCalcEvent`, a Vocana staff in the off hand gives 5 % of it back, and Vocana keeps its own
+  prices (`vocanaCostFactor` 1.0, never below one). The word SOURCE (`nauspi`, Thaumaturgy): a Working that touches
+  the ground beside Ars source jars pours source into them, one that touches an Ars caster gives them mana, laid as a
+  state it hastens mana regeneration, and SOURCE-imbued gear returns mana on a strike; everything a Working gives is
+  capped by the Thrum it paid at a par rate less a 35 % conversion loss. The Ars glyph Resonate
+  (`vocanacompat:glyph_vocana_thrum`, tier two) returns Thrum for its mana at the same rate, once per five seconds.
+  Imbue Bench recipes paying in source gems and magebloom (any essence into the Enchanter's Sword, SOURCE into gear
+  and staffs), the Enchanter's Sword as a +1 Catalyst, discovery tags (jars, magebloom, archwood, sourceberries,
+  Wilden, starbuncles, drygmies), and GameTests and unit tests that run without Ars.
