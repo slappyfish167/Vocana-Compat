@@ -45,4 +45,4 @@ __pycache__/
 
 ### vocana-compat ###
 # The CI checkout of Vocana (published to mavenLocal before this build)
-vocana/
+/vocana/
