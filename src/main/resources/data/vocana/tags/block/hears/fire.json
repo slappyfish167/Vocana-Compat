@@ -4,6 +4,10 @@
     {
       "id": "#vocanacompat:create/fire",
       "required": false
+    },
+    {
+      "id": "#vocanacompat:wyrmroost/fire",
+      "required": false
     }
   ]
 }

@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "wyrmroost"
+    },
+    {
+      "type": "vocanacompat:module_enabled",
+      "module": "wyrmroost"
+    }
+  ],
+  "replace": false,
+  "values": [
+    {
+      "id": "wyrmroost:coin_dragon",
+      "required": false
+    }
+  ]
+}

@@ -4,6 +4,10 @@
     {
       "id": "#vocanacompat:create/metal",
       "required": false
+    },
+    {
+      "id": "#vocanacompat:wyrmroost/metal",
+      "required": false
     }
   ]
 }

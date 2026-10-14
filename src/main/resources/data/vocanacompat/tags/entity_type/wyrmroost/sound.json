@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "wyrmroost"
+    },
+    {
+      "type": "vocanacompat:module_enabled",
+      "module": "wyrmroost"
+    }
+  ],
+  "replace": false,
+  "values": [
+    {
+      "id": "wyrmroost:royal_red",
+      "required": false
+    },
+    {
+      "id": "wyrmroost:alpine",
+      "required": false
+    },
+    {
+      "id": "wyrmroost:overworld_drake",
+      "required": false
+    }
+  ]
+}

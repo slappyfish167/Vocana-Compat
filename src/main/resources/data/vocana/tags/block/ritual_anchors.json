@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "#vocanacompat:wyrmroost/ritual_anchors",
+      "required": false
+    }
+  ]
+}

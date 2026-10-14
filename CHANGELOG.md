@@ -54,3 +54,24 @@ Built against Vocana 2.1.0, NeoForge 21.1.255, Minecraft 1.21.1.
 ### Fixed
 - The `.gitignore` entry for the CI checkout of Vocana (`vocana/`) also hid `src/main/java/dev/vocana/`, so the
   skeleton's Java sources were never committed; the pattern is anchored to the root (`/vocana/`).
+#### Wyrmroost
+- Discovery: Wyrmroost's dragons, breath, eggs, geodes and platinum teach Vocana's words through
+  `vocanacompat:wyrmroost/<word>` tags referenced from `vocana:hears/<word>` (FIRE and DRAGONFIRE from a Royal Red,
+  FROST/WIND/SKY from an Alpine, WATER/LIGHTNING/SEA/THUNDER from a Butterfly Leviathan, SHADOW/NIGHT/TAKE from a
+  Roost Stalker, LIFE/BEGIN from an egg, STONE/CRYSTAL/METAL from geodes and platinum, and more). Geode and platinum
+  blocks count as ritual anchors for the Imbue Bench.
+- Words: the Essence WYRM (`mespau`: found, any dragon; made, a dragon's weight, or a mending touch on one's own
+  dragon), the Deed ROOST (`hespon`, State frame: settles or rouses one's own dragon, makes a wild one hesitate) and
+  the Elder shade DRAGONFIRE of FIRE (`drakon`: hot, far-reaching, kindling, one more CP).
+- Interplay: a dragon tamed by the caster (or a team-mate) refuses the caster's own magic damage; WYRM and ROOST
+  never harm, command or touch a dragon on the caster's side or a stranger's tamed dragon. Vocana's SUMMON, FOLLOW,
+  BIND and COMMAND already treat Wyrmroost's dragons as the tameable animals they are.
+- Imbue recipes for red, blue and purple geodes, platinum and the soul crystal (a 20-CP channelled chant), and
+  geode/platinum alternatives to the Ember, Rime, Earth and Shadow staff recipes.
+- `config/vocanacompat-wyrmroost.toml`: toggles per word and feature, and every number.
+- Unit tests for ROOST's rules and the module's data; GameTests that the words load with chapters and pronunciations
+  and that nothing registers without Wyrmroost. `docs/wyrmroost.md` documents all of it and the API it verified.
+
+### Fixed
+- `.gitignore` ignored `src/main/java/dev/vocana/` along with the CI checkout of Vocana (the pattern `vocana/` was
+  not anchored), so the skeleton's Java sources had never been committed; they are now.
