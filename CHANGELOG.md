@@ -21,3 +21,13 @@ Built against Vocana 2.1.0, NeoForge 21.1.255, Minecraft 1.21.1.
   game-tests this mod.
 - `docs/targets.md`: the verified versions, coordinates and integration surfaces of the seven targets;
   `docs/adding_a_module.md`: the conventions a module follows.
+- Ice and Fire module (`docs/iceandfire.md`): sirens removed (`removeSirens`, a `neoforge:remove_spawns` modifier
+  plus spawn and join hooks that let spawn eggs and `/summon` through; `removeSirenIslands` empties the island's
+  biome tag); dragonsteel rebalanced towards netherite with a lean per kind through `ItemAttributeModifierEvent`
+  (fire hits harder, ice is tougher and sheds freezing, lightning is quick; every offset in
+  `vocanacompat-iceandfire.toml`); wyrmsteel, the netherite-dragonsteel alloy, made only in a superheated Create
+  mixer, and its Wyrmsteel Staff (capacity 6, affinity FIRE, FROST and LIGHTNING), sword and pickaxe made only by
+  Create sequenced assembly; `vocana:hears` tags for dragons, sea serpents, cyclopes, death worms, dread mobs,
+  pixies, hippogryphs, ghosts and the dragon blocks; the Elder shades DRAGONFROST (`drakopagos`) and DRAGONBOLT
+  (`drakastrape`); Imbue Bench recipes from dragon blood, scales and dragonsteel; the data condition
+  `vocanacompat:iceandfire/config`.
