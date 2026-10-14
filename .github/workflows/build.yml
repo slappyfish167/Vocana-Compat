@@ -37,6 +37,15 @@ jobs:
       # Vocana is a compile-time and runtime dependency that has no public maven: it is built from source at the
       # ref in vocana.ref and published to the runner's local maven (dev.vocana:vocana). A private Vocana needs a
       # VOCANA_TOKEN secret (a fine-grained token with read access to that repository).
+      - name: Require the Vocana token while Vocana is private
+        env:
+          HAS_TOKEN: ${{ secrets.VOCANA_TOKEN != '' }}
+        run: |
+          if [[ "$HAS_TOKEN" != "true" ]]; then
+            echo "::error::slappyfish167/Vocana is private and this repository's GITHUB_TOKEN cannot read it. Add a repository secret VOCANA_TOKEN (a fine-grained personal access token with Contents: read on slappyfish167/Vocana) under Settings → Secrets and variables → Actions, then re-run."
+            exit 1
+          fi
+
       - name: Checkout Vocana
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:

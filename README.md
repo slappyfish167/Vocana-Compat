@@ -62,3 +62,7 @@ read the job log.
 
 All Rights Reserved (see `LICENSE`), like Vocana. The target mods remain under their own licences; this repository
 contains none of their code or assets.
+
+## Continuous integration
+
+`.github/workflows/build.yml` builds Vocana from the ref in `vocana.ref`, publishes it to the runner's local Maven and then builds this mod against it and every target mod's Maven. While the Vocana repository is private the workflow needs a repository secret **`VOCANA_TOKEN`**: a fine-grained personal access token with *Contents: read* on `slappyfish167/Vocana`. Without it the run stops at its first step with that message.
