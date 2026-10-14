@@ -4,6 +4,10 @@
     {
       "id": "#vocanacompat:wyrmroost/shadow",
       "required": false
+    },
+    {
+      "id": "#vocanacompat:ars_nouveau/shadow",
+      "required": false
     }
   ]
 }

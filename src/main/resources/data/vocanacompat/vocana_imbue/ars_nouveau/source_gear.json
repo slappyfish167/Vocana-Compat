@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    { "type": "neoforge:mod_loaded", "modid": "ars_nouveau" },
+    { "type": "vocanacompat:module_enabled", "module": "ars_nouveau" }
+  ],
+  "target": {"kind": "any"},
+  "essence": "SOURCE",
+  "shades": false,
+  "triggers": ["ON_HIT", "ON_HURT"],
+  "materials": [{"item": "ars_nouveau:source_gem", "count": 1}, {"item": "ars_nouveau:magebloom", "count": 1}, {"item": "minecraft:amethyst_shard", "count": 1}],
+  "xp_levels": 4,
+  "thrum": 25,
+  "strength": 1.0,
+  "complexity": 5,
+  "priority": 1
+}

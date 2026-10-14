@@ -303,6 +303,31 @@ from that page is the safest value for `hexcast_version`).
   `AbstractEffect` subclasses registered with `GlyphRegistry.registerSpell` during mod construction plus a glyph
   recipe (`data/<ns>/recipe/*.json`, type `ars_nouveau:glyph`) and documentation entries; balance bridges hang
   on `SpellCostCalcEvent` (Ars side) and `VocanaApi.registerCostFactor` (Vocana side).
+- **Verified for the module** (read from `main` and from `baileyholl/Ars-Nouveau-Example-Addon` `main`, package
+  `com.example.an_addon`, on 2026-10-14): `SpellCostCalcEvent` has public fields `context` and `currentCost`, is not
+  cancellable, and `SpellResolver` posts its `Pre` subclass from `getResolveCost` and its `Post` subclass from
+  `getExpendedCost` on `NeoForge.EVENT_BUS`, after `ManaUtil.getPlayerDiscounts`; `SpellContext.getCaster()
+  .getCasterType()` tells players (`CasterType.PLAYER`, a `PlayerCaster`) from turrets and runes. `GlyphRegistry
+  .registerSpell(AbstractSpellPart)` must run during mod construction: it files the glyph's config with
+  `ModLoadingContext.get().getActiveContainer()` and Ars's `ItemsRegistry.onItemRegistry` later registers an item
+  under each part's registry name from `GlyphRegistry.getGlyphItemMap()`; the addon names its glyph
+  `an_addon:glyph_test` and ships `models/item/glyph_test.json` and a recipe `{"type":"ars_nouveau:glyph","exp":..,
+  "inputs":[..],"output":{..}}`. Documentation: `ReloadDocumentationEvent.AddEntries` (game bus, every world join),
+  `DocEntryBuilder(modid, Documentation.glyphCategory(tier), nameKey, id)`, `GlyphEntry.create(part)`,
+  `DocumentationRegistry.registerEntry`. Mana: `CapabilityRegistry.getMana(LivingEntity)` returns a `ManaCap`
+  (`IManaCap`: `getCurrentMana`, `getMaxMana`, `addMana`, `removeMana`; `syncToClient(ServerPlayer)`), registered
+  for players only. Source: `SourceJarTile` extends `AbstractSourceMachine implements ISourceTile`
+  (`canAcceptSource`, `getSource`, `addSource(int)` clamps and updates the block); `TileCaster.expendMana` draws one
+  source per mana for turrets. The enchanting apparatus takes `IEnchantingRecipe.sourceCost()` straight from the
+  recipe (`EnchantingApparatusTile`, `SourceUtil.takeSourceMultipleWithParticles`): there is no cost event. Ids:
+  blocks `source_jar`, `creative_source_jar`, `magebloom_crop`, `magebloom_block`, `sourceberry_bush`,
+  `<red|blue|green|purple>_archwood_<log|leaves|sapling>`, `source_gem_block`, `imbuement_chamber`,
+  `enchanting_apparatus`, `*_sourcelink`; items `source_gem`, `magebloom`, `magebloom_fiber`, `enchanters_sword`,
+  `novice_spell_book`, `manipulation_essence`; entities `starbuncle` (no `carbuncle` in 5.x), `whirlisprig`,
+  `drygmy`, `bookwyrm`, `wixie`, `wilden_hunter`, `wilden_stalker`, `wilden_guardian`, `wilden_boss`,
+  `familiar_<name>`. Recipe types `ars_nouveau:glyph`, `ars_nouveau:imbuement` (`input`, `output`, `pedestalItems`,
+  `source`), `ars_nouveau:enchanting_apparatus` (`reagent`, `pedestalItems`, `result`, `sourceCost`,
+  `keepNbtOfReagent`). Mana defaults (`ServerConfig`): 100 max, 5 regen a second.
 
 ---
 

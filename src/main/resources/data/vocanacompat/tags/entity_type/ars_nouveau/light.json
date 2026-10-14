@@ -1,0 +1,11 @@
+{
+  "neoforge:conditions": [
+    { "type": "neoforge:mod_loaded", "modid": "ars_nouveau" },
+    { "type": "vocanacompat:module_enabled", "module": "ars_nouveau" }
+  ],
+  "replace": false,
+  "values": [
+    { "id": "ars_nouveau:starbuncle", "required": false },
+    { "id": "ars_nouveau:familiar_starbuncle", "required": false }
+  ]
+}

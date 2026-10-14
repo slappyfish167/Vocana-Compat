@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    { "type": "neoforge:mod_loaded", "modid": "ars_nouveau" },
+    { "type": "vocanacompat:module_enabled", "module": "ars_nouveau" }
+  ],
+  "target": {"kind": "weapon", "item": "ars_nouveau:enchanters_sword"},
+  "essence": "*",
+  "triggers": ["ON_HIT", "PASSIVE"],
+  "materials": [{"item": "ars_nouveau:source_gem", "count": 2}, {"item": "ars_nouveau:magebloom_fiber", "count": 2}],
+  "xp_levels": 5,
+  "thrum": 30,
+  "strength": 1.0,
+  "complexity": 6,
+  "shade": {"xp_levels": 3, "thrum": 15, "complexity": 2},
+  "priority": 1
+}

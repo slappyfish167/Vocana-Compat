@@ -1,6 +1,13 @@
 {
   "replace": false,
   "values": [
-    {"id": "#vocanacompat:hexcasting/life", "required": false}
+    {
+      "id": "#vocanacompat:hexcasting/life",
+      "required": false
+    },
+    {
+      "id": "#vocanacompat:ars_nouveau/life",
+      "required": false
+    }
   ]
 }

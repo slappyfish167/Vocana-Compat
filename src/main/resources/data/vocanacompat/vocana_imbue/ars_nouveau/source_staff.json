@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    { "type": "neoforge:mod_loaded", "modid": "ars_nouveau" },
+    { "type": "vocanacompat:module_enabled", "module": "ars_nouveau" }
+  ],
+  "target": {"kind": "staff"},
+  "essence": "SOURCE",
+  "shades": false,
+  "triggers": ["PASSIVE"],
+  "materials": [{"item": "ars_nouveau:source_gem", "count": 1}, {"item": "ars_nouveau:magebloom_fiber", "count": 2}],
+  "xp_levels": 4,
+  "thrum": 25,
+  "strength": 1.0,
+  "complexity": 4,
+  "priority": 1
+}

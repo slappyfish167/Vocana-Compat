@@ -4,6 +4,10 @@
     {
       "id": "#vocanacompat:iceandfire/light",
       "required": false
+    },
+    {
+      "id": "#vocanacompat:ars_nouveau/light",
+      "required": false
     }
   ]
 }

@@ -4,6 +4,10 @@
     {
       "id": "#vocanacompat:wyrmroost/life",
       "required": false
+    },
+    {
+      "id": "#vocanacompat:ars_nouveau/life",
+      "required": false
     }
   ]
 }

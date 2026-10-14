@@ -4,6 +4,10 @@
     {
       "id": "#vocanacompat:iceandfire/death",
       "required": false
+    },
+    {
+      "id": "#vocanacompat:ars_nouveau/death",
+      "required": false
     }
   ]
 }
