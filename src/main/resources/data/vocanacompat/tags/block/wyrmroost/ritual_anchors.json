@@ -1,0 +1,35 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "wyrmroost"
+    },
+    {
+      "type": "vocanacompat:module_enabled",
+      "module": "wyrmroost"
+    }
+  ],
+  "replace": false,
+  "values": [
+    {
+      "id": "wyrmroost:blue_geode_block",
+      "required": false
+    },
+    {
+      "id": "wyrmroost:red_geode_block",
+      "required": false
+    },
+    {
+      "id": "wyrmroost:purple_geode_block",
+      "required": false
+    },
+    {
+      "id": "wyrmroost:platinum_block",
+      "required": false
+    },
+    {
+      "id": "wyrmroost:chiseled_platinum_block",
+      "required": false
+    }
+  ]
+}

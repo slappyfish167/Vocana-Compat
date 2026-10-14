@@ -1,0 +1,46 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "wyrmroost"
+    },
+    {
+      "type": "vocanacompat:module_enabled",
+      "module": "wyrmroost"
+    }
+  ],
+  "target": {
+    "kind": "any"
+  },
+  "chant": {
+    "max_cp": 20
+  },
+  "materials": [
+    {
+      "item": "wyrmroost:soul_crystal",
+      "count": 1
+    },
+    {
+      "item": "wyrmroost:platinum_ingot",
+      "count": 2
+    },
+    {
+      "item": "minecraft:book",
+      "count": 1
+    }
+  ],
+  "xp_levels": 14,
+  "thrum": 50,
+  "complexity": 4,
+  "ritual": {
+    "catalysts": [
+      {
+        "tag": "vocana:ritual_anchors",
+        "count": 4,
+        "radius": 5
+      }
+    ],
+    "channel": true
+  },
+  "priority": 1
+}

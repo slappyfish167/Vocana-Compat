@@ -1,0 +1,42 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "wyrmroost"
+    },
+    {
+      "type": "vocanacompat:module_enabled",
+      "module": "wyrmroost"
+    }
+  ],
+  "target": {
+    "kind": "any"
+  },
+  "essence": [
+    "METAL",
+    "DECAY",
+    "VOID",
+    "SHADOW"
+  ],
+  "shades": true,
+  "materials": [
+    {
+      "item": "wyrmroost:purple_geode",
+      "count": 1
+    },
+    {
+      "item": "minecraft:amethyst_shard",
+      "count": 1
+    }
+  ],
+  "xp_levels": 9,
+  "thrum": 45,
+  "strength": 1.2,
+  "complexity": 8,
+  "shade": {
+    "xp_levels": 3,
+    "thrum": 15,
+    "complexity": 2
+  },
+  "priority": 2
+}

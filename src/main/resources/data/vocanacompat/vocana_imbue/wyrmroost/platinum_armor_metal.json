@@ -1,0 +1,41 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "wyrmroost"
+    },
+    {
+      "type": "vocanacompat:module_enabled",
+      "module": "wyrmroost"
+    }
+  ],
+  "target": {
+    "kind": "armor"
+  },
+  "essence": [
+    "METAL",
+    "STONE",
+    "WYRM"
+  ],
+  "shades": true,
+  "materials": [
+    {
+      "item": "wyrmroost:platinum_ingot",
+      "count": 1
+    },
+    {
+      "item": "minecraft:amethyst_shard",
+      "count": 1
+    }
+  ],
+  "xp_levels": 6,
+  "thrum": 30,
+  "strength": 1.2,
+  "complexity": 6,
+  "shade": {
+    "xp_levels": 3,
+    "thrum": 15,
+    "complexity": 2
+  },
+  "priority": 2
+}
