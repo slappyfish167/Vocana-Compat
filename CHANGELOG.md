@@ -21,3 +21,14 @@ Built against Vocana 2.1.0, NeoForge 21.1.255, Minecraft 1.21.1.
   game-tests this mod.
 - `docs/targets.md`: the verified versions, coordinates and integration surfaces of the seven targets;
   `docs/adding_a_module.md`: the conventions a module follows.
+- EMI module (`docs/emi.md`): three EMI categories. `vocanacompat:imbue` lists every Imbue Bench recipe with its
+  target gear, an imbued preview, materials, ritual catalysts, price, triggers, shade surcharge and channel step;
+  `vocanacompat:ritual` explains the ritual figure, channelling at the bench and stripping an imbue;
+  `vocanacompat:lexicon` has a proficiency page and one page per word, drawn from the player's snapshot so unheard
+  forms stay blank slots and heard ones show form, respelling, class, chapter, group, meaning, binding and practice.
+  The bench's recipes are read from the integrated server in single player and, when the module runs on a dedicated
+  server with EMI, sent to clients by the optional payload `vocanacompat:imbue_recipes` on datapack sync. Config
+  `vocanacompat-emi.toml`: a toggle per category and page, `syncRecipes`.
+
+### Fixed
+- `.gitignore` ignored `vocana/` anywhere, which hid `src/main/java/dev/vocana/` from git; the rule is now anchored (`/vocana/`).
