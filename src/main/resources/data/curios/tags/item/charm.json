@@ -1,0 +1,11 @@
+{
+  "neoforge:conditions": [
+    { "type": "neoforge:mod_loaded", "modid": "curios" },
+    { "type": "vocanacompat:module_enabled", "module": "curios" }
+  ],
+  "replace": false,
+  "values": [
+    { "id": "vocana:whispering_relic", "required": false },
+    { "id": "vocanacompat:charm_of_calm", "required": false }
+  ]
+}

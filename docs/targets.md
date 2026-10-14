@@ -176,11 +176,15 @@ which is fine: 21.1 is binary-stable), Java 21, Mojang mappings. Mod ids were re
     `event.CurioEquipEvent`, `CurioAttributeModifierEvent`, `SlotModifiersUpdatedEvent`.
   - Slots and entity assignments are data (NeoForge: `data/<ns>/curios/slots/<slot>.json` with `replace`, `size`,
     `operation`, `icon`, `order`, `add_cosmetic`, `use_native_gui`, `render_toggle`, `drop_rule`, `validators`;
-    `data/<ns>/curios/entities/<name>.json` with `entities` and `slots`). The exact field list is in the Curios docs
-    (https://docs.illusivesoulworks.com/curios), which could not be opened from here (**unverified** field names;
-    the module agent must open them). A `vocanacompat:torc` (or the shared `necklace`) slot for Vocana's Torc, with
-    `VocanaApi.registerWorn(player -> <Torc in a curio slot>)`, is the expected first deliverable; item tags
-    `curios:necklace` etc. select what fits a slot.
+    `data/<ns>/curios/entities/<name>.json` with `replace`, `entities` and `slots`). Verified on the `1.21.1` branch
+    at tag 9.5.1 (`neoforge/src/main/java/top/theillusivec4/curios/common/data/CuriosSlotManager.java`,
+    `CuriosEntityManager.java`; both honour `neoforge:conditions`). The preset slot types ship in
+    `common/src/main/resources/data/curios/curios/slots/` (no `size`, so 1; validator `curios:tag` = item tag
+    `curios:<slot>` or `curios:curio`) and **no entity is given any slot by default**: the module grants
+    `necklace`/`ring`/`charm` to players itself. `CuriosApi` and `ICuriosItemHandler` live in the `neoforge`
+    source set (`getCuriosInventory` returns `Optional<ICuriosItemHandler>`); the `:api` jar packs
+    `top/theillusivec4/curios/api/**` from both source sets (`buildSrc/.../multiloader-common.gradle`). The module
+    uses the shared `necklace` slot for the Torc with `VocanaApi.registerWorn`; see `docs/curios.md`.
 
 ## Hex Casting (HexCast NEOFORGED)
 
@@ -277,6 +281,6 @@ from that page is the safest value for `hexcast_version`).
 - CurseForge file ids beyond those quoted in search snippets (Wyrmroost 1.4.1, Ice and Fire CE 2.1.x).
 - Modrinth version ids/numbers (HexCast NEOFORGED, Wyrmroost, Ice and Fire CE).
 - Whether Create's maven carries bare `6.0.10`/`6.0.11` or build-suffixed versions only.
-- Curios' slot JSON field names (docs site unreachable; the repository's generated data was not where expected).
+- ~~Curios' slot JSON field names~~ (verified since from the loaders on the `1.21.1` branch; see the Curios section).
 
 The CI workflow is the compile check: the first run tells which of these need a bump.

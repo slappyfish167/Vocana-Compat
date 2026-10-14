@@ -1,0 +1,11 @@
+{
+  "neoforge:conditions": [
+    { "type": "neoforge:mod_loaded", "modid": "curios" },
+    { "type": "vocanacompat:module_enabled", "module": "curios" }
+  ],
+  "replace": false,
+  "values": [
+    { "id": "vocanacompat:ring_of_focus", "required": false },
+    { "id": "vocanacompat:signet_of_the_elements", "required": false }
+  ]
+}
