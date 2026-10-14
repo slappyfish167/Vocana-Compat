@@ -1,0 +1,97 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "iceandfire"
+    },
+    {
+      "type": "vocanacompat:module_enabled",
+      "module": "iceandfire"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "create:sequenced_assembly",
+  "ingredient": {
+    "item": "minecraft:netherite_sword"
+  },
+  "transitional_item": {
+    "id": "vocanacompat:incomplete_wyrmsteel_sword"
+  },
+  "loops": 2,
+  "sequence": [
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "vocanacompat:incomplete_wyrmsteel_sword"
+        },
+        {
+          "item": "vocanacompat:netherite_dragonsteel_ingot"
+        }
+      ],
+      "results": [
+        {
+          "id": "vocanacompat:incomplete_wyrmsteel_sword"
+        }
+      ]
+    },
+    {
+      "type": "create:pressing",
+      "ingredients": [
+        {
+          "item": "vocanacompat:incomplete_wyrmsteel_sword"
+        }
+      ],
+      "results": [
+        {
+          "id": "vocanacompat:incomplete_wyrmsteel_sword"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "vocanacompat:incomplete_wyrmsteel_sword"
+        },
+        [
+          {
+            "item": "iceandfire:fire_dragon_blood"
+          },
+          {
+            "item": "iceandfire:ice_dragon_blood"
+          },
+          {
+            "item": "iceandfire:lightning_dragon_blood"
+          }
+        ]
+      ],
+      "results": [
+        {
+          "id": "vocanacompat:incomplete_wyrmsteel_sword"
+        }
+      ]
+    },
+    {
+      "type": "create:pressing",
+      "ingredients": [
+        {
+          "item": "vocanacompat:incomplete_wyrmsteel_sword"
+        }
+      ],
+      "results": [
+        {
+          "id": "vocanacompat:incomplete_wyrmsteel_sword"
+        }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "id": "vocanacompat:wyrmsteel_sword"
+    }
+  ]
+}
