@@ -1,0 +1,24 @@
+{
+  "_comment": "A steam engine's pressure answers LIGHTNING's charge, faintly: the only Create blocks that crackle.",
+  "replace": false,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    },
+    {
+      "type": "vocanacompat:module_enabled",
+      "module": "create"
+    }
+  ],
+  "values": [
+    {
+      "id": "create:steam_engine",
+      "required": false
+    },
+    {
+      "id": "create:steam_whistle",
+      "required": false
+    }
+  ]
+}

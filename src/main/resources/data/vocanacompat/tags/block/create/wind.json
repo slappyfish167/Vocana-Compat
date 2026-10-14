@@ -1,0 +1,32 @@
+{
+  "_comment": "Fans and windmill sails teach WIND.",
+  "replace": false,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    },
+    {
+      "type": "vocanacompat:module_enabled",
+      "module": "create"
+    }
+  ],
+  "values": [
+    {
+      "id": "create:encased_fan",
+      "required": false
+    },
+    {
+      "id": "create:windmill_bearing",
+      "required": false
+    },
+    {
+      "id": "create:white_sail",
+      "required": false
+    },
+    {
+      "id": "create:sail_frame",
+      "required": false
+    }
+  ]
+}

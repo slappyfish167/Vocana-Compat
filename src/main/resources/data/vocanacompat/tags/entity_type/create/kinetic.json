@@ -1,0 +1,32 @@
+{
+  "_comment": "Moving contraptions teach KINETIC (ids from AllEntityTypes on mc1.21.1/dev).",
+  "replace": false,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    },
+    {
+      "type": "vocanacompat:module_enabled",
+      "module": "create"
+    }
+  ],
+  "values": [
+    {
+      "id": "create:contraption",
+      "required": false
+    },
+    {
+      "id": "create:stationary_contraption",
+      "required": false
+    },
+    {
+      "id": "create:gantry_contraption",
+      "required": false
+    },
+    {
+      "id": "create:carriage_contraption",
+      "required": false
+    }
+  ]
+}

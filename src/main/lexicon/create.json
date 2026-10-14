@@ -1,6 +1,78 @@
 {
-  "roots": [],
-  "elder": [],
+  "roots": [
+    {
+      "gloss": "KINETIC",
+      "class": "Essence",
+      "frame": null,
+      "family": "Stone",
+      "aspect": "Outward",
+      "discipline": "Transmutation",
+      "tongue": "common",
+      "chapter": "MATTER",
+      "form": "krenshu",
+      "respelling": "KREN-shoo",
+      "ipa": "/ˈkrɛn.ʃu/",
+      "arpabet": "K R EH N SH UW",
+      "head_syllable": "kren",
+      "clippable": true,
+      "inversion_axis": "motion",
+      "features": {"Mass": 1, "Tempo": 1, "Radial": 1},
+      "roles": ["Bearer", "Aim"],
+      "kin_sources": ["cogwheels", "shafts", "turning machines", "moving contraptions"],
+      "beginner_clue": "A cogwheel turns a half tooth with no shaft to drive it.",
+      "advanced_uses": "Lay it into a tool and it digs faster among running machinery; set it on a creature and it spins them aside.",
+      "interactions": "Found in anything Create turns: shafts, cogwheels, presses, fans, bearings and the contraptions they move.",
+      "meaning": "Motion stored in a turning thing: made, a spinning shove that leaves a creature reeling; found, Create's shafts, cogwheels, machines and moving contraptions."
+    },
+    {
+      "gloss": "SPIN",
+      "class": "Deed",
+      "frame": "Force",
+      "family": "Stone",
+      "aspect": "Outward",
+      "discipline": "Elementalism",
+      "tongue": "common",
+      "chapter": "SHAPES",
+      "form": "kirsau",
+      "respelling": "KEER-sow",
+      "ipa": "/ˈkir.sau/",
+      "arpabet": "K IH R S AW",
+      "head_syllable": "kir",
+      "clippable": true,
+      "inversion_axis": "Radial",
+      "features": {"Radial": 1, "Tempo": 1},
+      "roles": ["Deed"],
+      "kin_sources": ["hand cranks", "water wheels", "windmills"],
+      "beginner_clue": "A hand crank nudges a quarter turn by itself.",
+      "advanced_uses": "SPIN a hand crank to drive its machine for a while; SPIN a blaze burner with FIRE or LIGHTNING in the chant to stoke it.",
+      "interactions": "Creatures and dropped items are whirled sideways; a hand crank turns on its own; a blaze burner is fed by the fire or lightning the chant carries.",
+      "meaning": "Set a thing turning: creatures and items are whirled aside, a hand crank cranks itself, a blaze burner is stoked by the essence the Working carries."
+    }
+  ],
+  "elder": [
+    {
+      "form": "orichalcum",
+      "gloss": "BRASS",
+      "class": "Elder",
+      "variant_of": "METAL",
+      "respelling": "or-ih-KAL-kum",
+      "ipa": "/ɔ.rɪˈkal.kʊm/",
+      "arpabet": "AO R IH K AE L K AH M",
+      "tongue": "common",
+      "chapter": "MATTER",
+      "profile": {
+        "power": 1.1,
+        "duration": 1.2,
+        "particle": "block:create:brass_block",
+        "sound": "minecraft:block.chain.place",
+        "trait": "encase"
+      },
+      "meaning": "Brass: the alloy of mechanism. What it strikes is clamped still a moment, as if set in a casing.",
+      "beginner_clue": "A brass casing clicks like a held breath.",
+      "kin_blocks": ["create:brass_block", "create:brass_casing", "create:brass_encased_shaft", "create:brass_encased_cogwheel"],
+      "kin_entities": []
+    }
+  ],
   "blends": [],
   "callings": []
 }

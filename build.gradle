@@ -29,6 +29,8 @@ sourceSets.main.java {
     include 'dev/vocana/compat/**'
     skipped.each { exclude "dev/vocana/compat/${it}/**" }
 }
+// A skipped module's unit tests (src/test/java/dev/vocana/compat/<module>/**) go with its sources.
+sourceSets.test.java { skipped.each { exclude "dev/vocana/compat/${it}/**" } }
 
 repositories {
     mavenLocal()   // Vocana: ./gradlew publishToMavenLocal in the Vocana checkout (dev.vocana:vocana)

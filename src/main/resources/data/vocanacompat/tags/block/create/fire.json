@@ -1,0 +1,24 @@
+{
+  "_comment": "A blaze burner teaches FIRE.",
+  "replace": false,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    },
+    {
+      "type": "vocanacompat:module_enabled",
+      "module": "create"
+    }
+  ],
+  "values": [
+    {
+      "id": "create:blaze_burner",
+      "required": false
+    },
+    {
+      "id": "create:lit_blaze_burner",
+      "required": false
+    }
+  ]
+}

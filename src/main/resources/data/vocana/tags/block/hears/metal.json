@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "#vocanacompat:create/metal",
+      "required": false
+    }
+  ]
+}

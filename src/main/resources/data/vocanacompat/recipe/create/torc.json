@@ -1,0 +1,92 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    },
+    {
+      "type": "vocanacompat:module_enabled",
+      "module": "create"
+    }
+  ],
+  "type": "create:sequenced_assembly",
+  "ingredient": {
+    "tag": "c:ingots/gold"
+  },
+  "loops": 2,
+  "results": [
+    {
+      "chance": 60.0,
+      "id": "vocana:torc"
+    },
+    {
+      "chance": 6.0,
+      "id": "create:golden_sheet"
+    },
+    {
+      "chance": 4.0,
+      "id": "create:copper_sheet"
+    },
+    {
+      "chance": 3.0,
+      "id": "minecraft:amethyst_shard"
+    },
+    {
+      "chance": 2.0,
+      "id": "minecraft:gold_nugget"
+    },
+    {
+      "id": "create:brass_nugget"
+    }
+  ],
+  "sequence": [
+    {
+      "type": "create:pressing",
+      "ingredients": [
+        {
+          "item": "vocanacompat:create/incomplete_torc"
+        }
+      ],
+      "results": [
+        {
+          "id": "vocanacompat:create/incomplete_torc"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "vocanacompat:create/incomplete_torc"
+        },
+        {
+          "tag": "c:ingots/copper"
+        }
+      ],
+      "results": [
+        {
+          "id": "vocanacompat:create/incomplete_torc"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "vocanacompat:create/incomplete_torc"
+        },
+        {
+          "item": "minecraft:amethyst_shard"
+        }
+      ],
+      "results": [
+        {
+          "id": "vocanacompat:create/incomplete_torc"
+        }
+      ]
+    }
+  ],
+  "transitional_item": {
+    "id": "vocanacompat:create/incomplete_torc"
+  }
+}

@@ -1,3 +1,9 @@
 {
-  "groups": []
+  "_comment": "Create adds no chapter of its own: KINETIC and BRASS sit in Matter, SPIN in Shapes & Force, through each word's 'chapter'. This entry extends the core 'making' group in place (same id), so the ribbon's blurb mentions the machines; it moves no chapter.",
+  "groups": [
+    {
+      "id": "making",
+      "blurb": "Transmutation keeps an account of matter: stone, metal and decay, and the deeds that make, change and break. With Create installed, the motion of its machines is matter too. Summoning calls a helper from somewhere and sets it to work."
+    }
+  ]
 }

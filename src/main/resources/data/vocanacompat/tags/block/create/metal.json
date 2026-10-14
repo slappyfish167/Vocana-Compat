@@ -1,0 +1,80 @@
+{
+  "_comment": "Create's metals and metal machines teach METAL beside the core's ores and anvils.",
+  "replace": false,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    },
+    {
+      "type": "vocanacompat:module_enabled",
+      "module": "create"
+    }
+  ],
+  "values": [
+    {
+      "id": "create:brass_block",
+      "required": false
+    },
+    {
+      "id": "create:zinc_block",
+      "required": false
+    },
+    {
+      "id": "create:raw_zinc_block",
+      "required": false
+    },
+    {
+      "id": "create:zinc_ore",
+      "required": false
+    },
+    {
+      "id": "create:deepslate_zinc_ore",
+      "required": false
+    },
+    {
+      "id": "create:industrial_iron_block",
+      "required": false
+    },
+    {
+      "id": "create:weathered_iron_block",
+      "required": false
+    },
+    {
+      "id": "create:andesite_alloy_block",
+      "required": false
+    },
+    {
+      "id": "create:andesite_casing",
+      "required": false
+    },
+    {
+      "id": "create:copper_casing",
+      "required": false
+    },
+    {
+      "id": "create:metal_girder",
+      "required": false
+    },
+    {
+      "id": "create:shaft",
+      "required": false
+    },
+    {
+      "id": "create:cogwheel",
+      "required": false
+    },
+    {
+      "id": "create:large_cogwheel",
+      "required": false
+    },
+    {
+      "id": "create:mechanical_press",
+      "required": false
+    },
+    {
+      "id": "create:item_vault",
+      "required": false
+    }
+  ]
+}

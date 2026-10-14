@@ -1,0 +1,52 @@
+{
+  "_comment": "Blocks that teach SPIN: the things a player or the weather turns by hand, and the turntable.",
+  "replace": false,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    },
+    {
+      "type": "vocanacompat:module_enabled",
+      "module": "create"
+    }
+  ],
+  "values": [
+    {
+      "id": "create:hand_crank",
+      "required": false
+    },
+    {
+      "id": "create:copper_valve_handle",
+      "required": false
+    },
+    {
+      "id": "create:water_wheel",
+      "required": false
+    },
+    {
+      "id": "create:large_water_wheel",
+      "required": false
+    },
+    {
+      "id": "create:windmill_bearing",
+      "required": false
+    },
+    {
+      "id": "create:mechanical_bearing",
+      "required": false
+    },
+    {
+      "id": "create:turntable",
+      "required": false
+    },
+    {
+      "id": "create:cogwheel",
+      "required": false
+    },
+    {
+      "id": "create:large_cogwheel",
+      "required": false
+    }
+  ]
+}
