@@ -9,7 +9,7 @@ import java.util.Map;
  * Settings of the Ice and Fire module, {@code config/vocanacompat-iceandfire.toml}. Every number the module applies
  * lives here: the siren switches, the dragonsteel rebalance (one block of offsets per dragonsteel kind, laid over
  * netherite's figures by {@link DragonsteelBalance}) and the wyrmsteel figures. The boolean switches are also
- * reachable from data through the {@code vocanacompat:iceandfire/config} condition ({@link IceAndFireConfigCondition})
+ * reachable from data through the core's {@code vocanacompat:module_flag} condition ({@code "module":"iceandfire"})
  * by the key names in {@link #FLAGS}, so a data file can follow a finer toggle than the module's own. Values are read
  * lazily, after the config has loaded; {@link #get} answers the default before then.
  */
@@ -36,7 +36,7 @@ public final class IceAndFireConfig {
         }
     }
 
-    /** The boolean switches by the key a {@code vocanacompat:iceandfire/config} condition names. */
+    /** The boolean switches by the key a {@code vocanacompat:module_flag} condition names. */
     public static final Map<String, ModConfigSpec.BooleanValue> FLAGS = new LinkedHashMap<>();
 
     static {
@@ -106,7 +106,7 @@ public final class IceAndFireConfig {
     public static <T> T get(ModConfigSpec.ConfigValue<T> value) {
         try { return value.get(); } catch (IllegalStateException e) { return value.getDefault(); }
     }
-    /** A boolean switch by its condition key; false (and a warning from the condition) for a key that is not one. */
+    /** A boolean switch by its condition key; null for a key that is not one. */
     public static Boolean flag(String key) {
         var v = FLAGS.get(key);
         return v == null ? null : get(v);

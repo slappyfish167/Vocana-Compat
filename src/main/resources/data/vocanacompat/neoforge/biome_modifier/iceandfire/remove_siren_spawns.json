@@ -9,7 +9,8 @@
       "module": "iceandfire"
     },
     {
-      "type": "vocanacompat:iceandfire/config",
+      "type": "vocanacompat:module_flag",
+      "module": "iceandfire",
       "key": "removeSirens"
     }
   ],

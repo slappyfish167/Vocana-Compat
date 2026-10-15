@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 final class IceAndFireDataTest {
     private static final Path RES = Path.of("src/main/resources");
-    private static final String MOD_LOADED = "neoforge:mod_loaded", MODULE = "vocanacompat:module_enabled", CONFIG = "vocanacompat:iceandfire/config";
+    private static final String MOD_LOADED = "neoforge:mod_loaded", MODULE = "vocanacompat:module_enabled", CONFIG = "vocanacompat:module_flag";
     private static final Set<String> ITEMS = Set.of("netherite_dragonsteel_ingot", "wyrmsteel_staff", "wyrmsteel_sword", "wyrmsteel_pickaxe",
         "incomplete_wyrmsteel_staff", "incomplete_wyrmsteel_sword", "incomplete_wyrmsteel_pickaxe");
 

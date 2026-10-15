@@ -72,8 +72,9 @@ Keep the file valid JSON with the four arrays even when empty (the stub shape); 
 
 `{"groups": [...]}`. The build merges the `groups` arrays into `META-INF/vocana/grimoire_groups.json` and fails on a
 duplicate `id`. Give every group an `id` of the form `vocanacompat:<module>/<name>`. The entry shape follows
-Vocana's `data/vocana/grimoire/groups.json` (workstream E of the 2.1 update); until that lands, Vocana does not
-read this file and it is harmless.
+Vocana's `data/vocana/grimoire/groups.json`; Vocana 2.1 reads it through `ChapterGroup.EXTENSION`. A text given for a
+core group's id replaces the core's for everyone (the last source wins), so word such a blurb for a game that may not
+have the target mod.
 
 ## Discovery tags: `vocana:hears/<gloss>`
 
@@ -98,6 +99,11 @@ conditions, so the file is dropped when the mod is missing or the module is off:
   { "type": "vocanacompat:module_enabled", "module": "create" }
 ]
 ```
+
+A finer switch is `{"type": "vocanacompat:module_flag", "module": "<id>", "key": "<switch>"}`: true when the module
+loaded and the boolean it registered under that key with `VocanaCompat.registerFlag` is on. Never register a condition
+type from a module: NeoForge decodes a file's whole condition list before testing it, so a type that exists only once
+its module has loaded makes the file unreadable in every game without the target mod.
 
 `vocanacompat:module_enabled` (`dev.vocana.compat.ModuleEnabledCondition`) is true only for a module that actually
 loaded in this game. In a tag file the conditions key sits at the top level beside `values`; in a recipe at the top
@@ -126,8 +132,9 @@ is absent; prefer events and data over mixins.
 ## Build and run
 
 - Compile everything: `./gradlew build` (needs Vocana in the local maven; see README).
-- Leave a target out while its maven is down: `./gradlew build -Pcompat.skip=create,emi` (its package is excluded
-  from compilation and its coordinates from the classpath; the loader then logs that the build has no such module).
+- Leave a target out while its maven is down: `./gradlew build -Pcompat.skip=create,emi` (its package, its unit tests
+  and its `<Module>GameTests` class are excluded from compilation and its coordinates from the classpath; the loader
+  then logs that the build has no such module).
 - Run the client with target mods: `./gradlew runClient -Pcompat.run=create,curios` (the listed mods and their
   required libraries join the runtime classpath; Ice and Fire also needs `curios`, Ars Nouveau needs `curios`).
 - GameTests: `./gradlew runGameTestServer`; only Vocana and this mod are present, so a module's GameTests can

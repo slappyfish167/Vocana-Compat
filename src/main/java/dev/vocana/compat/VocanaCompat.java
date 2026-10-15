@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BooleanSupplier;
 
 /**
  * Vocana Compat: soft-dependency bridges between Vocana and other mods. The mod itself does almost nothing; each
@@ -31,10 +32,15 @@ public final class VocanaCompat {
     public static final Logger LOG = LogUtils.getLogger();
 
     private static final DeferredRegister<MapCodec<? extends ICondition>> CONDITIONS = DeferredRegister.create(NeoForgeRegistries.Keys.CONDITION_CODECS, ID);
-    static { CONDITIONS.register("module_enabled", () -> ModuleEnabledCondition.CODEC); }
+    static {
+        CONDITIONS.register("module_enabled", () -> ModuleEnabledCondition.CODEC);
+        CONDITIONS.register("module_flag", () -> ModuleFlagCondition.CODEC);
+    }
 
     private static ModContainer container;
     private static final Map<Module, CompatModule> LOADED = new EnumMap<>(Module.class);
+    /** The boolean switches each module exposes to data through {@code vocanacompat:module_flag}. */
+    private static final Map<Module, Map<String, BooleanSupplier>> FLAGS = new EnumMap<>(Module.class);
 
     public VocanaCompat(IEventBus modBus, ModContainer container) {
         VocanaCompat.container = container;
@@ -49,14 +55,15 @@ public final class VocanaCompat {
     private static void load(Module m, IEventBus modBus) {
         if (!ModList.get().isLoaded(m.modId)) { LOG.debug("{} module: '{}' is not installed", m.id, m.modId); return; }
         if (!CompatConfig.enabled(m)) { LOG.info("{} module: disabled in vocanacompat-modules.toml", m.id); return; }
-        Class<?> type;
-        try { type = Class.forName(m.className(), true, VocanaCompat.class.getClassLoader()); }
-        catch (ClassNotFoundException e) { LOG.warn("{} module: '{}' is installed but this build of Vocana Compat has no {} (built with compat.skip?)", m.id, m.modId, m.className()); return; }
         try {
+            // Initialising the class here means a static initialiser that touches the target mod fails inside this try too.
+            Class<?> type = Class.forName(m.className(), true, VocanaCompat.class.getClassLoader());
             var module = (CompatModule) type.getDeclaredConstructor().newInstance();
             module.init(modBus);
             LOADED.put(m, module);
             LOG.info("{} module: loaded for {}", m.id, m.displayName);
+        } catch (ClassNotFoundException e) {
+            LOG.warn("{} module: '{}' is installed but this build of Vocana Compat has no {} (built with compat.skip?)", m.id, m.modId, m.className());
         } catch (ReflectiveOperationException | RuntimeException | LinkageError e) {
             LOG.error("{} module failed to load; Vocana keeps working without it", m.id, e);
         }
@@ -65,6 +72,19 @@ public final class VocanaCompat {
     /** The modules that actually loaded in this game: mod present, toggle on, init succeeded. */
     public static Set<Module> loaded() { return Collections.unmodifiableSet(LOADED.keySet()); }
     public static boolean loaded(Module m) { return LOADED.containsKey(m); }
+    /**
+     * Exposes one of a module's boolean switches to data as {@code {"type":"vocanacompat:module_flag","module":"<id>",
+     * "key":"<key>"}}. Call it from {@link CompatModule#init}; the supplier is read at every data reload, so a config
+     * value works (read it lazily: a COMMON config is not loaded during {@code init}).
+     */
+    public static void registerFlag(Module m, String key, BooleanSupplier value) {
+        FLAGS.computeIfAbsent(m, k -> new java.util.LinkedHashMap<>()).put(key, value);
+    }
+    /** A module's switch by key: its value, or null when the module registered no such key. */
+    public static Boolean flag(Module m, String key) {
+        var s = FLAGS.getOrDefault(m, Map.of()).get(key);
+        return s == null ? null : s.getAsBoolean();
+    }
     /** The {@code vocanacompat} mod container, for modules that register configs or need their mod info. */
     public static ModContainer container() { return container; }
 

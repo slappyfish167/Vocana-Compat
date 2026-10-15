@@ -17,8 +17,10 @@ Ice and Fire brings sirens into the world two ways, and the module closes both:
 | The island itself (`worldgen/structure/siren_island.json`, biomes `#iceandfire:structure_gen/siren_island`) | Only with `removeSirenIslands`: `data/iceandfire/tags/worldgen/biome/structure_gen/siren_island.json` with `replace: true` and no values, so the structure has nowhere to generate. Islands already generated stay. This relies on the mod's data pack sitting after Ice and Fire's (the mod orders itself `AFTER` `iceandfire`); if a world still gets new islands, report it. |
 
 Sirens already in a world are left alone (they were loaded from disk). Everything is behind the data condition
-`vocanacompat:iceandfire/config` (`{"type": "vocanacompat:iceandfire/config", "key": "removeSirens"}`), which reads the
-module's own switches, beside the usual `neoforge:mod_loaded` and `vocanacompat:module_enabled`.
+`vocanacompat:module_flag` (`{"type": "vocanacompat:module_flag", "module": "iceandfire", "key": "removeSirens"}`), which
+reads the module's own switches, beside the usual `neoforge:mod_loaded` and `vocanacompat:module_enabled`. The type is
+registered by the core, not the module, so the files still parse in a game without Ice and Fire (NeoForge decodes a
+condition list before testing it, and an unknown type would make the biome modifier a registry-loading error).
 
 ## Dragonsteel (`dragonsteel.rebalance`, on)
 

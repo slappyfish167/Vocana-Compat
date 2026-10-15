@@ -44,7 +44,9 @@ public final class IceAndFireGameTests {
         h.assertFalse(VocanaCompat.loaded(Module.ICE_AND_FIRE), "the module did not load");
         for (String id : new String[]{"netherite_dragonsteel_ingot", "wyrmsteel_staff", "wyrmsteel_sword", "wyrmsteel_pickaxe", "incomplete_wyrmsteel_staff"})
             h.assertFalse(BuiltInRegistries.ITEM.containsKey(ResourceLocation.fromNamespaceAndPath(VocanaCompat.ID, id)), "vocanacompat:" + id + " is not registered");
-        h.assertFalse(NeoForgeRegistries.CONDITION_SERIALIZERS.containsKey(ResourceLocation.fromNamespaceAndPath(VocanaCompat.ID, "iceandfire/config")), "the module's config condition is not registered");
+        // The flag condition is the core's, so the siren files still parse in a game without Ice and Fire; their flags read false.
+        h.assertTrue(NeoForgeRegistries.CONDITION_SERIALIZERS.containsKey(ResourceLocation.fromNamespaceAndPath(VocanaCompat.ID, "module_flag")), "vocanacompat:module_flag is registered by the core");
+        h.assertFalse(new dev.vocana.compat.ModuleFlagCondition("iceandfire", "removeSirens").test(net.neoforged.neoforge.common.conditions.ICondition.IContext.EMPTY), "an unloaded module's flag is false");
         h.succeed();
     }
 

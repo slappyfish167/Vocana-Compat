@@ -77,7 +77,7 @@ Built against Vocana 2.1.0, NeoForge 21.1.255, Minecraft 1.21.1.
   (capacity 6, affinity FIRE, FROST and LIGHTNING), sword and pickaxe made only by Create sequenced assembly.
 - `vocana:hears` tags for dragons, sea serpents, cyclopes, death worms, dread mobs, pixies, hippogryphs, ghosts and
   the dragon blocks; the Elder shades DRAGONFROST (`drakopagos`) and DRAGONBOLT (`drakastrape`); Imbue Bench recipes
-  from dragon blood, scales and dragonsteel; the data condition `vocanacompat:iceandfire/config` (`docs/iceandfire.md`).
+  from dragon blood, scales and dragonsteel; the siren switches reach data through `vocanacompat:module_flag` (`docs/iceandfire.md`).
 
 #### Hex Casting (HexCast NEOFORGED)
 - Hex staves (the `hexcasting:staves` tag) are Vocana Catalysts: they open the Chime screen, carry a spoken chant,

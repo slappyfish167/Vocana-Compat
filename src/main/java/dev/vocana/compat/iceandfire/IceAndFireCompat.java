@@ -1,14 +1,10 @@
 package dev.vocana.compat.iceandfire;
 
-import com.mojang.serialization.MapCodec;
 import dev.vocana.compat.CompatModule;
 import dev.vocana.compat.Module;
 import dev.vocana.compat.VocanaCompat;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.common.conditions.ICondition;
-import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 /**
  * Ice and Fire: Community Edition <-> Vocana. Loaded only when the mod {@code iceandfire} is installed and
@@ -25,12 +21,10 @@ import net.neoforged.neoforge.registries.NeoForgeRegistries;
  * Settings live in {@link IceAndFireConfig} ({@code config/vocanacompat-iceandfire.toml}); see docs/iceandfire.md.
  */
 public final class IceAndFireCompat implements CompatModule {
-    private static final DeferredRegister<MapCodec<? extends ICondition>> CONDITIONS = DeferredRegister.create(NeoForgeRegistries.Keys.CONDITION_CODECS, VocanaCompat.ID);
-    static { CONDITIONS.register("iceandfire/config", () -> IceAndFireConfigCondition.CODEC); }
-
     @Override public void init(IEventBus modBus) {
         VocanaCompat.registerModuleConfig(Module.ICE_AND_FIRE, IceAndFireConfig.SPEC);
-        CONDITIONS.register(modBus);
+        // The siren switches reach data as vocanacompat:module_flag {"module":"iceandfire","key":...}; the type itself is the core's.
+        IceAndFireConfig.FLAGS.forEach((key, value) -> VocanaCompat.registerFlag(Module.ICE_AND_FIRE, key, () -> IceAndFireConfig.get(value)));
         IceAndFireItems.register(modBus);
         NeoForge.EVENT_BUS.addListener(DragonsteelRebalance::onAttributes);
         NeoForge.EVENT_BUS.addListener(DragonsteelRebalance::onPlayerTick);

@@ -20,7 +20,7 @@ public final class CompatConfig {
     static {
         var b = new ModConfigSpec.Builder();
         b.comment("Which compatibility modules may load. A module also needs its mod installed; a module that is off",
-                  "registers nothing and keeps its data (recipes, tags, words) out of the game.")
+                  "registers nothing and keeps its data (recipes, tags, advancements) out of the game; its words stay in the lexicon as unheard slots.")
             .translation("vocanacompat.configuration.modules").push("modules");
         for (var m : Module.values()) {
             b.translation("vocanacompat.configuration.modules." + m.id).push(m.id);

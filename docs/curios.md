@@ -11,7 +11,7 @@ Curios 9.5.1 ships the preset slot *types* (`data/curios/curios/slots/necklace.j
 each with the `curios:tag` validator) but gives none of them to any entity until a mod asks. This module asks for
 players with `data/vocanacompat/curios/entities/curios/player.json` (`"entities": ["minecraft:player"]`,
 `"slots": ["necklace", "ring", "charm"]`, `"replace": false`, so it merges with what other mods grant) and raises the
-ring slot to two with `data/vocanacompat/curios/slots/curios/ring.json` (`"size": 2`; Curios keeps the larger of the
+ring slot to two with `data/vocanacompat/curios/slots/ring.json` (a slot file's id is its path under `curios/slots`, so this one must not sit in a module subfolder) (`"size": 2`; Curios keeps the larger of the
 sizes mods ask for). Both files carry `neoforge:mod_loaded` + `vocanacompat:module_enabled`; Curios' loaders check
 `neoforge:conditions` themselves.
 

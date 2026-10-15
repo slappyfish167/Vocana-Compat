@@ -246,7 +246,7 @@ from that page is the safest value for `hexcast_version`).
   resolves them from mavens): Kotlin for Forge `thedarkcolour:kotlinforforge-neoforge:<v>` from
   https://thedarkcolour.github.io/KotlinForForge/ (5.9.0 as HexCast builds; KFF `5.x` is the line for 1.20.6–1.21.8,
   README now cites 5.10.0 and `gradle.properties` 5.12.0), `org.jetbrains.kotlin:kotlin-stdlib:2.0.21` (Maven
-  Central, so javac sees Kotlin signatures), PAUCAL `at.petra-k:paucal:<v>+1.21.1-neoforge` (BlameJared;
+  Central, so javac sees Kotlin signatures), PAUCAL at runtime only, `maven.modrinth:paucal:<v>` (HexCast NEOFORGED's own build consumes a local `libs/paucal-0.7.0+neoforge-1.21.1.jar`, so no maven coordinate is verified; the module imports nothing of PAUCAL;
   https://github.com/gamma-delta/paucal, `0.7.1-pre-27` is the version HexMod pins, inside HexCast's `[0.7.0,0.8.0)`;
   **unverified** that 0.7.0 itself is on the maven under this name), Patchouli
   `vazkii.patchouli:Patchouli:1.21.1-93-NEOFORGE` (BlameJared; https://github.com/VazkiiMods/Patchouli branch

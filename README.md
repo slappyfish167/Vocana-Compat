@@ -15,9 +15,10 @@ mod is installed, and every module can be switched off.
 | Hex Casting (HexCast NEOFORGED) | `hexcasting` 0.11.x | `modules.hexcasting.enabled` | `config/vocanacompat-hexcasting.toml` |
 | Ars Nouveau | `ars_nouveau` 5.13.x | `modules.ars_nouveau.enabled` | `config/vocanacompat-ars_nouveau.toml` |
 
-All toggles default to on. A module that is off registers nothing, and its data (recipes, tags, words) stays out of
-the game through the `vocanacompat:module_enabled` condition. Version 1.0.0 is the skeleton: the modules exist and
-load, their content is being filled in (see `CHANGELOG.md`).
+All toggles default to on. A module that is off registers nothing, and its data (recipes, tags, advancements)
+stays out of the game through the `vocanacompat:module_enabled` condition. Its words are the one exception: the
+merged lexicon is a static file Vocana reads whole, so a module's words exist in every game as unheard blank slots in
+the Grimoire, and come to life only where the module's tags and behaviours are present.
 
 ## Install
 

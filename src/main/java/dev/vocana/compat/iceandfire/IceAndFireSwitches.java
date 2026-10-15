@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * The names of the module's boolean switches, as {@code config/vocanacompat-iceandfire.toml} and the data condition
- * {@code vocanacompat:iceandfire/config} both spell them. Kept apart from {@link IceAndFireConfig} (which needs
+ * {@code vocanacompat:module_flag} (module {@code iceandfire}) both spell them. Kept apart from {@link IceAndFireConfig} (which needs
  * NeoForge) so the data files' conditions can be checked against the list in a plain unit test.
  */
 public final class IceAndFireSwitches {

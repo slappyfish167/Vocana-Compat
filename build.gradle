@@ -25,9 +25,11 @@ def runWith = listProperty('compat.run')
 def withTarget = { String module, Closure body -> if (!(module in skipped)) body() }
 def withRuntime = { String module, Closure body -> if (module in runWith && !(module in skipped)) body() }
 
+// A module's GameTests live in the shared gametest package but may import the module's own pure helpers, so they go with it.
+def gameTestsOf = { String module -> module.split('_').collect { it.capitalize() }.join('').replace('Iceandfire', 'IceAndFire') + 'GameTests' }
 sourceSets.main.java {
     include 'dev/vocana/compat/**'
-    skipped.each { exclude "dev/vocana/compat/${it}/**" }
+    skipped.each { exclude "dev/vocana/compat/${it}/**"; exclude "dev/vocana/compat/gametest/${gameTestsOf(it)}.java" }
 }
 // A skipped module's unit tests (src/test/java/dev/vocana/compat/<module>/**) go with its sources.
 sourceSets.test.java { skipped.each { exclude "dev/vocana/compat/${it}/**" } }
@@ -97,7 +99,6 @@ dependencies {
         compileOnly("maven.modrinth:hexcast-neoforged:${hexcast_version}") { transitive = false }
         compileOnly("thedarkcolour:kotlinforforge-neoforge:${kotlinforforge_version}") { transitive = false }
         compileOnly "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
-        compileOnly("at.petra-k:paucal:${paucal_version}+${minecraft_version}-neoforge") { transitive = false }
         compileOnly("vazkii.patchouli:Patchouli:${patchouli_version}") { transitive = false }
         compileOnly("com.illusivesoulworks.caelus:caelus-neoforge:${caelus_version}:api") { transitive = false }
     })
@@ -121,7 +122,8 @@ dependencies {
     withRuntime('hexcasting', {
         runtimeOnly("maven.modrinth:hexcast-neoforged:${hexcast_version}") { transitive = false }
         runtimeOnly "thedarkcolour:kotlinforforge-neoforge:${kotlinforforge_version}"
-        runtimeOnly("at.petra-k:paucal:${paucal_version}+${minecraft_version}-neoforge") { transitive = false }
+        // HexCast NEOFORGED builds against a local PAUCAL jar, not a maven; Modrinth hosts PAUCAL (coordinate unverified from here).
+        runtimeOnly("maven.modrinth:paucal:${paucal_version}") { transitive = false }
         runtimeOnly("vazkii.patchouli:Patchouli:${patchouli_version}") { transitive = false }
         runtimeOnly("com.illusivesoulworks.caelus:caelus-neoforge:${caelus_version}") { transitive = false }
     })
@@ -166,7 +168,7 @@ abstract class MergeJson extends DefaultTask {
                             if (value != null) {
                                 String key = "$uk=$value"
                                 String other = seen.putIfAbsent(key, f.name)
-                                if (other != null && other != f.name) throw new GradleException("${f.name}: '$key' is already defined in $other")
+                                if (other != null) throw new GradleException("${f.name}: '$key' is already defined in $other")
                             }
                         }
                         list.add(e)

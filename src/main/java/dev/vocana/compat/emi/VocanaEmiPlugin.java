@@ -8,6 +8,7 @@ import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.Comparison;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.vocana.Vocana;
+import dev.vocana.compat.Module;
 import dev.vocana.compat.VocanaCompat;
 import dev.vocana.engine.Vocabulary;
 import net.minecraft.network.chat.Component;
@@ -55,6 +56,8 @@ public final class VocanaEmiPlugin implements EmiPlugin {
     }
 
     @Override public void register(EmiRegistry registry) {
+        // EMI instantiates every @EmiEntrypoint it finds, toggle or not; the module's own loading decides whether anything is added.
+        if (!VocanaCompat.loaded(Module.EMI)) return;
         EmiStack bench = EmiStack.of(Vocana.IMBUE_BENCH_ITEM.get());
         registry.setDefaultComparison(Vocana.RESIDUE.get(), Comparison.compareComponents());
         if (EmiConfig.get(EmiConfig.imbueCategory)) {
