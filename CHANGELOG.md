@@ -8,17 +8,19 @@ versions follow Vocana's: a Vocana release that changes the extension API gets a
 Built against Vocana 2.1.0, NeoForge 21.1.255, Minecraft 1.21.1.
 
 ### Added
-- The module skeleton: `VocanaCompat` loads one module per target mod, only when the mod is installed and its toggle
-  in `config/vocanacompat-modules.toml` is on, by reflective lookup of `dev.vocana.compat.<module>.<Module>Compat`.
-- Modules (all stubs awaiting their content): Create, Wyrmroost, Ice and Fire: Community Edition, EMI, Curios API,
-  Hex Casting (HexCast NEOFORGED), Ars Nouveau. Each has its own config file `vocanacompat-<module>.toml`.
+
+#### The skeleton
+- `VocanaCompat` loads one module per target mod, only when the mod is installed and its toggle in
+  `config/vocanacompat-modules.toml` is on, by reflective lookup of `dev.vocana.compat.<module>.<Module>Compat`.
+  Each module has its own config file `vocanacompat-<module>.toml`.
 - The data condition `vocanacompat:module_enabled` so a disabled module's recipes, tags and advancements stay out.
 - Lexicon and Grimoire-group assembly: `src/main/lexicon/<module>.json` and `src/main/grimoire/<module>.json` are
   merged by the build into `META-INF/vocana/lexicon.json` and `META-INF/vocana/grimoire_groups.json`.
 - An empty mixin config, `vocanacompat.mixins.json`, wired into the mod metadata.
+- `-Pcompat.skip=<module>` leaves a module's sources and unit tests out of the build.
 - Unit tests for the lexicon files and GameTests that the mod, its toggles and `VocanaApi` load with no target mod.
-- CI (`.github/workflows/build.yml`): builds Vocana from the ref in `vocana.ref`, then builds, unit-tests and
-  game-tests this mod.
+- CI (`.github/workflows/build.yml`): builds Vocana from the ref in `vocana.ref` (it needs the repository secret
+  `VOCANA_TOKEN` to check Vocana out), then builds, unit-tests and game-tests this mod.
 - `docs/targets.md`: the verified versions, coordinates and integration surfaces of the seven targets;
   `docs/adding_a_module.md`: the conventions a module follows.
 
@@ -39,21 +41,15 @@ Built against Vocana 2.1.0, NeoForge 21.1.255, Minecraft 1.21.1.
 - GameTests (without Create: the words load and are placed, the imbue recipes parse and stay out) and unit tests
   (recipe shapes, shipped data, Sphinx phones).
 
-#### Skeleton fixes made by the Create module
-- `.gitignore` ignored `vocana/` anywhere, which hid `src/main/java/dev/vocana/`; it is anchored to the root and the
-  skeleton's Java sources are committed.
-- `-Pcompat.skip=<module>` also leaves that module's unit tests out of the test source set.
-- Curios module (`docs/curios.md`): players get the `necklace`, `ring` (×2) and `charm` slots; the Torc fits the
-  necklace slot and counts as worn there (`VocanaApi.registerWorn`), a Whispering Relic fits the charm slot and
-  whispers its word after 30 s of wear; four focus items, the Ring of Focus (+2 Capacity each), Amulet of Resonance
-  (Thrum regeneration ×1.25), Charm of Calm (Strain ×0.85) and Signet of the Elements (drinks an Essence Residue;
-  Workings of that essence cost ×0.9), with recipes, sprites (`tools/generate_textures.py`) and settings in
-  `config/vocanacompat-curios.toml`; a self-check logs the resolved slots and tags; GameTests that nothing of it
-  exists without Curios and unit tests for its numbers.
+#### Curios
+- Players get the `necklace`, `ring` (×2) and `charm` slots; the Torc fits the necklace slot and counts as worn there
+  (`VocanaApi.registerWorn`), a Whispering Relic fits the charm slot and whispers its word after 30 s of wear.
+- Four focus items: the Ring of Focus (+2 Capacity each), Amulet of Resonance (Thrum regeneration ×1.25), Charm of
+  Calm (Strain ×0.85) and Signet of the Elements (drinks an Essence Residue; Workings of that essence cost ×0.9), with
+  recipes, sprites (`tools/generate_textures.py`) and settings in `config/vocanacompat-curios.toml`.
+- A self-check logs the resolved slots and tags; GameTests that nothing of it exists without Curios and unit tests
+  for its numbers (`docs/curios.md`).
 
-### Fixed
-- The `.gitignore` entry for the CI checkout of Vocana (`vocana/`) also hid `src/main/java/dev/vocana/`, so the
-  skeleton's Java sources were never committed; the pattern is anchored to the root (`/vocana/`).
 #### Wyrmroost
 - Discovery: Wyrmroost's dragons, breath, eggs, geodes and platinum teach Vocana's words through
   `vocanacompat:wyrmroost/<word>` tags referenced from `vocana:hears/<word>` (FIRE and DRAGONFIRE from a Royal Red,
@@ -72,19 +68,17 @@ Built against Vocana 2.1.0, NeoForge 21.1.255, Minecraft 1.21.1.
 - Unit tests for ROOST's rules and the module's data; GameTests that the words load with chapters and pronunciations
   and that nothing registers without Wyrmroost. `docs/wyrmroost.md` documents all of it and the API it verified.
 
-### Fixed
-- `.gitignore` ignored `src/main/java/dev/vocana/` along with the CI checkout of Vocana (the pattern `vocana/` was
-  not anchored), so the skeleton's Java sources had never been committed; they are now.
-- Ice and Fire module (`docs/iceandfire.md`): sirens removed (`removeSirens`, a `neoforge:remove_spawns` modifier
-  plus spawn and join hooks that let spawn eggs and `/summon` through; `removeSirenIslands` empties the island's
-  biome tag); dragonsteel rebalanced towards netherite with a lean per kind through `ItemAttributeModifierEvent`
-  (fire hits harder, ice is tougher and sheds freezing, lightning is quick; every offset in
-  `vocanacompat-iceandfire.toml`); wyrmsteel, the netherite-dragonsteel alloy, made only in a superheated Create
-  mixer, and its Wyrmsteel Staff (capacity 6, affinity FIRE, FROST and LIGHTNING), sword and pickaxe made only by
-  Create sequenced assembly; `vocana:hears` tags for dragons, sea serpents, cyclopes, death worms, dread mobs,
-  pixies, hippogryphs, ghosts and the dragon blocks; the Elder shades DRAGONFROST (`drakopagos`) and DRAGONBOLT
-  (`drakastrape`); Imbue Bench recipes from dragon blood, scales and dragonsteel; the data condition
-  `vocanacompat:iceandfire/config`.
+#### Ice and Fire: Community Edition
+- Sirens removed (`removeSirens`, a `neoforge:remove_spawns` modifier plus spawn and join hooks that let spawn eggs
+  and `/summon` through; `removeSirenIslands` empties the island's biome tag).
+- Dragonsteel rebalanced towards netherite with a lean per kind through `ItemAttributeModifierEvent` (fire hits
+  harder, ice is tougher and sheds freezing, lightning is quick; every offset in `vocanacompat-iceandfire.toml`).
+- Wyrmsteel, the netherite-dragonsteel alloy, made only in a superheated Create mixer, and its Wyrmsteel Staff
+  (capacity 6, affinity FIRE, FROST and LIGHTNING), sword and pickaxe made only by Create sequenced assembly.
+- `vocana:hears` tags for dragons, sea serpents, cyclopes, death worms, dread mobs, pixies, hippogryphs, ghosts and
+  the dragon blocks; the Elder shades DRAGONFROST (`drakopagos`) and DRAGONBOLT (`drakastrape`); Imbue Bench recipes
+  from dragon blood, scales and dragonsteel; the data condition `vocanacompat:iceandfire/config` (`docs/iceandfire.md`).
+
 #### Hex Casting (HexCast NEOFORGED)
 - Hex staves (the `hexcasting:staves` tag) are Vocana Catalysts: they open the Chime screen, carry a spoken chant,
   tune a Chorus, take a Bound Catalyst, and add `staves.capacityBonus` Capacity (default 2).
@@ -102,24 +96,29 @@ Built against Vocana 2.1.0, NeoForge 21.1.255, Minecraft 1.21.1.
 - `config/vocanacompat-hexcasting.toml`: a toggle per feature and every number above.
 - `docs/hexcasting.md`: what was chosen, what was rejected and why, the source files each API was verified in, and
   whether the module would compile against the official HexMod `1.21` branch (it would).
-- EMI module (`docs/emi.md`): three EMI categories. `vocanacompat:imbue` lists every Imbue Bench recipe with its
-  target gear, an imbued preview, materials, ritual catalysts, price, triggers, shade surcharge and channel step;
-  `vocanacompat:ritual` explains the ritual figure, channelling at the bench and stripping an imbue;
-  `vocanacompat:lexicon` has a proficiency page and one page per word, drawn from the player's snapshot so unheard
-  forms stay blank slots and heard ones show form, respelling, class, chapter, group, meaning, binding and practice.
-  The bench's recipes are read from the integrated server in single player and, when the module runs on a dedicated
+
+#### EMI
+- Three EMI categories. `vocanacompat:imbue` lists every Imbue Bench recipe with its target gear, an imbued preview,
+  materials, ritual catalysts, price, triggers, shade surcharge and channel step; `vocanacompat:ritual` explains the
+  ritual figure, channelling at the bench and stripping an imbue; `vocanacompat:lexicon` has a proficiency page and
+  one page per word, drawn from the player's snapshot so unheard forms stay blank slots and heard ones show form,
+  respelling, class, chapter, group, meaning, binding and practice.
+- The bench's recipes are read from the integrated server in single player and, when the module runs on a dedicated
   server with EMI, sent to clients by the optional payload `vocanacompat:imbue_recipes` on datapack sync. Config
-  `vocanacompat-emi.toml`: a toggle per category and page, `syncRecipes`.
+  `vocanacompat-emi.toml`: a toggle per category and page, `syncRecipes` (`docs/emi.md`).
+
+#### Ars Nouveau
+- Ars spells cast by players cost `arsCostFactor` (1.15) of Ars's own price through `SpellCostCalcEvent`, a Vocana
+  staff in the off hand gives 5 % of it back, and Vocana keeps its own prices (`vocanaCostFactor` 1.0, never below one).
+- The word SOURCE (`nauspi`, Thaumaturgy): a Working that touches the ground beside Ars source jars pours source into
+  them, one that touches an Ars caster gives them mana, laid as a state it hastens mana regeneration, and
+  SOURCE-imbued gear returns mana on a strike; everything a Working gives is capped by the Thrum it paid at a par rate
+  less a 35 % conversion loss. The Ars glyph Resonate (`vocanacompat:glyph_vocana_thrum`, tier two) returns Thrum for
+  its mana at the same rate, once per five seconds.
+- Imbue Bench recipes paying in source gems and magebloom (any essence into the Enchanter's Sword, SOURCE into gear
+  and staffs), the Enchanter's Sword as a +1 Catalyst, discovery tags (jars, magebloom, archwood, sourceberries,
+  Wilden, starbuncles, drygmies), and GameTests and unit tests that run without Ars (`docs/ars_nouveau.md`).
 
 ### Fixed
-- `.gitignore` ignored `vocana/` anywhere, which hid `src/main/java/dev/vocana/` from git; the rule is now anchored (`/vocana/`).
-- Ars Nouveau module (`docs/ars_nouveau.md`): Ars spells cast by players cost `arsCostFactor` (1.15) of Ars's own
-  price through `SpellCostCalcEvent`, a Vocana staff in the off hand gives 5 % of it back, and Vocana keeps its own
-  prices (`vocanaCostFactor` 1.0, never below one). The word SOURCE (`nauspi`, Thaumaturgy): a Working that touches
-  the ground beside Ars source jars pours source into them, one that touches an Ars caster gives them mana, laid as a
-  state it hastens mana regeneration, and SOURCE-imbued gear returns mana on a strike; everything a Working gives is
-  capped by the Thrum it paid at a par rate less a 35 % conversion loss. The Ars glyph Resonate
-  (`vocanacompat:glyph_vocana_thrum`, tier two) returns Thrum for its mana at the same rate, once per five seconds.
-  Imbue Bench recipes paying in source gems and magebloom (any essence into the Enchanter's Sword, SOURCE into gear
-  and staffs), the Enchanter's Sword as a +1 Catalyst, discovery tags (jars, magebloom, archwood, sourceberries,
-  Wilden, starbuncles, drygmies), and GameTests and unit tests that run without Ars.
+- The `.gitignore` entry for the CI checkout of Vocana (`vocana/`) also hid `src/main/java/dev/vocana/`, so the
+  skeleton's Java sources were never committed; the pattern is anchored to the root (`/vocana/`).
