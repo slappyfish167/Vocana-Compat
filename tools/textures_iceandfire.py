@@ -292,6 +292,68 @@ def block():
     return img
 
 
+# ---- wyrmsteel dragon armour (the item icons; the worn look is made in game from Ice and Fire's own texture) ----
+
+def dragon_head():
+    img = canvas()
+    # a long helm seen from the side, snout to the right, two horns swept back
+    for y in range(5, 12):
+        x1 = 13 if y >= 7 else 9 + (y - 5) * 2
+        fill(img, 2, y, x1, y, STEEL)
+    fill(img, 2, 5, 9, 5, SHEEN); fill(img, 2, 5, 2, 11, SHEEN)
+    fill(img, 3, 11, 13, 11, DARK); fill(img, 13, 7, 13, 11, DARK)
+    for x, y in ((1, 3), (2, 2), (3, 3), (3, 4), (5, 3), (6, 2), (6, 4)):
+        put(img, x, y, SHEEN if y < 3 else STEEL)
+    fill(img, 9, 8, 10, 8, CLEAR)
+    put(img, 5, 7, FIRE); put(img, 7, 9, FROST); put(img, 11, 9, BOLT)
+    put(img, 4, 6, GLINT)
+    outline(img)
+    return img
+
+
+def dragon_neck():
+    img = canvas()
+    # three overlapping rings of plate down a curve
+    for i, (cx, cy) in enumerate(((4, 4), (8, 8), (12, 12))):
+        fill(img, cx - 3, cy - 2, cx + 2, cy + 1, STEEL)
+        fill(img, cx - 3, cy - 2, cx + 2, cy - 2, SHEEN)
+        fill(img, cx - 3, cy + 1, cx + 2, cy + 1, DARK)
+        put(img, cx - 1, cy - 1, (FIRE, FROST, BOLT)[i])
+    put(img, 2, 2, GLINT)
+    outline(img)
+    return img
+
+
+def dragon_body():
+    img = canvas()
+    # a broad saddle plate with a ridge of spines
+    for y in range(5, 13):
+        inset = max(0, 7 - y) if y < 7 else max(0, y - 10)
+        fill(img, 1 + inset, y, 14 - inset, y, STEEL)
+    fill(img, 3, 5, 12, 5, SHEEN); fill(img, 2, 12, 13, 12, DARK)
+    for x in (4, 7, 10):
+        put(img, x, 3, SHEEN); put(img, x, 4, STEEL); put(img, x + 1, 4, DARK)
+    put(img, 4, 8, FIRE); put(img, 7, 9, FROST); put(img, 11, 8, BOLT)
+    fill(img, 6, 6, 9, 6, GOLD); put(img, 9, 6, GOLD_DARK)
+    put(img, 2, 7, GLINT)
+    outline(img)
+    return img
+
+
+def dragon_tail():
+    img = canvas()
+    # tapering segments ending in a blade
+    for i in range(6):
+        x, y, w = 1 + i * 2, 4 + i, 4 - i // 2
+        fill(img, x, y, x + 2, y + w - 1, STEEL)
+        put(img, x, y, SHEEN); put(img, x + 2, y + w - 1, DARK)
+    for x, y in ((13, 9), (14, 10), (14, 11), (13, 12), (12, 11)):
+        put(img, x, y, SHEEN if y < 11 else DARK)
+    put(img, 3, 5, FIRE); put(img, 7, 7, FROST); put(img, 11, 9, BOLT)
+    outline(img)
+    return img
+
+
 # ---- the worn armour (64x32, the vanilla humanoid layout) ----
 
 def layer_plate(img, x0, y0, w, h):
@@ -366,6 +428,10 @@ ITEMS = {
     "wyrmsteel_chestplate": chestplate,
     "wyrmsteel_leggings": leggings,
     "wyrmsteel_boots": boots,
+    "dragonarmor_wyrmsteel_head": dragon_head,
+    "dragonarmor_wyrmsteel_neck": dragon_neck,
+    "dragonarmor_wyrmsteel_body": dragon_body,
+    "dragonarmor_wyrmsteel_tail": dragon_tail,
 }
 # Every piece made on an assembly line rides its own incomplete piece.
 LINES = [name for name in ITEMS if name.startswith("wyrmsteel_")]

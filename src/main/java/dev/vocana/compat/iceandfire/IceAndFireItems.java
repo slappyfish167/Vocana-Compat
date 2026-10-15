@@ -39,11 +39,13 @@ import java.util.Map;
 /**
  * The module's own items, registered under {@code vocanacompat} only when the module loads (the registers are bound to
  * the mod bus from {@link IceAndFireCompat#init}, which runs during mod construction, before the registry events).
- * Wyrmsteel is the netherite-dragonsteel alloy: the ingot comes only from a superheated Create mixer, and the whole
- * set (staff, five tools, four armour pieces) only from Create sequenced assembly, each piece from its netherite
- * counterpart through its own incomplete piece (the transitional item of its line). The block packs nine ingots on a
- * Create press. The tier gives the tools their mining level, durability and repair material, the armour material the
- * armour's; the attack and armour figures are rewritten from the config by {@link DragonsteelRebalance} like
+ * Wyrmsteel is the netherite-dragonsteel alloy: with Create the ingot comes from a superheated mixer and the whole
+ * set (staff, five tools, four armour pieces) from sequenced assembly, each piece from its netherite counterpart
+ * through its own incomplete piece (the transitional item of its line); the block packs nine ingots on a press. A
+ * dragon forge alloys the ingot too and, without Create, the smithing table makes the set, all of it data. Wyrmsteel
+ * dragon armour ({@link WyrmsteelDragonArmorItem}) is smithed from dragonsteel dragon armour. The tier gives the tools
+ * their mining level, durability and repair material, the armour material the armour's; the attack and armour figures
+ * are rewritten from the config by {@link DragonsteelRebalance} like
  * dragonsteel's, so the figures built in here are only what shows with the rebalance turned off. They are the
  * rebalance's defaults ({@code [dragonsteel.wyrmsteel]}: damage +3, armour +1, toughness 4, knockback resistance
  * 0.15), so turning it off changes nothing until the offsets are edited.
@@ -87,6 +89,12 @@ public final class IceAndFireItems {
     public static final DeferredItem<Item> CHESTPLATE = armor("wyrmsteel_chestplate", ArmorItem.Type.CHESTPLATE);
     public static final DeferredItem<Item> LEGGINGS = armor("wyrmsteel_leggings", ArmorItem.Type.LEGGINGS);
     public static final DeferredItem<Item> BOOTS = armor("wyrmsteel_boots", ArmorItem.Type.BOOTS);
+    /** Wyrmsteel dragon armour, keyed by Ice and Fire's part id: smithed from dragonsteel dragon armour with a Block of Wyrmsteel. */
+    public static final Map<String, DeferredItem<Item>> DRAGON_ARMOR = new LinkedHashMap<>();
+    static {
+        for (String part : List.of("head", "neck", "body", "tail"))
+            DRAGON_ARMOR.put(part, ITEMS.register("dragonarmor_wyrmsteel_" + part, () -> WyrmsteelDragonArmorItem.of(part)));
+    }
 
     /** The pieces an assembly line carries between its steps; plain items, one per line so Create never confuses the lines. Keyed by the finished piece's id. */
     public static final Map<String, DeferredItem<Item>> INCOMPLETE = new LinkedHashMap<>();
@@ -118,7 +126,10 @@ public final class IceAndFireItems {
         modBus.addListener((BuildCreativeModeTabContentsEvent e) -> {
             if (e.getTabKey() == CreativeModeTabs.INGREDIENTS) e.accept(INGOT);
             else if (e.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) e.accept(BLOCK_ITEM);
-            else if (e.getTabKey() == CreativeModeTabs.COMBAT) { e.accept(SWORD); e.accept(AXE); e.accept(HELMET); e.accept(CHESTPLATE); e.accept(LEGGINGS); e.accept(BOOTS); }
+            else if (e.getTabKey() == CreativeModeTabs.COMBAT) {
+                e.accept(SWORD); e.accept(AXE); e.accept(HELMET); e.accept(CHESTPLATE); e.accept(LEGGINGS); e.accept(BOOTS);
+                for (var piece : DRAGON_ARMOR.values()) e.accept(piece);
+            }
             else if (e.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) { e.accept(SHOVEL); e.accept(PICKAXE); e.accept(AXE); e.accept(HOE); e.accept(STAFF); }
         });
     }

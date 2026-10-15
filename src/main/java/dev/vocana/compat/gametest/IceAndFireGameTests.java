@@ -45,7 +45,7 @@ public final class IceAndFireGameTests {
         h.assertFalse(VocanaCompat.loaded(Module.ICE_AND_FIRE), "the module did not load");
         for (String id : new String[]{"netherite_dragonsteel_ingot", "wyrmsteel_block", "wyrmsteel_staff", "wyrmsteel_sword", "wyrmsteel_pickaxe", "wyrmsteel_axe",
                                       "wyrmsteel_shovel", "wyrmsteel_hoe", "wyrmsteel_helmet", "wyrmsteel_chestplate", "wyrmsteel_leggings", "wyrmsteel_boots",
-                                      "incomplete_wyrmsteel_staff", "incomplete_wyrmsteel_chestplate"})
+                                      "incomplete_wyrmsteel_staff", "incomplete_wyrmsteel_chestplate", "dragonarmor_wyrmsteel_head", "dragonarmor_wyrmsteel_tail"})
             h.assertFalse(BuiltInRegistries.ITEM.containsKey(ResourceLocation.fromNamespaceAndPath(VocanaCompat.ID, id)), "vocanacompat:" + id + " is not registered");
         h.assertFalse(BuiltInRegistries.BLOCK.containsKey(ResourceLocation.fromNamespaceAndPath(VocanaCompat.ID, "wyrmsteel_block")), "the wyrmsteel block is not registered");
         h.assertFalse(BuiltInRegistries.ARMOR_MATERIAL.containsKey(ResourceLocation.fromNamespaceAndPath(VocanaCompat.ID, "wyrmsteel")),
@@ -69,6 +69,11 @@ public final class IceAndFireGameTests {
             "/data/vocanacompat/recipe/iceandfire/wyrmsteel_block.json",
             "/data/vocanacompat/loot_table/blocks/wyrmsteel_block.json",
             "/data/minecraft/tags/item/swords.json",
+            "/data/vocanacompat/recipe/iceandfire/dragonforge/netherite_dragonsteel_ingot_fire.json",
+            "/data/vocanacompat/recipe/iceandfire/smithing/wyrmsteel_sword.json",
+            "/data/vocanacompat/recipe/iceandfire/dragonarmor_wyrmsteel_body.json",
+            "/data/vocanacompat/tags/damage_type/iceandfire/dragon_breath.json",
+            "/assets/vocanacompat/textures/item/iceandfire/dragonarmor_wyrmsteel_body.png",
             "/assets/vocanacompat/textures/models/armor/wyrmsteel_layer_1.png",
             "/assets/vocanacompat/textures/models/armor/wyrmsteel_layer_2.png",
             "/assets/vocanacompat/blockstates/wyrmsteel_block.json",

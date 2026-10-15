@@ -9,6 +9,7 @@ import java.util.List;
  */
 public final class IceAndFireSwitches {
     private IceAndFireSwitches() {}
-    public static final String REMOVE_SIRENS = "removeSirens", REMOVE_SIREN_ISLANDS = "removeSirenIslands", REBALANCE = "rebalance";
-    public static final List<String> ALL = List.of(REMOVE_SIRENS, REMOVE_SIREN_ISLANDS, REBALANCE);
+    public static final String REMOVE_SIRENS = "removeSirens", REMOVE_SIREN_ISLANDS = "removeSirenIslands", REBALANCE = "rebalance",
+        DRAGON_FORGE = "dragonForge", WITHOUT_CREATE = "withoutCreate";
+    public static final List<String> ALL = List.of(REMOVE_SIRENS, REMOVE_SIREN_ISLANDS, REBALANCE, DRAGON_FORGE, WITHOUT_CREATE);
 }

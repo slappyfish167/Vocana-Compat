@@ -7,10 +7,6 @@
     {
       "type": "vocanacompat:module_enabled",
       "module": "iceandfire"
-    },
-    {
-      "type": "neoforge:mod_loaded",
-      "modid": "create"
     }
   ],
   "type": "minecraft:crafting_shapeless",

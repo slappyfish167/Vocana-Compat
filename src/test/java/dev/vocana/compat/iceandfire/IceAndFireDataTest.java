@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 final class IceAndFireDataTest {
     private static final Path RES = Path.of("src/main/resources");
-    private static final String MOD_LOADED = "neoforge:mod_loaded", MODULE = "vocanacompat:module_enabled", CONFIG = "vocanacompat:module_flag";
+    private static final String MOD_LOADED = "neoforge:mod_loaded", MODULE = "vocanacompat:module_enabled", CONFIG = "vocanacompat:module_flag", NOT = "neoforge:not";
     /** The wyrmsteel set: every piece made on its own Create assembly line, and what each line starts from. */
     private static final Map<String, String> LINES = Map.ofEntries(
         Map.entry("wyrmsteel_staff", "vocana:archmage_staff"), Map.entry("wyrmsteel_sword", "minecraft:netherite_sword"),
@@ -33,10 +33,12 @@ final class IceAndFireDataTest {
         Map.entry("wyrmsteel_shovel", "minecraft:netherite_shovel"), Map.entry("wyrmsteel_hoe", "minecraft:netherite_hoe"),
         Map.entry("wyrmsteel_helmet", "minecraft:netherite_helmet"), Map.entry("wyrmsteel_chestplate", "minecraft:netherite_chestplate"),
         Map.entry("wyrmsteel_leggings", "minecraft:netherite_leggings"), Map.entry("wyrmsteel_boots", "minecraft:netherite_boots"));
+    private static final List<String> DRAGON_ARMOR = List.of("dragonarmor_wyrmsteel_head", "dragonarmor_wyrmsteel_neck", "dragonarmor_wyrmsteel_body", "dragonarmor_wyrmsteel_tail");
     private static final Set<String> ITEMS = items();
     private static Set<String> items() {
         var out = new java.util.TreeSet<String>(Set.of("netherite_dragonsteel_ingot"));
         for (String line : LINES.keySet()) { out.add(line); out.add("incomplete_" + line); }
+        out.addAll(DRAGON_ARMOR);
         return out;
     }
 
@@ -55,6 +57,11 @@ final class IceAndFireDataTest {
             var co = c.getAsJsonObject();
             String type = co.get("type").getAsString();
             if (type.equals(MOD_LOADED)) types.add(type + ":" + co.get("modid").getAsString());
+            else if (type.equals(NOT)) {
+                var inner = co.getAsJsonObject("value");
+                assertEquals(MOD_LOADED, inner.get("type").getAsString(), "only a missing mod is negated");
+                types.add(NOT + ":" + inner.get("modid").getAsString());
+            }
             else if (type.equals(MODULE)) { assertEquals("iceandfire", co.get("module").getAsString()); types.add(type); }
             else if (type.equals(CONFIG)) types.add(type + ":" + co.get("key").getAsString());
             else fail("unknown condition " + type);
@@ -69,7 +76,17 @@ final class IceAndFireDataTest {
             var types = conditionTypes(read(p), "iceandfire");
             assertTrue(types.contains(MOD_LOADED + ":iceandfire"), p + " needs neoforge:mod_loaded iceandfire");
             assertTrue(types.contains(MODULE), p + " needs vocanacompat:module_enabled iceandfire");
-            if (p.toString().contains("/recipe/")) assertTrue(types.contains(MOD_LOADED + ":create"), p + ": wyrmsteel is made on Create machines only");
+            if (p.toString().contains("/recipe/")) {
+                String name = p.getFileName().toString();
+                if (p.toString().contains("/recipe/iceandfire/dragonforge/")) {
+                    assertTrue(types.contains(CONFIG + ":dragonForge"), p + " follows the dragon forge switch");
+                    assertFalse(types.contains(MOD_LOADED + ":create"), p + ": the dragon forge needs no Create");
+                } else if (p.toString().contains("/recipe/iceandfire/smithing/")) {
+                    assertTrue(types.contains(NOT + ":create") && types.contains(CONFIG + ":withoutCreate"), p + " is the fallback for a game without Create");
+                } else if (name.startsWith("dragonarmor_") || name.equals("netherite_dragonsteel_ingot_from_block.json")) {
+                    assertFalse(types.contains(MOD_LOADED + ":create"), p + " works with or without Create");
+                } else assertTrue(types.contains(MOD_LOADED + ":create"), p + ": made on Create machines");
+            }
             if (p.toString().contains("/data/iceandfire/")) assertTrue(types.contains(CONFIG + ":removeSirenIslands"), p + " follows the island switch");
         }
     }
@@ -125,7 +142,7 @@ final class IceAndFireDataTest {
         for (JsonElement i : block.getAsJsonArray("ingredients")) assertEquals("vocanacompat:netherite_dragonsteel_ingot", i.getAsJsonObject().get("item").getAsString());
         assertEquals("vocanacompat:wyrmsteel_block", block.getAsJsonArray("results").get(0).getAsJsonObject().get("id").getAsString());
         try (Stream<Path> s = Files.list(RES.resolve("data/vocanacompat/recipe/iceandfire"))) {
-            for (Path p : s.toList()) {
+            for (Path p : s.filter(f -> f.toString().endsWith(".json")).toList()) {
                 var r = read(p);
                 if (!r.get("type").getAsString().startsWith("minecraft:crafting")) continue;
                 // The one crafting-table recipe unpacks the block: it makes no wyrmsteel that was not already there.
@@ -136,6 +153,54 @@ final class IceAndFireDataTest {
                 assertEquals(9, r.getAsJsonObject("result").get("count").getAsInt(), p.toString());
             }
         }
+    }
+
+    @Test void theDragonForgeAlloysWyrmsteelInEachKindOfForge() throws IOException {
+        for (String kind : List.of("fire", "ice", "lightning")) {
+            var r = read(RES.resolve("data/vocanacompat/recipe/iceandfire/dragonforge/netherite_dragonsteel_ingot_" + kind + ".json"));
+            assertEquals("iceandfire:dragonforge", r.get("type").getAsString());
+            assertEquals(kind, r.get("dragonType").getAsString(), "Ice and Fire's forge ids are fire, ice and lightning");
+            assertTrue(r.get("cookTime").getAsInt() > 1000, "slower than a dragonsteel ingot (1000)");
+            assertEquals("c:ingots/netherite", r.getAsJsonObject("input").get("tag").getAsString());
+            assertEquals("iceandfire:dragonsteel_" + kind + "_ingot", r.getAsJsonObject("blood").get("item").getAsString(), "the forge's own kind of dragonsteel");
+            var result = r.getAsJsonObject("result");
+            assertEquals("vocanacompat:netherite_dragonsteel_ingot", result.get("id").getAsString());
+            assertFalse(result.has("count") && result.get("count").getAsInt() != 1, "one ingot; the Create mixer gives two");
+        }
+    }
+
+    @Test void withoutCreateTheSmithingTableMakesTheSet() throws IOException {
+        for (var entry : LINES.entrySet()) {
+            var r = read(RES.resolve("data/vocanacompat/recipe/iceandfire/smithing/" + entry.getKey() + ".json"));
+            assertEquals("minecraft:smithing_transform", r.get("type").getAsString());
+            assertEquals("minecraft:netherite_upgrade_smithing_template", r.getAsJsonObject("template").get("item").getAsString());
+            assertEquals(entry.getValue(), r.getAsJsonObject("base").get("item").getAsString(), entry.getKey() + " upgrades the piece its assembly line starts from");
+            assertEquals("vocanacompat:netherite_dragonsteel_ingot", r.getAsJsonObject("addition").get("item").getAsString());
+            assertEquals("vocanacompat:" + entry.getKey(), r.getAsJsonObject("result").get("id").getAsString());
+        }
+        var block = read(RES.resolve("data/vocanacompat/recipe/iceandfire/smithing/wyrmsteel_block.json"));
+        assertEquals("minecraft:crafting_shaped", block.get("type").getAsString(), "without a press the crafting table packs the block");
+        assertEquals("vocanacompat:wyrmsteel_block", block.getAsJsonObject("result").get("id").getAsString());
+        assertEquals("vocanacompat:netherite_dragonsteel_ingot", block.getAsJsonObject("key").getAsJsonObject("#").get("item").getAsString());
+        assertEquals(List.of("###", "###", "###"), block.getAsJsonArray("pattern").asList().stream().map(JsonElement::getAsString).toList());
+    }
+
+    @Test void wyrmsteelDragonArmourIsSmithedFromDragonsteelDragonArmour() throws IOException {
+        var lang = read(RES.resolve("assets/vocanacompat/lang/en_us.json"));
+        assertTrue(lang.has("item.vocanacompat.dragonarmor_wyrmsteel") && lang.has("item.vocanacompat.dragonarmor_wyrmsteel.tooltip"), "one name for the four parts, and the tooltip");
+        for (String part : List.of("head", "neck", "body", "tail")) {
+            var r = read(RES.resolve("data/vocanacompat/recipe/iceandfire/dragonarmor_wyrmsteel_" + part + ".json"));
+            assertEquals("minecraft:smithing_transform", r.get("type").getAsString());
+            var bases = new java.util.HashSet<String>();
+            for (JsonElement b : r.getAsJsonArray("base")) bases.add(b.getAsJsonObject().get("item").getAsString());
+            assertEquals(Set.of("iceandfire:dragonarmor_dragon_steel_fire_" + part, "iceandfire:dragonarmor_dragon_steel_ice_" + part, "iceandfire:dragonarmor_dragon_steel_lightning_" + part), bases,
+                part + " starts from any dragonsteel dragon armour of the same part (Ice and Fire's ids)");
+            assertEquals("vocanacompat:wyrmsteel_block", r.getAsJsonObject("addition").get("item").getAsString());
+            assertEquals("vocanacompat:dragonarmor_wyrmsteel_" + part, r.getAsJsonObject("result").get("id").getAsString());
+        }
+        var breath = ids(read(RES.resolve("data/vocanacompat/tags/damage_type/iceandfire/dragon_breath.json")));
+        for (String id : List.of("iceandfire:dragon_fire", "iceandfire:dragon_ice", "iceandfire:dragon_lightning", "#minecraft:is_fire", "#minecraft:is_freezing", "#minecraft:is_lightning"))
+            assertTrue(breath.contains(id), "dragon breath includes " + id);
     }
 
     @Test void theBlockHasItsLootModelsAndTags() throws IOException {
@@ -205,7 +270,7 @@ final class IceAndFireDataTest {
             String texture = model.getAsJsonObject("textures").get("layer0").getAsString();
             assertEquals("vocanacompat:item/iceandfire/" + item, texture);
             assertTrue(Files.exists(RES.resolve("assets/vocanacompat/textures/item/iceandfire/" + item + ".png")), item + " has its texture");
-            assertTrue(lang.has("item.vocanacompat." + item), item + " has a name");
+            assertTrue(lang.has("item.vocanacompat." + (item.startsWith("dragonarmor_wyrmsteel_") ? "dragonarmor_wyrmsteel" : item)), item + " has a name");
         }
     }
 

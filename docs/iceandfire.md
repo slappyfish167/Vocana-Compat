@@ -2,9 +2,11 @@
 
 Ice and Fire: Community Edition (`iceandfire` 2.1.x, branch `1.21.1` of `IAFEnvoy/IceAndFire-CE`) and Vocana.
 Loaded when the mod is installed and `modules.iceandfire.enabled` is on; settings in
-`config/vocanacompat-iceandfire.toml`. The module never touches an Ice and Fire class: it works by entity and item id
-(read from `registry/IafEntities.java` and `registry/IafItems.java` on that branch), by NeoForge events and by data.
-Wyrmsteel needs Create as well; without Create the alloy and its gear simply have no recipe.
+`config/vocanacompat-iceandfire.toml`. The module works by entity and item id (read from `registry/IafEntities.java`
+and `registry/IafItems.java` on that branch), by NeoForge events and by data, and names an Ice and Fire class in one
+place only: wyrmsteel dragon armour must be Ice and Fire's own `DragonArmorItem`, because a dragon's armour slots take
+nothing else (below). Wyrmsteel is at home on Create machines; a dragon forge alloys it too, and without Create the
+smithing table makes the set (both switchable).
 
 ## Sirens (`sirens.removeSirens`, on; `sirens.removeSirenIslands`, off)
 
@@ -53,10 +55,12 @@ Attack speed is shown as attacks per second (the player's 4 plus the modifier). 
 keep vanilla's `minecraft:base_attack_damage`/`base_attack_speed` ids so tooltips print the green totals; armour ids
 follow `minecraft:armor.<piece>`.
 
-## Wyrmsteel (needs Create)
+## Wyrmsteel
 
 Wyrmsteel is the netherite-dragonsteel alloy, `vocanacompat:netherite_dragonsteel_ingot`, and a whole set: a staff,
-five tools, four armour pieces and a storage block. No crafting-table recipe makes any of it:
+five tools, four armour pieces and a storage block, plus dragon armour (below). Its home is Create; with Create
+installed, Create machines make all of it (no crafting-table recipe makes wyrmsteel), and a dragon forge can alloy the
+ingot too. The fallbacks for a game without Create are in "Without Create" below.
 
 - **Ingot**: `create:mixing`, `heat_requirement: superheated` (a seething blaze burner), one `#c:ingots/netherite` and
   one dragonsteel ingot of any kind (fire, ice or lightning) give two wyrmsteel ingots
@@ -101,8 +105,49 @@ five tools, four armour pieces and a storage block. No crafting-table recipe mak
   and break `-Pcompat.skip=create`; the progress bar is the only loss.)
 - Ice and Fire has no dragon-blood fluid, so blood is deployed as an item rather than filled.
 
+### Without Create, and the dragon forge (`[wyrmsteel]`)
+
+| Switch | Default | What it opens |
+|---|---|---|
+| `dragonForge` | on | Ice and Fire's dragon forge alloys wyrmsteel: a netherite ingot (`#c:ingots/netherite`) in the input and a dragonsteel ingot of the forge's own kind in the blood slot give **one** ingot after 1500 ticks of breath (a dragonsteel ingot takes 1000; the superheated Create mixer gives two). Three `iceandfire:dragonforge` recipes, `dragonType` `fire`, `ice` and `lightning` (`recipe/DragonForgeRecipe.java`; the forge's blood slot takes any item some forge recipe names as blood). |
+| `withoutCreate` | on | Only in a game **without** Create (`neoforge:not` of `neoforge:mod_loaded create`): the smithing table upgrades each netherite piece, and the Archmage's Staff, with a netherite upgrade template and one wyrmsteel ingot, and the crafting table packs nine ingots into the block. With Create installed these recipes do not exist and the assembly lines are the only way. |
+
+Both are boolean switches reached from data through `vocanacompat:module_flag`, so they take effect when data loads
+(`/reload` or a restart). The block unpacks on the crafting table in every game.
+
+### Wyrmsteel dragon armour
+
+Four pieces for Ice and Fire's dragons, `vocanacompat:dragonarmor_wyrmsteel_head`, `_neck`, `_body` and `_tail`, each
+smithed from a dragonsteel dragon armour piece of the same part (fire, ice or lightning) with a netherite upgrade
+template and a Block of Wyrmsteel. They go in the dragon's armour slots like Ice and Fire's own:
+`WyrmsteelDragonArmorItem` extends Ice and Fire's `DragonArmorItem` with a `DragonArmorMaterial` named `wyrmsteel`,
+protection 11 a piece (netherite 7, dragonsteel 10), fire proof. These types (`item/DragonArmorItem.java`,
+`data/DragonArmorMaterial.java`, `data/DragonArmorPart.java`) have not changed from Ice and Fire 2.0, the jar the
+module compiles against, to 2.1.4. A dragon's armour attribute stops at vanilla's 30, which four dragonsteel pieces
+already reach, so what wyrmsteel brings is breath resistance (below).
+
+Ice and Fire's renderer draws `iceandfire:textures/entity/dragon_armor/armor_<part>_wyrmsteel.png`. The module ships no
+such file and none of Ice and Fire's art: on every resource reload the client reads Ice and Fire's own netherite
+texture of each part from the installed mod (or a resource pack that replaces it), maps each pixel's brightness onto
+wyrmsteel's colours (`WyrmsteelPalette`) and registers the result under that name as a dynamic texture
+(`IceAndFireClient`). If the netherite texture is missing, the log says so and the armour draws as a missing texture.
+
+### Breath resistance (`[wyrmsteel]`)
+
+Damage of a type in `#vocanacompat:iceandfire/dragon_breath` (Ice and Fire's `dragon_fire`, `dragon_ice` and
+`dragon_lightning`, `registry/IafDamageTypes.java`, and vanilla's `#minecraft:is_fire`, `is_freezing` and
+`is_lightning`) is lessened for whoever wears wyrmsteel, before armour and enchantments apply
+(`LivingIncomingDamageEvent`, `WyrmsteelWard`):
+
+| Setting | Default | Per piece | Full set |
+|---|---|---|---|
+| `dragonArmorBreathResistance` | 0.15 (0–0.25) | a dragon in wyrmsteel dragon armour | 60 % less |
+| `armorBreathResistance` | 0.05 (0–0.25) | anyone in wyrmsteel armour | 20 % less |
+
+The shares add and never take more than the whole blow.
+
 Textures are drawn by `tools/textures_iceandfire.py` (Pillow; run `python3 tools/generate_textures.py iceandfire`): the
-item sprites under `assets/vocanacompat/textures/item/iceandfire/`, the block under `block/iceandfire/` and the worn
+item sprites (dragon armour icons included) under `assets/vocanacompat/textures/item/iceandfire/`, the block under `block/iceandfire/` and the worn
 armour layers `models/armor/wyrmsteel_layer_1.png` and `_layer_2.png`. They are committed and regenerate byte-for-byte.
 
 ## Words
@@ -168,3 +213,12 @@ All take priority over Vocana's generic recipes (priority 1; the wyrmsteel one 2
    with a lightning dragon for DRAGONBOLT. Speak `open drakopagos raustau close` at a creature: it freezes and stills.
 5. Bench: lay fire into a sword with fire dragon blood and a dragon bone; lay FROST into the Wyrmsteel Staff with a bone
    and a shard.
+6. Dragon forge: in a fire forge with a dragon breathing on it, a netherite ingot and a fire dragonsteel ingot give one
+   wyrmsteel ingot; an ice dragonsteel ingot in the fire forge does nothing. Turn `dragonForge` off, `/reload`: gone.
+7. Without Create (`./gradlew runClient -Pcompat.run=iceandfire`): smith a netherite sword with a template and an ingot
+   into a wyrmsteel sword, an Archmage's Staff into a Wyrmsteel Staff, pack nine ingots into a block. With Create
+   installed none of these appear in the smithing table or the recipe book.
+8. Dragon armour: smith a fire dragonsteel dragon armour body with a template and a Block of Wyrmsteel; put the four
+   pieces on a tamed dragon (its inventory) and see the violet wyrmsteel plates on it, not a missing texture; reload
+   resources (F3+T) and see them still. Let a second dragon breathe on it and compare the damage taken with the
+   armour off (60 % less in four pieces); stand in fire in the player set (20 % less).

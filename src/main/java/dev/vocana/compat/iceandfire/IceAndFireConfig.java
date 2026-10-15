@@ -8,7 +8,8 @@ import java.util.Map;
 /**
  * Settings of the Ice and Fire module, {@code config/vocanacompat-iceandfire.toml}. Every number the module applies
  * lives here: the siren switches, the dragonsteel rebalance (one block of offsets per dragonsteel kind, laid over
- * netherite's figures by {@link DragonsteelBalance}) and the wyrmsteel figures. The boolean switches are also
+ * netherite's figures by {@link DragonsteelBalance}) and wyrmsteel's other ways in (the dragon forge, the smithing
+ * table without Create) and its breath resistance. The boolean switches are also
  * reachable from data through the core's {@code vocanacompat:module_flag} condition ({@code "module":"iceandfire"})
  * by the key names in {@link #FLAGS}, so a data file can follow a finer toggle than the module's own. Values are read
  * lazily, after the config has loaded; {@link #get} answers the default before then.
@@ -27,6 +28,10 @@ public final class IceAndFireConfig {
     /** The per-kind offsets, in the order {@link DragonsteelBalance.Metal} declares the kinds (fire, ice, lightning, wyrmsteel). */
     public static final Map<DragonsteelBalance.Metal, Offsets> OFFSETS = new LinkedHashMap<>();
     public static final ModConfigSpec.IntValue iceFrostResistancePieces;
+
+    // ---- wyrmsteel ----
+    public static final ModConfigSpec.BooleanValue dragonForge, withoutCreate;
+    public static final ModConfigSpec.DoubleValue dragonArmorBreathResistance, armorBreathResistance;
 
     /** One dragonsteel kind's offsets, each a config value; {@link #tuning} reads them into the pure record the helper takes. */
     public record Offsets(ModConfigSpec.DoubleValue damage, ModConfigSpec.DoubleValue attackSpeed, ModConfigSpec.DoubleValue armor,
@@ -79,6 +84,19 @@ public final class IceAndFireConfig {
             3.0, 0.0, 1.0, 4.0, 0.15, 0.0));
         iceFrostResistancePieces = b.comment("How many ice dragonsteel armour pieces a player must wear to shed freezing (powder snow) entirely; 0 turns it off.")
             .translation("vocanacompat.configuration.iceandfire.dragonsteel.iceFrostResistancePieces").defineInRange("iceFrostResistancePieces", 2, 0, 4);
+        b.pop();
+
+        b.comment("Wyrmsteel, the netherite-dragonsteel alloy. Its gear is made on Create machines; these switches open other ways in",
+                  "and set how well it turns dragon breath. The two switches are read when data loads (/reload or a restart).")
+            .translation("vocanacompat.configuration.iceandfire.wyrmsteel").push("wyrmsteel");
+        dragonForge = flag(b, IceAndFireSwitches.DRAGON_FORGE, true,
+            "A dragon forge alloys wyrmsteel: a netherite ingot in the input and a dragonsteel ingot of the forge's own kind in the blood slot give one ingot (a superheated Create mixer gives two).");
+        withoutCreate = flag(b, IceAndFireSwitches.WITHOUT_CREATE, true,
+            "When Create is not installed, the smithing table upgrades netherite gear (and an Archmage's Staff) with a wyrmsteel ingot and a netherite upgrade template, and the crafting table packs the block.");
+        dragonArmorBreathResistance = b.comment("How much less dragon breath (and fire, freezing and lightning) a dragon takes per piece of wyrmsteel dragon armour it wears.")
+            .translation("vocanacompat.configuration.iceandfire.wyrmsteel.dragonArmorBreathResistance").defineInRange("dragonArmorBreathResistance", 0.15, 0.0, 0.25);
+        armorBreathResistance = b.comment("How much less dragon breath (and fire, freezing and lightning) a player takes per piece of wyrmsteel armour worn.")
+            .translation("vocanacompat.configuration.iceandfire.wyrmsteel.armorBreathResistance").defineInRange("armorBreathResistance", 0.05, 0.0, 0.25);
         b.pop();
         SPEC = b.build();
     }

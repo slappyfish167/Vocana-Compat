@@ -1,0 +1,39 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "iceandfire"
+    },
+    {
+      "type": "vocanacompat:module_enabled",
+      "module": "iceandfire"
+    }
+  ],
+  "replace": false,
+  "values": [
+    {
+      "id": "iceandfire:dragon_fire",
+      "required": false
+    },
+    {
+      "id": "iceandfire:dragon_ice",
+      "required": false
+    },
+    {
+      "id": "iceandfire:dragon_lightning",
+      "required": false
+    },
+    {
+      "id": "#minecraft:is_fire",
+      "required": false
+    },
+    {
+      "id": "#minecraft:is_freezing",
+      "required": false
+    },
+    {
+      "id": "#minecraft:is_lightning",
+      "required": false
+    }
+  ]
+}

@@ -3,6 +3,32 @@
 All notable changes to Vocana Compat. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/);
 versions follow Vocana's: a Vocana release that changes the extension API gets a matching Compat release.
 
+## [1.1.0] - Unreleased
+
+Built against Vocana 2.1.0, NeoForge 21.1.255, Minecraft 1.21.1; Ice and Fire CE 2.0 to 2.1.4.
+
+### Added
+
+#### Ice and Fire: the dragon forge and wyrmsteel dragon armour
+- Wyrmsteel dragon armour (head, neck, body, tail) for Ice and Fire's dragons, smithed from dragonsteel dragon armour of
+  the same part with a netherite upgrade template and a Block of Wyrmsteel: protection 11 a piece, fire proof. Its worn
+  look is made on the client from Ice and Fire's own netherite dragon armour texture, recoloured; no Ice and Fire art is
+  shipped. `WyrmsteelDragonArmorItem` is the module's one class that names Ice and Fire's own types.
+- Wyrmsteel turns dragon breath: Ice and Fire's dragon fire, ice and lightning, and vanilla fire, freezing and
+  lightning, hurt 15 % less per piece of wyrmsteel dragon armour on a dragon and 5 % less per piece of wyrmsteel armour
+  on anyone (`[wyrmsteel] dragonArmorBreathResistance`, `armorBreathResistance`; the damage types in
+  `#vocanacompat:iceandfire/dragon_breath`).
+- A dragon forge alloys wyrmsteel: a netherite ingot and a dragonsteel ingot of the forge's kind give one ingot
+  (`[wyrmsteel] dragonForge`, on).
+- Without Create installed, the smithing table upgrades netherite gear and the Archmage's Staff into the wyrmsteel set
+  with a template and one ingot, and the crafting table packs the block (`[wyrmsteel] withoutCreate`, on). With
+  Create the assembly lines stay the only way.
+- Unit tests for the breath arithmetic, the recolouring and every new recipe; GameTests that none of it exists without
+  Ice and Fire.
+
+### Changed
+- The Block of Wyrmsteel unpacks on the crafting table in every game, not only with Create.
+
 ## [1.0.0] - Unreleased
 
 Built against Vocana 2.1.0, NeoForge 21.1.255, Minecraft 1.21.1.
