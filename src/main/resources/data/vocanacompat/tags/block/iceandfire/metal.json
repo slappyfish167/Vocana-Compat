@@ -30,6 +30,10 @@
     {
       "id": "iceandfire:deepslate_silver_ore",
       "required": false
+    },
+    {
+      "id": "vocanacompat:wyrmsteel_block",
+      "required": false
     }
   ]
 }

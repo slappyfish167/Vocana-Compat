@@ -73,8 +73,14 @@ Built against Vocana 2.1.0, NeoForge 21.1.255, Minecraft 1.21.1.
   and `/summon` through; `removeSirenIslands` empties the island's biome tag).
 - Dragonsteel rebalanced towards netherite with a lean per kind through `ItemAttributeModifierEvent` (fire hits
   harder, ice is tougher and sheds freezing, lightning is quick; every offset in `vocanacompat-iceandfire.toml`).
-- Wyrmsteel, the netherite-dragonsteel alloy, made only in a superheated Create mixer, and its Wyrmsteel Staff
-  (capacity 6, affinity FIRE, FROST and LIGHTNING), sword and pickaxe made only by Create sequenced assembly.
+- Wyrmsteel, the netherite-dragonsteel alloy, made only in a superheated Create mixer, and its whole set, each piece
+  reforged from its netherite counterpart by Create sequenced assembly: the Wyrmsteel Staff (capacity 6, affinity
+  FIRE, FROST and LIGHTNING), sword, pickaxe, axe, shovel and hoe (3000 durability, netherite's damage +3), and
+  helmet, chestplate, leggings and boots (the `wyrmsteel` armour material: 4/9/7/4, toughness 4, knockback resistance
+  0.15, trimmable). A Block of Wyrmsteel packed from nine ingots on a Create press (a beacon base and a ritual anchor
+  beside Ice and Fire's dragonsteel blocks, unpacked on the crafting table). The gear is in the vanilla tool and armour
+  tags, so it takes the enchantments of its kind; its built-in figures are the rebalance defaults, so it reads the same
+  with `rebalance` off.
 - `vocana:hears` tags for dragons, sea serpents, cyclopes, death worms, dread mobs, pixies, hippogryphs, ghosts and
   the dragon blocks; the Elder shades DRAGONFROST (`drakopagos`) and DRAGONBOLT (`drakastrape`); Imbue Bench recipes
   from dragon blood, scales and dragonsteel; the siren switches reach data through `vocanacompat:module_flag` (`docs/iceandfire.md`).
@@ -120,5 +126,8 @@ Built against Vocana 2.1.0, NeoForge 21.1.255, Minecraft 1.21.1.
   Wilden, starbuncles, drygmies), and GameTests and unit tests that run without Ars (`docs/ars_nouveau.md`).
 
 ### Fixed
+- `tools/generate_textures.py` did not run: merging the modules pasted the Ice and Fire texture script into the
+  middle of the Curios one. Each module's sprites now live in `tools/textures_<module>.py` and
+  `generate_textures.py` runs them all (or the modules named); every committed PNG regenerates byte-for-byte.
 - The `.gitignore` entry for the CI checkout of Vocana (`vocana/`) also hid `src/main/java/dev/vocana/`, so the
   skeleton's Java sources were never committed; the pattern is anchored to the root (`/vocana/`).

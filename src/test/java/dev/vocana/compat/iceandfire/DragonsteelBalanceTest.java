@@ -17,6 +17,10 @@ final class DragonsteelBalanceTest {
         assertEquals(new Target(Metal.ICE, Piece.CHESTPLATE), DragonsteelBalance.classify("iceandfire:dragonsteel_ice_chestplate"));
         assertEquals(new Target(Metal.LIGHTNING, Piece.HOE), DragonsteelBalance.classify("iceandfire:dragonsteel_lightning_hoe"));
         assertEquals(new Target(Metal.WYRMSTEEL, Piece.PICKAXE), DragonsteelBalance.classify("vocanacompat:wyrmsteel_pickaxe"));
+        for (Piece p : Piece.values())
+            assertEquals(new Target(Metal.WYRMSTEEL, p), DragonsteelBalance.classify("vocanacompat:wyrmsteel_" + p.suffix()), "the whole wyrmsteel set is rebalanced: " + p);
+        assertNull(DragonsteelBalance.classify("vocanacompat:wyrmsteel_block"), "the block is not gear");
+        assertNull(DragonsteelBalance.classify("vocanacompat:incomplete_wyrmsteel_axe"), "an incomplete piece is not gear");
         assertNull(DragonsteelBalance.classify("iceandfire:dragonsteel_fire_ingot"), "ingots are not gear");
         assertNull(DragonsteelBalance.classify("iceandfire:dragonsteel_fire_block"));
         assertNull(DragonsteelBalance.classify("iceandfire:dragonarmor_dragonsteel_fire_head"), "dragon armour is not player gear");

@@ -67,7 +67,7 @@ Recipes: Ring of Focus = 2 gold, amethyst shard, copper · Amulet of Resonance =
 shard · Charm of Calm = 2 copper, 2 amethyst shards, string · Signet of the Elements = 3 gold, echo shard, amethyst
 shard. Recipe files: `data/vocanacompat/recipe/curios/*.json` (ids `vocanacompat:curios/<name>`), unlock advancements
 beside them, models in `assets/vocanacompat/models/item/` (a model must sit at its item's path, so these are not in a
-`curios/` sub-folder; the textures are, under `textures/item/curios/`, drawn by `tools/generate_textures.py`).
+`curios/` sub-folder; the textures are, under `textures/item/curios/`, drawn by `tools/textures_curios.py` (run `python3 tools/generate_textures.py curios`)).
 
 ## Config (`config/vocanacompat-curios.toml`)
 

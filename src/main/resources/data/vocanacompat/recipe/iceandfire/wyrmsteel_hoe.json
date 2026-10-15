@@ -1,0 +1,76 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "iceandfire"
+    },
+    {
+      "type": "vocanacompat:module_enabled",
+      "module": "iceandfire"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "create:sequenced_assembly",
+  "ingredient": {
+    "item": "minecraft:netherite_hoe"
+  },
+  "transitional_item": {
+    "id": "vocanacompat:incomplete_wyrmsteel_hoe"
+  },
+  "loops": 2,
+  "sequence": [
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "vocanacompat:incomplete_wyrmsteel_hoe"
+        },
+        {
+          "item": "vocanacompat:netherite_dragonsteel_ingot"
+        }
+      ],
+      "results": [
+        {
+          "id": "vocanacompat:incomplete_wyrmsteel_hoe"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "vocanacompat:incomplete_wyrmsteel_hoe"
+        },
+        {
+          "item": "iceandfire:dragonbone"
+        }
+      ],
+      "results": [
+        {
+          "id": "vocanacompat:incomplete_wyrmsteel_hoe"
+        }
+      ]
+    },
+    {
+      "type": "create:pressing",
+      "ingredients": [
+        {
+          "item": "vocanacompat:incomplete_wyrmsteel_hoe"
+        }
+      ],
+      "results": [
+        {
+          "id": "vocanacompat:incomplete_wyrmsteel_hoe"
+        }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "id": "vocanacompat:wyrmsteel_hoe"
+    }
+  ]
+}

@@ -8,6 +8,10 @@
     {
       "id": "#vocanacompat:hexcasting/ritual_anchors",
       "required": false
+    },
+    {
+      "id": "#vocanacompat:iceandfire/ritual_anchors",
+      "required": false
     }
   ]
 }

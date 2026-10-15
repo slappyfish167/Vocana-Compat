@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "vocanacompat:wyrmsteel_pickaxe",
+      "required": false
+    }
+  ]
+}

@@ -14,7 +14,7 @@ import net.neoforged.neoforge.common.NeoForge;
  * <ul>
  * <li>sirens gone ({@link SirenRemoval} and {@code data/vocanacompat/neoforge/biome_modifier/iceandfire/});</li>
  * <li>dragonsteel brought to netherite's class with a lean per kind ({@link DragonsteelRebalance}, numbers in {@link IceAndFireConfig});</li>
- * <li>wyrmsteel, the netherite-dragonsteel alloy, and its staff, sword and pickaxe, made only on Create machines ({@link IceAndFireItems}, {@code data/vocanacompat/recipe/iceandfire/});</li>
+ * <li>wyrmsteel, the netherite-dragonsteel alloy, and its whole set (staff, five tools, four armour pieces, a block), made only on Create machines ({@link IceAndFireItems}, {@code data/vocanacompat/recipe/iceandfire/});</li>
  * <li>words: dragons teach FIRE, FROST, LIGHTNING and SKY, and the Elder shades DRAGONFROST and DRAGONBOLT ({@code src/main/lexicon/iceandfire.json}, {@code vocana:hears} tags);</li>
  * <li>Imbue Bench recipes from dragon materials ({@code data/vocanacompat/vocana_imbue/iceandfire/}).</li>
  * </ul>

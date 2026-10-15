@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "vocanacompat:netherite_dragonsteel_ingot",
+      "required": false
+    }
+  ]
+}

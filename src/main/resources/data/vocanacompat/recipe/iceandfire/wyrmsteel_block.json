@@ -1,0 +1,51 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "iceandfire"
+    },
+    {
+      "type": "vocanacompat:module_enabled",
+      "module": "iceandfire"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "create:compacting",
+  "ingredients": [
+    {
+      "item": "vocanacompat:netherite_dragonsteel_ingot"
+    },
+    {
+      "item": "vocanacompat:netherite_dragonsteel_ingot"
+    },
+    {
+      "item": "vocanacompat:netherite_dragonsteel_ingot"
+    },
+    {
+      "item": "vocanacompat:netherite_dragonsteel_ingot"
+    },
+    {
+      "item": "vocanacompat:netherite_dragonsteel_ingot"
+    },
+    {
+      "item": "vocanacompat:netherite_dragonsteel_ingot"
+    },
+    {
+      "item": "vocanacompat:netherite_dragonsteel_ingot"
+    },
+    {
+      "item": "vocanacompat:netherite_dragonsteel_ingot"
+    },
+    {
+      "item": "vocanacompat:netherite_dragonsteel_ingot"
+    }
+  ],
+  "results": [
+    {
+      "id": "vocanacompat:wyrmsteel_block"
+    }
+  ]
+}

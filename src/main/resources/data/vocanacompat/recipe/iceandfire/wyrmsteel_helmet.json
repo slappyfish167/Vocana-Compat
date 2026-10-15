@@ -1,0 +1,111 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "iceandfire"
+    },
+    {
+      "type": "vocanacompat:module_enabled",
+      "module": "iceandfire"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "create:sequenced_assembly",
+  "ingredient": {
+    "item": "minecraft:netherite_helmet"
+  },
+  "transitional_item": {
+    "id": "vocanacompat:incomplete_wyrmsteel_helmet"
+  },
+  "loops": 2,
+  "sequence": [
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "vocanacompat:incomplete_wyrmsteel_helmet"
+        },
+        {
+          "item": "vocanacompat:netherite_dragonsteel_ingot"
+        }
+      ],
+      "results": [
+        {
+          "id": "vocanacompat:incomplete_wyrmsteel_helmet"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "vocanacompat:incomplete_wyrmsteel_helmet"
+        },
+        [
+          {
+            "item": "iceandfire:dragonscales_red"
+          },
+          {
+            "item": "iceandfire:dragonscales_green"
+          },
+          {
+            "item": "iceandfire:dragonscales_bronze"
+          },
+          {
+            "item": "iceandfire:dragonscales_gray"
+          },
+          {
+            "item": "iceandfire:dragonscales_blue"
+          },
+          {
+            "item": "iceandfire:dragonscales_white"
+          },
+          {
+            "item": "iceandfire:dragonscales_sapphire"
+          },
+          {
+            "item": "iceandfire:dragonscales_silver"
+          },
+          {
+            "item": "iceandfire:dragonscales_electric"
+          },
+          {
+            "item": "iceandfire:dragonscales_amethyst"
+          },
+          {
+            "item": "iceandfire:dragonscales_copper"
+          },
+          {
+            "item": "iceandfire:dragonscales_black"
+          }
+        ]
+      ],
+      "results": [
+        {
+          "id": "vocanacompat:incomplete_wyrmsteel_helmet"
+        }
+      ]
+    },
+    {
+      "type": "create:pressing",
+      "ingredients": [
+        {
+          "item": "vocanacompat:incomplete_wyrmsteel_helmet"
+        }
+      ],
+      "results": [
+        {
+          "id": "vocanacompat:incomplete_wyrmsteel_helmet"
+        }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "id": "vocanacompat:wyrmsteel_helmet"
+    }
+  ]
+}

@@ -8,6 +8,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
@@ -42,8 +43,16 @@ public final class IceAndFireGameTests {
     public static void nothingOfTheModuleIsRegisteredWithoutIceAndFire(GameTestHelper h) {
         h.assertFalse(ModList.get().isLoaded(Module.ICE_AND_FIRE.modId), "iceandfire is not on the GameTest classpath");
         h.assertFalse(VocanaCompat.loaded(Module.ICE_AND_FIRE), "the module did not load");
-        for (String id : new String[]{"netherite_dragonsteel_ingot", "wyrmsteel_staff", "wyrmsteel_sword", "wyrmsteel_pickaxe", "incomplete_wyrmsteel_staff"})
+        for (String id : new String[]{"netherite_dragonsteel_ingot", "wyrmsteel_block", "wyrmsteel_staff", "wyrmsteel_sword", "wyrmsteel_pickaxe", "wyrmsteel_axe",
+                                      "wyrmsteel_shovel", "wyrmsteel_hoe", "wyrmsteel_helmet", "wyrmsteel_chestplate", "wyrmsteel_leggings", "wyrmsteel_boots",
+                                      "incomplete_wyrmsteel_staff", "incomplete_wyrmsteel_chestplate"})
             h.assertFalse(BuiltInRegistries.ITEM.containsKey(ResourceLocation.fromNamespaceAndPath(VocanaCompat.ID, id)), "vocanacompat:" + id + " is not registered");
+        h.assertFalse(BuiltInRegistries.BLOCK.containsKey(ResourceLocation.fromNamespaceAndPath(VocanaCompat.ID, "wyrmsteel_block")), "the wyrmsteel block is not registered");
+        h.assertFalse(BuiltInRegistries.ARMOR_MATERIAL.containsKey(ResourceLocation.fromNamespaceAndPath(VocanaCompat.ID, "wyrmsteel")),
+            "the wyrmsteel armour material is not registered");
+        // The shared tags name the gear optionally, so without the module they hold nothing of it.
+        h.assertFalse(BuiltInRegistries.ITEM.getTag(ItemTags.SWORDS).map(t -> t.stream().anyMatch(i -> BuiltInRegistries.ITEM.getKey(i.value()).getNamespace().equals(VocanaCompat.ID))).orElse(false),
+            "minecraft:swords holds no vocanacompat item");
         // The flag condition is the core's, so the siren files still parse in a game without Ice and Fire; their flags read false.
         h.assertTrue(NeoForgeRegistries.CONDITION_SERIALIZERS.containsKey(ResourceLocation.fromNamespaceAndPath(VocanaCompat.ID, "module_flag")), "vocanacompat:module_flag is registered by the core");
         h.assertFalse(new dev.vocana.compat.ModuleFlagCondition("iceandfire", "removeSirens").test(net.neoforged.neoforge.common.conditions.ICondition.IContext.EMPTY), "an unloaded module's flag is false");
@@ -56,6 +65,13 @@ public final class IceAndFireGameTests {
             "/data/vocanacompat/neoforge/biome_modifier/iceandfire/remove_siren_spawns.json",
             "/data/vocanacompat/recipe/iceandfire/netherite_dragonsteel_ingot.json",
             "/data/vocanacompat/recipe/iceandfire/wyrmsteel_staff.json",
+            "/data/vocanacompat/recipe/iceandfire/wyrmsteel_chestplate.json",
+            "/data/vocanacompat/recipe/iceandfire/wyrmsteel_block.json",
+            "/data/vocanacompat/loot_table/blocks/wyrmsteel_block.json",
+            "/data/minecraft/tags/item/swords.json",
+            "/assets/vocanacompat/textures/models/armor/wyrmsteel_layer_1.png",
+            "/assets/vocanacompat/textures/models/armor/wyrmsteel_layer_2.png",
+            "/assets/vocanacompat/blockstates/wyrmsteel_block.json",
             "/data/vocanacompat/vocana_imbue/iceandfire/wyrmsteel_staff.json",
             "/data/vocanacompat/tags/entity_type/iceandfire/dragonfrost.json",
             "/data/vocana/tags/entity_type/hears/dragonbolt.json",

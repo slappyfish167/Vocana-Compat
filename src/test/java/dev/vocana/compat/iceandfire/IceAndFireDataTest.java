@@ -11,6 +11,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -25,8 +26,19 @@ import static org.junit.jupiter.api.Assertions.*;
 final class IceAndFireDataTest {
     private static final Path RES = Path.of("src/main/resources");
     private static final String MOD_LOADED = "neoforge:mod_loaded", MODULE = "vocanacompat:module_enabled", CONFIG = "vocanacompat:module_flag";
-    private static final Set<String> ITEMS = Set.of("netherite_dragonsteel_ingot", "wyrmsteel_staff", "wyrmsteel_sword", "wyrmsteel_pickaxe",
-        "incomplete_wyrmsteel_staff", "incomplete_wyrmsteel_sword", "incomplete_wyrmsteel_pickaxe");
+    /** The wyrmsteel set: every piece made on its own Create assembly line, and what each line starts from. */
+    private static final Map<String, String> LINES = Map.ofEntries(
+        Map.entry("wyrmsteel_staff", "vocana:archmage_staff"), Map.entry("wyrmsteel_sword", "minecraft:netherite_sword"),
+        Map.entry("wyrmsteel_pickaxe", "minecraft:netherite_pickaxe"), Map.entry("wyrmsteel_axe", "minecraft:netherite_axe"),
+        Map.entry("wyrmsteel_shovel", "minecraft:netherite_shovel"), Map.entry("wyrmsteel_hoe", "minecraft:netherite_hoe"),
+        Map.entry("wyrmsteel_helmet", "minecraft:netherite_helmet"), Map.entry("wyrmsteel_chestplate", "minecraft:netherite_chestplate"),
+        Map.entry("wyrmsteel_leggings", "minecraft:netherite_leggings"), Map.entry("wyrmsteel_boots", "minecraft:netherite_boots"));
+    private static final Set<String> ITEMS = items();
+    private static Set<String> items() {
+        var out = new java.util.TreeSet<String>(Set.of("netherite_dragonsteel_ingot"));
+        for (String line : LINES.keySet()) { out.add(line); out.add("incomplete_" + line); }
+        return out;
+    }
 
     private static JsonObject read(Path p) throws IOException {
         try (var r = Files.newBufferedReader(p, StandardCharsets.UTF_8)) { return JsonParser.parseReader(r).getAsJsonObject(); }
@@ -83,9 +95,11 @@ final class IceAndFireDataTest {
         assertEquals("superheated", mixing.get("heat_requirement").getAsString());
         assertEquals(2, mixing.getAsJsonArray("ingredients").size(), "netherite and one dragonsteel ingot");
         assertEquals("vocanacompat:netherite_dragonsteel_ingot", mixing.getAsJsonArray("results").get(0).getAsJsonObject().get("id").getAsString());
-        for (String line : List.of("wyrmsteel_staff", "wyrmsteel_sword", "wyrmsteel_pickaxe")) {
+        for (var entry : LINES.entrySet()) {
+            String line = entry.getKey();
             var r = read(RES.resolve("data/vocanacompat/recipe/iceandfire/" + line + ".json"));
             assertEquals("create:sequenced_assembly", r.get("type").getAsString(), line);
+            assertEquals(entry.getValue(), r.getAsJsonObject("ingredient").get("item").getAsString(), line + " is reforged from its counterpart");
             String transitional = r.getAsJsonObject("transitional_item").get("id").getAsString();
             assertEquals("vocanacompat:incomplete_" + line, transitional, line + " rides its own incomplete piece");
             assertTrue(r.get("loops").getAsInt() >= 2 && r.get("loops").getAsInt() <= 3, line + " loops two or three times");
@@ -105,9 +119,69 @@ final class IceAndFireDataTest {
             }
             assertTrue(pressed && alloyed, line + " is pressed and takes the alloy");
         }
+        var block = read(RES.resolve("data/vocanacompat/recipe/iceandfire/wyrmsteel_block.json"));
+        assertEquals("create:compacting", block.get("type").getAsString(), "the block is packed on a press");
+        assertEquals(9, block.getAsJsonArray("ingredients").size());
+        for (JsonElement i : block.getAsJsonArray("ingredients")) assertEquals("vocanacompat:netherite_dragonsteel_ingot", i.getAsJsonObject().get("item").getAsString());
+        assertEquals("vocanacompat:wyrmsteel_block", block.getAsJsonArray("results").get(0).getAsJsonObject().get("id").getAsString());
         try (Stream<Path> s = Files.list(RES.resolve("data/vocanacompat/recipe/iceandfire"))) {
-            for (Path p : s.toList()) assertNotEquals("minecraft:crafting_shaped", read(p).get("type").getAsString(), p + ": no crafting-table recipe for wyrmsteel");
+            for (Path p : s.toList()) {
+                var r = read(p);
+                if (!r.get("type").getAsString().startsWith("minecraft:crafting")) continue;
+                // The one crafting-table recipe unpacks the block: it makes no wyrmsteel that was not already there.
+                assertEquals("minecraft:crafting_shapeless", r.get("type").getAsString(), p + ": no crafting-table recipe makes wyrmsteel");
+                assertEquals(1, r.getAsJsonArray("ingredients").size(), p.toString());
+                assertEquals("vocanacompat:wyrmsteel_block", r.getAsJsonArray("ingredients").get(0).getAsJsonObject().get("item").getAsString(), p.toString());
+                assertEquals("vocanacompat:netherite_dragonsteel_ingot", r.getAsJsonObject("result").get("id").getAsString(), p.toString());
+                assertEquals(9, r.getAsJsonObject("result").get("count").getAsInt(), p.toString());
+            }
         }
+    }
+
+    @Test void theBlockHasItsLootModelsAndTags() throws IOException {
+        var loot = read(RES.resolve("data/vocanacompat/loot_table/blocks/wyrmsteel_block.json"));
+        var types = conditionTypes(loot, "iceandfire");
+        assertTrue(types.contains(MOD_LOADED + ":iceandfire") && types.contains(MODULE), "the loot table is the module's");
+        assertEquals("vocanacompat:wyrmsteel_block", loot.getAsJsonArray("pools").get(0).getAsJsonObject().getAsJsonArray("entries").get(0).getAsJsonObject().get("name").getAsString());
+        var state = read(RES.resolve("assets/vocanacompat/blockstates/wyrmsteel_block.json"));
+        assertEquals("vocanacompat:block/wyrmsteel_block", state.getAsJsonObject("variants").getAsJsonObject("").get("model").getAsString());
+        var model = read(RES.resolve("assets/vocanacompat/models/block/wyrmsteel_block.json"));
+        assertEquals("vocanacompat:block/iceandfire/wyrmsteel_block", model.getAsJsonObject("textures").get("all").getAsString());
+        assertTrue(Files.exists(RES.resolve("assets/vocanacompat/textures/block/iceandfire/wyrmsteel_block.png")));
+        assertEquals("vocanacompat:block/wyrmsteel_block", read(RES.resolve("assets/vocanacompat/models/item/wyrmsteel_block.json")).get("parent").getAsString());
+        assertTrue(read(RES.resolve("assets/vocanacompat/lang/en_us.json")).has("block.vocanacompat.wyrmsteel_block"));
+        for (String tag : List.of("minecraft/tags/block/mineable/pickaxe", "minecraft/tags/block/needs_diamond_tool", "minecraft/tags/block/beacon_base_blocks",
+                                  "vocanacompat/tags/block/iceandfire/ritual_anchors", "vocanacompat/tags/block/iceandfire/metal"))
+            assertTrue(ids(read(RES.resolve("data/" + tag + ".json"))).contains("vocanacompat:wyrmsteel_block"), tag + " holds the block");
+        assertTrue(ids(read(RES.resolve("data/vocana/tags/block/ritual_anchors.json"))).contains("#vocanacompat:iceandfire/ritual_anchors"), "the anchors reach Vocana's tag");
+    }
+
+    @Test void theGearIsInTheVanillaTagsThatMakeItEnchantable() throws IOException {
+        var expected = Map.of("swords", "sword", "pickaxes", "pickaxe", "axes", "axe", "shovels", "shovel", "hoes", "hoe",
+            "head_armor", "helmet", "chest_armor", "chestplate", "leg_armor", "leggings", "foot_armor", "boots");
+        for (var e : expected.entrySet()) {
+            var tag = read(RES.resolve("data/minecraft/tags/item/" + e.getKey() + ".json"));
+            assertTrue(ids(tag).contains("vocanacompat:wyrmsteel_" + e.getValue()), "minecraft:" + e.getKey() + " holds the wyrmsteel " + e.getValue());
+        }
+        var trims = ids(read(RES.resolve("data/minecraft/tags/item/trimmable_armor.json")));
+        for (String piece : List.of("helmet", "chestplate", "leggings", "boots")) assertTrue(trims.contains("vocanacompat:wyrmsteel_" + piece), piece + " takes armour trims");
+        // Shared tags carry no module condition (other modules may add to them): every line is optional instead, and
+        // the module's items exist only when it loaded.
+        for (String dir : List.of("data/minecraft/tags", "data/c/tags")) {
+            try (Stream<Path> s = Files.walk(RES.resolve(dir))) {
+                for (Path p : s.filter(f -> f.toString().endsWith(".json")).toList()) {
+                    var o = read(p);
+                    assertFalse(o.get("replace").getAsBoolean(), p + " never replaces the tag");
+                    for (JsonElement v : o.getAsJsonArray("values")) assertFalse(v.getAsJsonObject().get("required").getAsBoolean(), p + ": every line is optional");
+                }
+            }
+        }
+    }
+
+    private static Set<String> ids(JsonObject tag) {
+        var out = new java.util.HashSet<String>();
+        for (JsonElement v : tag.getAsJsonArray("values")) out.add(v.isJsonObject() ? v.getAsJsonObject().get("id").getAsString() : v.getAsString());
+        return out;
     }
 
     @Test void theImbueRecipesHaveTheBenchsFields() throws IOException {

@@ -37,15 +37,15 @@ Defaults (netherite in the first column; every number is in `[dragonsteel.<kind>
 | | Netherite | Fire dragonsteel | Ice dragonsteel | Lightning dragonsteel | Wyrmsteel |
 |---|---|---|---|---|---|
 | Sword damage / attack speed | 8 / 1.6 | **10** / 1.4 | 9 / 1.3 | 8 / **2.0** | **11** / 1.6 |
-| Axe | 9 / 1.0 | 11 / 0.8 | 10 / 0.7 | 9 / 1.4 | — |
+| Axe | 9 / 1.0 | 11 / 0.8 | 10 / 0.7 | 9 / 1.4 | 12 / 1.0 |
 | Pickaxe | 5 / 1.2 | 7 / 1.0 | 6 / 0.9 | 5 / 1.6 | 8 / 1.2 |
-| Shovel | 6.5 / 1.0 | 8.5 / 0.8 | 7.5 / 0.7 | 6.5 / 1.4 | — |
-| Hoe | 1 / 4.0 | 3 / 3.8 | 2 / 3.7 | 1 / 4.4 | — |
-| Armour (helmet/chest/legs/boots) | 3/8/6/3 | 3/8/6/3 | 3/8/6/3 | 2/7/5/2 | — |
-| Toughness per piece | 3 | 3 | **4** | 2 | — |
-| Knockback resistance per piece | 0.1 | **0.15** | 0.1 | 0.05 | — |
+| Shovel | 6.5 / 1.0 | 8.5 / 0.8 | 7.5 / 0.7 | 6.5 / 1.4 | 9.5 / 1.0 |
+| Hoe | 1 / 4.0 | 3 / 3.8 | 2 / 3.7 | 1 / 4.4 | 4 / 4.0 |
+| Armour (helmet/chest/legs/boots) | 3/8/6/3 | 3/8/6/3 | 3/8/6/3 | 2/7/5/2 | **4/9/7/4** |
+| Toughness per piece | 3 | 3 | **4** | 2 | **4** |
+| Knockback resistance per piece | 0.1 | **0.15** | 0.1 | 0.05 | **0.15** |
 | Movement speed per piece | — | — | −2 % | **+2 %** | — |
-| Other | | Ice and Fire's own fire/breath protection stays | sheds freezing with 2+ pieces on (`iceFrostResistancePieces`) | | fire-resistant, 3000 durability |
+| Other | | Ice and Fire's own fire/breath protection stays | sheds freezing with 2+ pieces on (`iceFrostResistancePieces`) | | fire-resistant; tools 3000 durability, armour 495/720/675/585 |
 
 Attack speed is shown as attacks per second (the player's 4 plus the modifier). The config holds the offsets:
 `damage` and `attackSpeed` over netherite's tool, `armor` over netherite's piece (floored at 0), `toughness` and
@@ -55,8 +55,8 @@ follow `minecraft:armor.<piece>`.
 
 ## Wyrmsteel (needs Create)
 
-Wyrmsteel is the netherite-dragonsteel alloy, `vocanacompat:netherite_dragonsteel_ingot`. It has no crafting-table
-recipe anywhere:
+Wyrmsteel is the netherite-dragonsteel alloy, `vocanacompat:netherite_dragonsteel_ingot`, and a whole set: a staff,
+five tools, four armour pieces and a storage block. No crafting-table recipe makes any of it:
 
 - **Ingot**: `create:mixing`, `heat_requirement: superheated` (a seething blaze burner), one `#c:ingots/netherite` and
   one dragonsteel ingot of any kind (fire, ice or lightning) give two wyrmsteel ingots
@@ -66,16 +66,44 @@ recipe anywhere:
   resistant. Vocana treats any `StaffItem` as a Catalyst, so it inscribes, chants, tunes and holds a Bound Catalyst
   like the core staffs. Made by `create:sequenced_assembly` from an **Archmage's Staff**: deploy a wyrmsteel ingot,
   press, deploy a dragon bone, deploy dragon scales (any colour), deploy dragon blood (any kind), press; three loops.
-- **Wyrmsteel Sword** and **Pickaxe**: from a netherite sword or pickaxe on their own lines (sword: ingot, press,
-  blood, press; pickaxe: ingot, bone, press; two loops each). Their tier mines what netherite mines, 3000 durability,
-  repaired with the ingot; their attack figures come from `[dragonsteel.wyrmsteel]` like dragonsteel's.
-- Each line rides its own incomplete piece (`incomplete_wyrmsteel_staff/sword/pickaxe`), plain items, so Create
-  never confuses one line with another. (They are not Create's `SequencedAssemblyItem`, which would put a Create
-  class in this package and break `-Pcompat.skip=create`; the progress bar is the only loss.)
+- **Tools**: each from its netherite counterpart on its own line. Their tier mines what netherite mines, 3000
+  durability, enchantability 20, repaired with the ingot; their attack figures come from `[dragonsteel.wyrmsteel]`
+  like dragonsteel's. The items are built with those offsets' defaults, armour too, so turning `rebalance` off leaves
+  wyrmsteel as it is until the offsets are edited.
+
+  | Piece | From | Each loop | Loops |
+  |---|---|---|---|
+  | Sword | netherite sword | ingot, press, dragon blood (any kind), press | 2 |
+  | Pickaxe, Axe, Shovel, Hoe | the netherite tool | ingot, dragon bone, press | 2 |
+
+- **Armour** (`wyrmsteel` armour material): each from its netherite piece, deploying dragon scales of any colour.
+  Netherite's 3/8/6/3 armour plus one, toughness 4 and knockback resistance 0.15 per piece, durability multiplier 45
+  (netherite's 37),
+  enchantability 15, netherite's equip sound, fire resistant, repaired with the ingot, and it takes armour trims.
+
+  | Piece | Each loop | Loops |
+  |---|---|---|
+  | Helmet, Boots | ingot, dragon scales, press | 2 |
+  | Chestplate | ingot, dragon scales, dragon blood, press | 3 |
+  | Leggings | ingot, dragon scales, press | 3 |
+
+- **Block of Wyrmsteel** (`vocanacompat:wyrmsteel_block`): nine ingots compacted in a basin under a press
+  (`create:compacting`, no heat); it unpacks to nine on the crafting table, which makes no metal that was not already
+  there. Netherite's hardness and blast resistance, needs a diamond pickaxe, a beacon base, and the ingot is a beacon
+  payment. It is a ritual anchor for the Imbue Bench (`vocanacompat:iceandfire/ritual_anchors`, with Ice and Fire's
+  three dragonsteel blocks) and teaches METAL.
+- **Tags**: the gear is in `minecraft:swords`, `pickaxes`, `axes`, `shovels`, `hoes`, `head_armor`, `chest_armor`,
+  `leg_armor` and `foot_armor` (so the enchanting table and anvil treat it as what it is), `minecraft:trimmable_armor`,
+  `c:ingots/wyrmsteel` and `c:storage_blocks/wyrmsteel`. These shared files carry no module condition (other modules
+  may add to them); every line is optional instead, and the items exist only when the module loaded.
+- Each line rides its own incomplete piece (`incomplete_wyrmsteel_<piece>`), plain items, so Create never confuses one
+  line with another. (They are not Create's `SequencedAssemblyItem`, which would put a Create class in this package
+  and break `-Pcompat.skip=create`; the progress bar is the only loss.)
 - Ice and Fire has no dragon-blood fluid, so blood is deployed as an item rather than filled.
 
-Textures are drawn by `tools/generate_textures.py` (Pillow); the PNGs under
-`assets/vocanacompat/textures/item/iceandfire/` are committed and regenerate byte-for-byte.
+Textures are drawn by `tools/textures_iceandfire.py` (Pillow; run `python3 tools/generate_textures.py iceandfire`): the
+item sprites under `assets/vocanacompat/textures/item/iceandfire/`, the block under `block/iceandfire/` and the worn
+armour layers `models/armor/wyrmsteel_layer_1.png` and `_layer_2.png`. They are committed and regenerate byte-for-byte.
 
 ## Words
 
@@ -131,8 +159,11 @@ All take priority over Vocana's generic recipes (priority 1; the wyrmsteel one 2
 3. Wyrmsteel: a basin over a seething burner with a netherite ingot and a dragonsteel ingot gives two wyrmsteel
    ingots; a cold or merely kindled burner does not. Build the three lines (depot or belt, press, deployers) and watch
    an Archmage's Staff become a Wyrmsteel Staff; inscribe with it (Capacity +6, affinity Fire, Frost, Lightning), chant
-   `open saunta raustau close` and see the fifth off. The incomplete pieces must not be craftable or usable as anything
-   else. Check the creative tabs (Ingredients, Combat, Tools).
+   `open saunta raustau close` and see the fifth off. Run the tool and armour lines the same way; wear the full set
+   and read the armour bar (4/9/7/4 with toughness 4), put a trim on the chestplate at a smithing table, and enchant
+   the axe with Sharpness and the boots with Feather Falling. Compact nine ingots under a press into a block, unpack
+   it on the crafting table, mine it (diamond pickaxe or better) and build a beacon on it. The incomplete pieces must
+   not be craftable or usable as anything else. Check the creative tabs (Ingredients, Building Blocks, Combat, Tools).
 4. Words: stand by an ice dragon with the Chime; FROST, SKY and (once FROST is known) DRAGONFROST surface; the same
    with a lightning dragon for DRAGONBOLT. Speak `open drakopagos raustau close` at a creature: it freezes and stills.
 5. Bench: lay fire into a sword with fire dragon blood and a dragon bone; lay FROST into the Wyrmsteel Staff with a bone

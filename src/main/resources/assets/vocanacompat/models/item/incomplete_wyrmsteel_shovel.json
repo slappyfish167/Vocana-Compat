@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "vocanacompat:item/iceandfire/incomplete_wyrmsteel_shovel"
+  }
+}

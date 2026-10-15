@@ -1,0 +1,21 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "vocanacompat:wyrmsteel_helmet",
+      "required": false
+    },
+    {
+      "id": "vocanacompat:wyrmsteel_chestplate",
+      "required": false
+    },
+    {
+      "id": "vocanacompat:wyrmsteel_leggings",
+      "required": false
+    },
+    {
+      "id": "vocanacompat:wyrmsteel_boots",
+      "required": false
+    }
+  ]
+}

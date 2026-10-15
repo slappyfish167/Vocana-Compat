@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "vocanacompat:block/wyrmsteel_block"
+    }
+  }
+}
