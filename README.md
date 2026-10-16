@@ -48,6 +48,13 @@ GitHub Actions workflow (`.github/workflows/build.yml`) does the same steps: it 
 `vocana.ref`, publishes it locally, then builds, unit-tests and game-tests this repository. It uploads no artifact;
 read the job log.
 
+## The modpack
+
+`modpack/` holds **Vocana: Resonance**, a curated NeoForge 1.21.1 pack built around Vocana and every target above:
+about 140 mods for magic, engineering, creatures, exploration and quality of life, with Sodium-based performance. It
+is a packwiz source resolved on Modrinth by `.github/workflows/modpack.yml`, which exports a `.mrpack` and boots it
+as a dedicated server on every push. See [modpack/README.md](modpack/README.md).
+
 ## Repository map
 
 - `src/main/java/dev/vocana/compat/` — `VocanaCompat` (loads modules), `Module` (the enum), `CompatModule`,
@@ -59,6 +66,7 @@ read the job log.
 - `docs/adding_a_module.md` — the conventions a module follows (paths, loading, the one rule, tags, conditions).
 - `docs/curios.md` — the Curios module: slots, the focus items, its config and the in-game checklist.
 - `vocana.ref` — the Vocana git ref CI builds against; bump it with Vocana.
+- `modpack/` — the Vocana: Resonance modpack (packwiz source, curated `mods.txt`, default configs, quest plan).
 
 ## Licence
 
