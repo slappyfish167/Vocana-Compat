@@ -1,0 +1,57 @@
+# Vocana server settings as Vocana: Resonance ships them. NeoForge copies this file into a new world's
+# serverconfig/ folder; an existing world keeps its own copy (edit saves/<world>/serverconfig/vocana-server.toml).
+# Keys and ranges are those of dev.vocana.VocanaConfig (Vocana 2.1.0). Two values differ from Vocana's defaults:
+#   progression.hoursPerResonancePoint 3.0 -> 2.5   (a big pack splits play time; Resonance keeps pace)
+#   magic.harmPlayers                  true -> false (the pack is built for co-op servers; turn on for PvP)
+
+[progression]
+	enabled = true
+	hoursPerResonancePoint = 2.5
+	masteryCasts = 40
+	callings = true
+	practiceGain = 1.0
+	spokenPracticeBonus = 1.25
+	ritualPracticeBonus = 2.0
+	customWords = true
+	customWordLevel = 4
+	customWordSimilarityWarn = 0.7
+	customWordSimilarityRefuse = 0.9
+
+[grimoire]
+	revealMeanings = true
+	maxBookmarks = 12
+
+[thrum]
+	regenMultiplier = 1.0
+
+[magic]
+	harmPlayers = false
+	terrain = true
+	permanence = false
+	raisePlayers = false
+	overdraw = "small"
+	standing = 4
+	workings = 12
+	boundBeings = 6
+
+[voice]
+	spokenChants = true
+	listenSeconds = 20
+
+[aura]
+	enabled = true
+	radius = 48
+
+[bench]
+	weaponSlots = 2
+	armorSlots = 2
+	toolSlots = 1
+	staffSlots = 1
+	maxComplexity = 24
+	triggerCooldownTicks = 20
+	stripXp = 3
+	stripRefund = 0.5
+	chantFiringThrum = 0.5
+	channelSeconds = 60
+	passiveChantSeconds = 60
+	benchReach = 6

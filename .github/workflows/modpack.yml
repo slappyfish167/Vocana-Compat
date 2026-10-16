@@ -1,0 +1,291 @@
+name: Modpack
+
+# Builds the "Vocana: Resonance" modpack (modpack/) into a .mrpack: resolves every entry of modpack/mods.txt on
+# Modrinth with packwiz, exports Vocana-Resonance-<version>.mrpack, installs it as a dedicated server and boots it.
+# It uploads no Actions artifact (the account's artifact storage is full); with `publish` the .mrpack becomes a
+# GitHub release asset instead. Read the run summary for the resolved/failed table.
+
+on:
+  push:
+    branches: [main, 'claude/**']
+    paths:
+      - 'modpack/**'
+      - '.github/workflows/modpack.yml'
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: 'Publish the .mrpack as a GitHub release asset'
+        type: boolean
+        default: false
+      vocana_jars:
+        description: 'Bundle Vocana + Vocana-Compat jars (needs the VOCANA_TOKEN secret; the result is for private use only)'
+        type: choice
+        options: [none, build, release]
+        default: none
+      vocana_release_tag:
+        description: 'With vocana_jars=release: the Vocana release tag to download (empty = latest)'
+        type: string
+        default: ''
+      include_curseforge:
+        description: 'Also resolve the cf: extras of mods.txt (private use only; not Modrinth-uploadable)'
+        type: boolean
+        default: false
+      smoke_test:
+        description: 'Install the .mrpack as a NeoForge server and boot it'
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  GO_VERSION: '1.24.7'
+  # Inputs are empty on push; these are the push-time defaults.
+  PUBLISH: ${{ github.event_name == 'workflow_dispatch' && inputs.publish }}
+  VOCANA_JARS: ${{ github.event_name == 'workflow_dispatch' && inputs.vocana_jars || 'none' }}
+  VOCANA_RELEASE_TAG: ${{ github.event_name == 'workflow_dispatch' && inputs.vocana_release_tag || '' }}
+  INCLUDE_CURSEFORGE: ${{ github.event_name == 'workflow_dispatch' && inputs.include_curseforge }}
+  SMOKE_TEST: ${{ github.event_name != 'workflow_dispatch' || inputs.smoke_test }}
+
+jobs:
+  modpack:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    permissions:
+      contents: write # only `gh release` with publish=true writes; every other step reads
+    steps:
+      - name: Checkout vocana-compat
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+
+      - name: Setup Go
+        uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16 # v6.5.0
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache: false
+
+      - name: Install packwiz
+        run: |
+          go install github.com/packwiz/packwiz@latest
+          echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
+
+      - name: Read the pack version
+        id: pack
+        working-directory: modpack
+        run: |
+          version="$(python3 -I -c 'import sys,tomllib;print(tomllib.load(open(sys.argv[1],"rb"))["version"])' pack.toml)"
+          neoforge="$(python3 -I -c 'import sys,tomllib;print(tomllib.load(open(sys.argv[1],"rb"))["versions"]["neoforge"])' pack.toml)"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "neoforge=$neoforge" >> "$GITHUB_OUTPUT"
+          echo "Vocana: Resonance $version on NeoForge $neoforge"
+
+      - name: Resolve mods.txt on Modrinth
+        working-directory: modpack
+        run: bash scripts/resolve.sh mods.txt
+
+      # ---- Optional: Vocana and Vocana-Compat jars (not on Modrinth; Vocana's repository is private) ----
+      - name: Check for the Vocana token
+        id: token
+        if: env.VOCANA_JARS != 'none'
+        env:
+          HAS_TOKEN: ${{ secrets.VOCANA_TOKEN != '' }}
+        run: |
+          if [[ "$HAS_TOKEN" == "true" ]]; then
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::vocana_jars=$VOCANA_JARS needs a repository secret VOCANA_TOKEN (fine-grained token, Contents: read on slappyfish167/Vocana). Building the public pack without Vocana's jars."
+          fi
+
+      - name: Read the Vocana ref
+        id: vocana
+        if: env.VOCANA_JARS == 'build' && steps.token.outputs.ok == 'true'
+        run: echo "ref=$(tr -d '[:space:]' < vocana.ref)" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout Vocana
+        if: env.VOCANA_JARS == 'build' && steps.token.outputs.ok == 'true'
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          repository: slappyfish167/Vocana
+          ref: ${{ steps.vocana.outputs.ref }}
+          path: vocana
+          persist-credentials: false
+          token: ${{ secrets.VOCANA_TOKEN }}
+
+      - name: Setup JDK 21
+        if: (env.VOCANA_JARS == 'build' && steps.token.outputs.ok == 'true') || env.SMOKE_TEST == 'true'
+        uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        if: env.VOCANA_JARS == 'build' && steps.token.outputs.ok == 'true'
+        uses: gradle/actions/setup-gradle@0723195856401067f7a2779048b490ace7a47d7c # v5.0.2
+
+      - name: Build Vocana and Vocana-Compat
+        if: env.VOCANA_JARS == 'build' && steps.token.outputs.ok == 'true'
+        run: |
+          (cd vocana && bash ./gradlew --no-daemon --max-workers=2 --console=plain publishToMavenLocal -x test)
+          bash ./gradlew --no-daemon --max-workers=2 --console=plain build -x test
+          mkdir -p modpack/mods
+          find vocana/build/libs build/libs -maxdepth 1 -name 'vocana*.jar' \
+            ! -name '*-sources.jar' ! -name '*-javadoc.jar' ! -name '*-slim.jar' ! -name '*-dev.jar' \
+            -exec cp -v {} modpack/mods/ \;
+
+      - name: Download Vocana and Vocana-Compat releases
+        if: env.VOCANA_JARS == 'release' && steps.token.outputs.ok == 'true'
+        env:
+          VOCANA_TOKEN: ${{ secrets.VOCANA_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p modpack/mods
+          GH_TOKEN="$VOCANA_TOKEN" gh release download ${VOCANA_RELEASE_TAG:+"$VOCANA_RELEASE_TAG"} \
+            -R slappyfish167/Vocana -p 'vocana-*.jar' -D modpack/mods
+          if ! GH_TOKEN="$GITHUB_TOKEN" gh release download -R "$GITHUB_REPOSITORY" -p 'vocana-compat-*.jar' -D modpack/mods; then
+            echo "::warning::$GITHUB_REPOSITORY has no release with a vocana-compat-*.jar; run with vocana_jars=build to build it."
+          fi
+          find modpack/mods -name '*-sources.jar' -delete
+          ls -l modpack/mods/*.jar
+
+      - name: Name the build
+        id: name
+        run: |
+          shopt -s nullglob
+          jars=(modpack/mods/*.jar)
+          if (( ${#jars[@]} > 0 )) || [[ "$INCLUDE_CURSEFORGE" == "true" ]]; then
+            echo "private=true" >> "$GITHUB_OUTPUT"
+            echo "file=Vocana-Resonance-${{ steps.pack.outputs.version }}-private.mrpack" >> "$GITHUB_OUTPUT"
+            {
+              echo "### Private build"
+              echo
+              echo "This .mrpack bundles files that may not be redistributed (Vocana's jars: ${#jars[@]}; CurseForge extras: $INCLUDE_CURSEFORGE)."
+              echo "Keep it to yourself and your server; never upload it to Modrinth."
+            } >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "private=false" >> "$GITHUB_OUTPUT"
+            echo "file=Vocana-Resonance-${{ steps.pack.outputs.version }}.mrpack" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Refresh and export
+        working-directory: modpack
+        run: |
+          packwiz refresh
+          mkdir -p dist
+          packwiz modrinth export -o "dist/${{ steps.name.outputs.file }}"
+          ls -l dist/
+          python3 -I -c 'import json,sys,zipfile;i=json.loads(zipfile.ZipFile(sys.argv[1]).read("modrinth.index.json"));print(len(i["files"]),"files;",i["dependencies"])' "dist/${{ steps.name.outputs.file }}"
+          {
+            echo
+            echo "**Built** \`${{ steps.name.outputs.file }}\` ($(du -h "dist/${{ steps.name.outputs.file }}" | cut -f1))."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      # ---- Boot test: install the .mrpack as a dedicated server and wait for "Done" ----
+      - name: Boot the pack as a NeoForge server
+        id: smoke
+        if: env.SMOKE_TEST == 'true'
+        continue-on-error: true
+        timeout-minutes: 30
+        env:
+          NEOFORGE: ${{ steps.pack.outputs.neoforge }}
+          MRPACK: modpack/dist/${{ steps.name.outputs.file }}
+        run: |
+          srv="$RUNNER_TEMP/server"
+          mkdir -p "$srv"
+          python3 -I modpack/scripts/mrpack_install.py "$MRPACK" "$srv" --side server
+          curl -fsSL --retry 3 -o "$RUNNER_TEMP/neoforge-installer.jar" \
+            "https://maven.neoforged.net/releases/net/neoforged/neoforge/${NEOFORGE}/neoforge-${NEOFORGE}-installer.jar"
+          (cd "$srv" && java -jar "$RUNNER_TEMP/neoforge-installer.jar" --installServer > installer.log 2>&1) || { tail -50 "$srv/installer.log"; exit 1; }
+          cd "$srv"
+          echo "eula=true" > eula.txt
+          printf 'view-distance=6\nsimulation-distance=6\nonline-mode=false\n' > server.properties
+          echo "-Xmx6G" > user_jvm_args.txt
+          mkfifo console
+          bash ./run.sh nogui < console > console.log 2>&1 &
+          pid=$!
+          exec 3> console
+          result=timeout
+          for _ in $(seq 1 300); do
+            if grep -q 'Done (' console.log; then result=ready; break; fi
+            if ! kill -0 "$pid" 2> /dev/null; then result=exited; break; fi
+            sleep 5
+          done
+          if [[ "$result" == ready ]]; then
+            echo stop >&3
+            wait "$pid" || true
+          else
+            kill "$pid" 2> /dev/null || true
+          fi
+          exec 3>&-
+          mods=$(find mods -name '*.jar' | wc -l)
+          {
+            echo
+            echo "### Server boot test"
+            echo
+            case "$result" in
+              ready) echo "Booted with $mods mod jars: $(grep -o 'Done ([^)]*)' console.log | head -n 1)." ;;
+              exited) echo "**The server stopped before it finished starting** ($mods mod jars). Last lines:" ;;
+              *) echo "**The server did not finish starting within 25 minutes** ($mods mod jars). Last lines:" ;;
+            esac
+            if [[ "$result" != ready ]]; then
+              echo
+              echo '```'
+              grep -E 'ERROR|Exception|Missing or unsupported|requires|FATAL' console.log | tail -n 40
+              echo '```'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+          if [[ "$result" != ready ]]; then
+            tail -n 200 console.log
+            [[ -d crash-reports ]] && cat crash-reports/* | head -n 200
+            exit 1
+          fi
+
+      # ---- Optional: GitHub release (no Actions artifact: the storage quota is full) ----
+      - name: Publish the release
+        if: env.PUBLISH == 'true' && steps.smoke.outcome != 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.pack.outputs.version }}
+          FILE: modpack/dist/${{ steps.name.outputs.file }}
+          PRIVATE: ${{ steps.name.outputs.private }}
+        run: |
+          notes="$RUNNER_TEMP/notes.md"
+          {
+            echo "Vocana: Resonance $VERSION for Minecraft 1.21.1 / NeoForge ${{ steps.pack.outputs.neoforge }}."
+            echo "Import the .mrpack in Prism Launcher or the Modrinth App; see modpack/README.md."
+            echo
+            cat modpack/.resolve/report.md
+          } > "$notes"
+          if [[ "$PRIVATE" == "true" ]]; then
+            # Never public: it holds Vocana's All-Rights-Reserved jars or CurseForge files. A draft is visible only
+            # to people with write access to this repository.
+            tag="resonance-v$VERSION-private-run$GITHUB_RUN_NUMBER"
+            gh release create "$tag" "$FILE" --draft --target "$GITHUB_SHA" \
+              --title "Vocana: Resonance $VERSION (private build $GITHUB_RUN_NUMBER)" --notes-file "$notes"
+            echo "Created the draft release $tag (private build)." >> "$GITHUB_STEP_SUMMARY"
+          else
+            tag="resonance-v$VERSION"
+            if gh release view "$tag" > /dev/null 2>&1; then
+              gh release upload "$tag" "$FILE" --clobber
+              gh release edit "$tag" --notes-file "$notes"
+            else
+              gh release create "$tag" "$FILE" --target "$GITHUB_SHA" --prerelease \
+                --title "Vocana: Resonance $VERSION" --notes-file "$notes"
+            fi
+            echo "Published \`$(basename "$FILE")\` to the release $tag." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Skip publishing after a failed boot test
+        if: env.PUBLISH == 'true' && steps.smoke.outcome == 'failure'
+        run: |
+          echo "::error::The server boot test failed, so nothing was published. Fix the pack or re-run with smoke_test off."
+          exit 1

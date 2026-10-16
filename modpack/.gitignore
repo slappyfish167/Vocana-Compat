@@ -1,0 +1,8 @@
+# Resolved by scripts/resolve.sh in CI (or locally); not committed so the pack always resolves from mods.txt.
+/mods/
+/resourcepacks/
+/shaderpacks/
+# Build output and resolver scratch space
+/dist/
+/.resolve/
+*.mrpack

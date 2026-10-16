@@ -1,0 +1,5 @@
+hash-format = "sha256"
+
+[[files]]
+file = "defaultconfigs/vocana-server.toml"
+hash = "23f6f3ddff98c2fbd0b9c88d715789719220112d3e9bba2292125de658af8040"

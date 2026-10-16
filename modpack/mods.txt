@@ -1,0 +1,167 @@
+# Vocana: Resonance — curated mod list (Minecraft 1.21.1, NeoForge 21.1.x)
+#
+# Resolved in CI by scripts/resolve.sh: each entry becomes `packwiz modrinth add https://modrinth.com/mod/<id>`,
+# so a wrong slug fails loudly instead of falling back to a Modrinth search. Required dependencies of every entry are
+# added automatically by packwiz; the "Libraries" section only names the ones worth seeing at a glance.
+#
+# Line format:   <id> [required] [side=client|server|both]   # comment
+#   <id>         a Modrinth slug (or an 8-character Modrinth project id where the slug could not be confirmed),
+#                or cf:<curseforge-slug> for an opt-in CurseForge-only extra (resolved only when the workflow input
+#                include_curseforge is true; such a .mrpack is for private use, see README.md).
+#   required     the job fails when this entry cannot be resolved (Vocana's own dependency and the seven
+#                Vocana-Compat targets). Everything else may fail without failing the job; the summary lists it.
+#   side=…       overrides the side Modrinth reports (client-only mods are kept off dedicated servers).
+# "## " lines are section headers (used in the summary); other "#" text is a comment. Blank lines are ignored.
+#
+# Every Modrinth entry below was checked for a NeoForge 1.21.1 build on Modrinth on 2026-10-16 (search-engine
+# snapshots of modrinth.com and its mirrors; this container cannot reach modrinth.com). README.md lists the
+# excluded and unverified candidates and why.
+
+## Vocana's voice
+simple-voice-chat           required                 # Vocana's spoken chants (voicechat_api >= 2.6.20)
+
+## Vocana-Compat targets
+create                      required                 # Create 6.0.x
+wyrmroost                   required                 # Wyrmroost, NeoForge 1.21.1 port (NordAct)
+iceandfire-ce               required                 # Ice and Fire: Community Edition
+emi                         required                 # recipe viewer; Vocana-Compat ships an EMI plugin
+curios                      required                 # Curios API; the Torc sits in the necklace slot
+hexcast-neoforged           required                 # Hex Casting, HexCast NEOFORGED port (mod id hexcasting)
+ars-nouveau                 required                 # Ars Nouveau 5.13.x
+
+## Libraries
+architectury-api
+cloth-config
+geckolib
+kotlin-for-forge                                     # Hex Casting runs on Kotlin for Forge
+patchouli                                            # Hex Casting's in-game book
+paucal                                               # Hex Casting library
+caelus                                               # Hex Casting / elytra-style flight API
+balm
+moonlight
+yungs-api
+lithostitched                                        # Tectonic's worldgen library
+creativecore                                         # AmbientSounds
+sophisticated-core
+
+## Performance & stability
+sodium                      side=client              # renderer; Embeddium is end-of-life on 1.21.1
+sodium-extra                side=client
+reeses-sodium-options       side=client
+iris                        side=client              # shaders; needs Sodium
+lithium                                              # server-side tick optimisations (NeoForge build)
+modernfix
+ferrite-core
+immediatelyfast             side=client
+entityculling               side=client
+moreculling                 side=client
+noisium                                              # faster noise worldgen
+dynamic-fps                 side=client
+clumps                                               # XP orb merging
+lambdynamiclights           side=client              # held torches and enchanted staffs light the dark
+spark                                                # profiler for "why is it slow?"
+chunky                                               # world pre-generation
+
+## Magic
+ars-additions
+ars-creo                                             # Ars Nouveau <-> Create
+irons-spells-n-spellbooks
+occultism
+theurgy
+artifacts
+
+## Engineering
+createaddition                                       # Create Crafts & Additions
+create-connected
+create-deco
+copycats                                             # Create: Copycats+
+create-central-kitchen                               # Create <-> Farmer's Delight
+ae2
+applied-energistics-2-wireless-terminals             # ae2wtlib
+immersiveengineering
+
+## Storage
+sophisticated-backpacks
+sophisticated-storage
+storagedrawers
+
+## Creatures & dragons
+mowzies-mobs
+naturalist
+friends-and-foes
+critters-and-companions
+creeper-overhaul
+aquaculture
+
+## Worldgen & exploration
+terralith
+tectonic                                             # as mods, Tectonic has Terralith compatibility built in
+yungs-better-dungeons
+yungs-better-mineshafts
+yungs-better-strongholds
+yungs-better-desert-temples
+yungs-better-ocean-monuments
+yungs-better-witch-huts
+yungs-better-jungle-temples
+yungs-better-nether-fortresses
+yungs-better-end-island
+yungs-bridges
+yungs-extras
+towns-and-towers
+dungeons-and-taverns
+explorify
+ct-overhaul-village
+repurposed-structures-forge                          # the NeoForge/Forge project of Repurposed Structures
+sparse-structures                                    # spreads the structure mods above apart
+nullscape
+deeperdarker
+aether
+the-undergarden
+natures-compass
+explorers-compass
+waystones
+
+## Food & farming
+farmers-delight
+brewin-and-chewin
+serene-seasons
+appleskin
+
+## Building & decoration
+supplementaries
+amendments
+handcrafted
+another-furniture
+chipped
+wbgfS34j                                             # FramedBlocks (project id; slug not confirmed)
+macaws-furniture
+macaws-roofs
+macaws-windows
+macaws-doors
+macaws-trapdoors
+macaws-bridges
+macaws-lights-and-lamps
+macaws-paths-and-pavings
+macaws-fences-and-walls
+
+## QoL & UI
+emi-loot
+emi-ores                                             # must be on both sides
+jade
+xaeros-minimap
+xaeros-world-map
+open-parties-and-claims                              # claims and parties, drawn on Xaero's maps
+mouse-tweaks                side=client
+controlling                 side=client
+inventory-profiles-next     side=client
+polymorph                                            # pick between conflicting recipes
+carry-on
+corpse
+default-options             side=client              # ships keybinds and video defaults without clobbering
+enchantment-descriptions    side=client
+sound-physics-remastered    side=client              # reverb for the world and for Simple Voice Chat voices
+ambientsounds               side=client
+
+## CurseForge-only extras (opt-in: workflow input include_curseforge)
+cf:the-twilight-forest                               # not on Modrinth for 1.21.1
+cf:irons-jewelry                                     # Iron's Gems 'n Jewelry, CurseForge only

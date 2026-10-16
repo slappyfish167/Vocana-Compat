@@ -1,0 +1,9 @@
+# Repository files that are not part of the game instance
+README.md
+QUESTS.md
+mods.txt
+scripts/
+dist/
+.resolve/
+.gitignore
+*.mrpack
