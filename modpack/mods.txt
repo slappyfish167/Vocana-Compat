@@ -66,6 +66,8 @@ chunky                                               # world pre-generation
 ars-additions
 ars-creo                                             # Ars Nouveau <-> Create
 irons-spells-n-spellbooks
+9nfaJPtX                                             # Iron's Lib: Iron's Spells needs it and packwiz does not add it
+playeranimator                                       # playerAnimator: Iron's Spells' casting poses; also not added by packwiz
 occultism
 theurgy
 artifacts
@@ -88,7 +90,6 @@ storagedrawers
 ## Creatures & dragons
 mowzies-mobs
 naturalist
-friends-and-foes
 critters-and-companions
 creeper-overhaul
 aquaculture
@@ -112,7 +113,7 @@ dungeons-and-taverns
 explorify
 ct-overhaul-village
 repurposed-structures-forge                          # the NeoForge/Forge project of Repurposed Structures
-sparse-structures                                    # spreads the structure mods above apart
+qwvI41y9                                             # Sparse Structures (slug sparsestructures): spreads the structure mods above apart
 nullscape
 deeperdarker
 aether

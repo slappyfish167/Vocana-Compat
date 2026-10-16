@@ -284,8 +284,12 @@ jobs:
             echo "Published \`$(basename "$FILE")\` to the release $tag." >> "$GITHUB_STEP_SUMMARY"
           fi
 
-      - name: Skip publishing after a failed boot test
-        if: env.PUBLISH == 'true' && steps.smoke.outcome == 'failure'
+      - name: Fail after a failed boot test
+        if: steps.smoke.outcome == 'failure'
         run: |
-          echo "::error::The server boot test failed, so nothing was published. Fix the pack or re-run with smoke_test off."
+          if [[ "$PUBLISH" == 'true' ]]; then
+            echo "::error::The server boot test failed, so nothing was published. Fix the pack or re-run with smoke_test off."
+          else
+            echo "::error::The server boot test failed: the pack does not start. Read the boot step's log."
+          fi
           exit 1

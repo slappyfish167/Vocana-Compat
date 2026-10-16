@@ -103,12 +103,11 @@ Sophisticated Backpacks and Sophisticated Storage (upgradeable backpacks, chests
 |---|---|
 | Mowzie's Mobs | A handful of superbly animated bosses and creatures. |
 | Naturalist | Real-world wildlife with believable behaviour. |
-| Friends & Foes | The mob-vote creatures that never shipped (Copper Golem, Glare, Moobloom…). |
 | Critters and Companions | Small, charming fauna: otters, ferrets, dragonflies. |
 | Creeper Overhaul | Biome-specific creepers, so danger fits the place. |
 | Aquaculture 2 | Fishing worth doing: new fish, rods and treasure. |
 
-Alex's Mobs has only unofficial 1.21.1 ports (CurseForge), so Naturalist, Critters and Companions and Friends & Foes
+Alex's Mobs has only unofficial 1.21.1 ports (CurseForge), so Naturalist and Critters and Companions
 fill the "living world" role.
 
 ### Worldgen & exploration (26)
@@ -192,6 +191,7 @@ on 2026-10-16 (this repository resolves from Modrinth only).
 | Create Big Cannons | On Modrinth, left out by curation (the pack's engineering is about wonder, not artillery). |
 | Mekanism | Left out by curation (balance with Create, IE and AE2). |
 | Malum | On Modrinth, left out by curation: one magic system too many, and Lodestone's rendering is a known Iris trouble spot. |
+| Friends & Foes | On Modrinth (`BOCJKD49`), but packwiz picks its datapack build for this pack, which needs a datapack loader; left out until it is pinned to a NeoForge version. |
 | Forbidden and Arcanus, Relics, Born in Chaos | On Modrinth, left out by curation (magic and curio overload; Born in Chaos's horror tone). |
 | BetterF3, Better Advancements, YUNG's Menu Tweaks, Trade Cycling | No NeoForge 1.21.1 build found on Modrinth. |
 | Legendary Tooltips | CurseForge only. |
